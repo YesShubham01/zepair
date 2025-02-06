@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:zepair/devs/notes.dart';
+import 'package:zepair/utils/constants/colors.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -43,24 +44,19 @@ class _SplashPageState extends State<SplashPage> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFFFFE500),
-              Color(0xFFD38C00),
+              CustomColors.themeGradientStart,
+              CustomColors.themeGradientEnd,
             ],
           ),
         ),
-        child: const Center(
-          child: _SplashContent(),
+        child: Center(
+          child: _getSplashContent(),
         ),
       ),
     );
   }
-}
 
-class _SplashContent extends StatelessWidget {
-  const _SplashContent();
-
-  @override
-  Widget build(BuildContext context) {
+  _getSplashContent() {
     return const Text(
       'Zepair',
       style: TextStyle(

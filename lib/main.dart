@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zepair/modules/splash_page/splash_page.dart';
+import 'package:zepair/modules/Splash%20Page/splash_page.dart';
 import 'package:zepair/utils/constants/colors.dart';
 
 void main() {

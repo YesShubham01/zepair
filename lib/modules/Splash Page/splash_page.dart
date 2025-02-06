@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:zepair/devs/notes.dart';
+import 'package:flutter/services.dart';
+import 'package:zepair/modules/Splash%20Page/Support%20Widgets/splash_content.dart';
 import 'package:zepair/utils/constants/colors.dart';
 
 class SplashPage extends StatefulWidget {
@@ -16,7 +18,12 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
+    _enterFullScreenMode();
     _startNavigationTimer();
+  }
+
+  void _enterFullScreenMode() {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   }
 
   void _startNavigationTimer() {
@@ -24,6 +31,8 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void _navigateToHome() {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (context) => const NotesForDevs()),
     );
@@ -49,20 +58,9 @@ class _SplashPageState extends State<SplashPage> {
             ],
           ),
         ),
-        child: Center(
-          child: _getSplashContent(),
+        child: const Center(
+          child: SplashContent(),
         ),
-      ),
-    );
-  }
-
-  _getSplashContent() {
-    return const Text(
-      'Zepair',
-      style: TextStyle(
-        fontSize: 48,
-        fontWeight: FontWeight.w100,
-        color: Colors.black,
       ),
     );
   }

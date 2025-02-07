@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:zepair/devs/notes.dart';
 import 'package:flutter/services.dart';
-import 'package:zepair/modules/Splash%20Page/Support%20Widgets/splash_content.dart';
+import 'package:zepair/devs/notes.dart';
+import 'package:zepair/modules/Splash%20Page/Support%20Widgets/splash_box.dart';
+import 'package:zepair/modules/Splash%20Page/Support%20Widgets/splash_tagline.dart';
 import 'package:zepair/utils/constants/colors.dart';
 
 class SplashPage extends StatefulWidget {
@@ -22,20 +23,16 @@ class _SplashPageState extends State<SplashPage> {
     _startNavigationTimer();
   }
 
-  void _enterFullScreenMode() {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-  }
+  void _enterFullScreenMode() =>
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
-  void _startNavigationTimer() {
-    _navigationTimer = Timer(const Duration(seconds: 5), _navigateToHome);
-  }
+  void _startNavigationTimer() =>
+      _navigationTimer = Timer(const Duration(seconds: 5), _navigateToHome);
 
   void _navigateToHome() {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => const NotesForDevs()),
-    );
+        MaterialPageRoute(builder: (_) => const NotesForDevs()));
   }
 
   @override
@@ -45,23 +42,28 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              CustomColors.themeGradientStart,
-              CustomColors.themeGradientEnd,
-            ],
+  Widget build(BuildContext context) => Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(gradient: _splashGradient),
+          child: const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SplashBox(),
+                SplashTagline(),
+              ],
+            ),
           ),
         ),
-        child: const Center(
-          child: SplashContent(),
-        ),
-      ),
-    );
-  }
+      );
+
+  static const _splashGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      CustomColors.themeGradientStart,
+      CustomColors.themeGradientEnd,
+    ],
+  );
 }

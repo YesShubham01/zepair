@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:zepair/modules/Home%20Pages/Support%20Widgets/custom_searchbar.dart';
+import 'package:zepair/modules/Home%20Pages/Support%20Widgets/service_grid.dart';
 import 'package:zepair/utils/constants/colors.dart';
 import 'package:zepair/utils/custom%20widgets/custom_container.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
@@ -11,8 +14,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late double w; // width
-  late double h; // height
+  late double w;
+  late double h;
+
   @override
   Widget build(BuildContext context) {
     var dimensions = MediaQuery.sizeOf(context);
@@ -20,20 +24,58 @@ class _HomePageState extends State<HomePage> {
     h = dimensions.height;
 
     return Scaffold(
-      backgroundColor: Colors.red,
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        title: header(),
         actions: <Widget>[
           _getNotificationButton(),
           _getProfileAvatar(),
+          Gap(w * 0.05),
         ],
       ),
-      body: const Center(child: CustomText(text: "HomePage")),
+      body: ListView(
+        padding: EdgeInsets.all(w * 0.05),
+        children: [
+          _buildBanner(),
+          Gap(h * 0.02),
+          CustomSearchBar(),
+          Gap(h * 0.02),
+          const Text("Repair & Service",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+          Gap(h * 0.02),
+          ServiceGrid(width: w, height: h),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBanner() {
+    return Container(
+      height: h * 0.18,
+      decoration: BoxDecoration(
+        color: CustomColors.containerBg,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      alignment: Alignment.center,
+    );
+  }
+
+  Widget header() {
+    return InkWell(
+      onTap: () {},
+      child: Row(
+        children: [
+          const Icon(Icons.location_on, color: Colors.orange),
+          Gap(w * 0.0125),
+          const Text("Home", style: TextStyle(fontWeight: FontWeight.bold)),
+          const Icon(Icons.keyboard_arrow_down, color: Colors.black54),
+        ],
+      ),
     );
   }
 
   _getProfileAvatar() {
-    return //profile
-        const CircleAvatar(
+    return const CircleAvatar(
       foregroundColor: CustomColors.lightBlue,
     );
   }

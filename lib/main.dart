@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:zepair/modules/Splash%20Page/splash_page.dart';
-import 'package:zepair/devs/notes.dart';
-import 'package:zepair/modules/Home%20Pages/home_screen.dart';
 import 'package:zepair/utils/constants/colors.dart';
 
 void main() {
@@ -19,7 +17,6 @@ class ZepairApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: CustomColors.primary),
         useMaterial3: true,
-        fontFamily: 'BalsamiqSans',
       ),
       debugShowCheckedModeBanner: false,
 

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:zepair/utils/constants/colors.dart';
-import 'package:zepair/utils/custom%20widgets/custom_container.dart';
-import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 
 class CustomSearchBar extends StatelessWidget {
   const CustomSearchBar({super.key});

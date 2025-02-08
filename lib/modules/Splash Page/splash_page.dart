@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:zepair/modules/Home%20Pages/home_screen.dart';
-import 'package:zepair/modules/Splash%20Page/Support%20Widgets/splash_box.dart';
+import 'package:zepair/modules/Splash%20Page/Support%20Widgets/splash_logo.dart';
 import 'package:zepair/modules/Splash%20Page/Support%20Widgets/splash_tagline.dart';
 import 'package:zepair/utils/constants/colors.dart';
 
@@ -50,7 +50,7 @@ class _SplashPageState extends State<SplashPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                SplashBox(),
+                SplashLogo(),
                 SplashTagline(),
               ],
             ),

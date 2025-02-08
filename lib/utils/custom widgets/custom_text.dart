@@ -1,29 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:zepair/utils/constants/colors.dart';
 
+enum FontType {
+  sfPro,
+  balooBhai2,
+  balsamiqSans,
+}
+
 class CustomText extends StatelessWidget {
   final double size;
   final String text;
   final Color color;
   final FontWeight weight;
+  final FontType fontFamily;
 
-  const CustomText(
-      {super.key,
-      required this.text,
-      this.size = 16.0,
-      this.color = CustomColors.black,
-      this.weight = FontWeight.w300});
+  const CustomText({
+    super.key,
+    required this.text,
+    this.size = 16.0,
+    this.color = CustomColors.black,
+    this.weight = FontWeight.w300,
+    this.fontFamily = FontType.sfPro,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
       style: TextStyle(
-        fontFamily: 'BalsamiqSans', // Ensure this font is added in pubspec.yaml
+        fontFamily:
+            _getFontFamily(), // Ensure this font is added in pubspec.yaml
         fontSize: size,
         color: color,
         fontWeight: weight,
       ),
     );
+  }
+
+  String _getFontFamily() {
+    if (fontFamily == FontType.balsamiqSans) {
+      return "BalsamiqSans";
+    } else if (fontFamily == FontType.balooBhai2) {
+      return "Baloo-Bhai-2";
+    } else {
+      return "SF-Pro";
+    }
   }
 }

@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:zepair/utils/constants/colors.dart';
-import 'package:zepair/utils/constants/colors.dart';
 
-class ServiceGrid extends StatelessWidget {
-  final double width;
-  final double height;
+class ServiceGrid extends StatefulWidget {
+  const ServiceGrid({
+    super.key,
+  });
 
-  const ServiceGrid({super.key, required this.width, required this.height});
+  @override
+  State<ServiceGrid> createState() => _ServiceGridState();
+}
+
+class _ServiceGridState extends State<ServiceGrid> {
+  late double w;
+  late double h;
 
   @override
   Widget build(BuildContext context) {
+    var dimensions = MediaQuery.sizeOf(context);
+    w = dimensions.width;
+    h = dimensions.height;
+
     List<String> services = [
       "AC Repair & Service",
       "Refrigerator Repair",
@@ -23,11 +33,11 @@ class ServiceGrid extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: width *
+        maxCrossAxisExtent: w *
             0.38, // Each item will have a max width of (200 == w * 0.38) pixels
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
-        childAspectRatio: 0.8, // Adjust height-to-width ratio
+        childAspectRatio: 0.75, // Adjust height-to-width ratio
       ),
       itemCount: services.length,
       itemBuilder: (context, index) {
@@ -40,8 +50,8 @@ class ServiceGrid extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: height * 0.11,
-          width: width * 0.25,
+          height: h * 0.11,
+          width: w * 0.25,
           decoration: BoxDecoration(
             color: CustomColors.containerBg,
             borderRadius: BorderRadius.circular(10),

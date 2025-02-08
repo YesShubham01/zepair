@@ -58,7 +58,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
               CrossAxisAlignment.start, // Aligns everything to the left
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const CustomText(text: "Verification Code", size: 20),
+            const CustomText(text: "Verification Code", size: 20,fontFamily: FontType.sfPro),
             Gap(h * 0.02),
             const OTPMessage(),
             Gap(h * 0.05),
@@ -81,12 +81,13 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
             Align(
               alignment: Alignment.center,
               child: TextButton(
-                child: const Text(
+                child: const CustomText(text: 
                   'Go back to login page',
-                  style: TextStyle(
-                    fontSize: 22,
-                    color: CustomColors.primary,
-                  ),
+                  color: Colors.orange,
+                  
+                  size: 22,
+                  fontFamily: FontType.sfPro,
+                  
                 ),
                 onPressed: () => _navigateToLogin(context),
               ),

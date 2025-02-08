@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zepair/utils/constants/colors.dart';
+import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 
 class CustomSearchBar extends StatelessWidget {
   const CustomSearchBar({super.key});
@@ -22,10 +23,11 @@ class CustomSearchBar extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Icon(Icons.search, color: Colors.orange),
             ),
-            Text(
-              'Search "Services"',
-              style: TextStyle(color: Colors.black54, fontSize: 16),
-            ),
+            CustomText(
+                text: 'Search "Services"',
+                size: 18,
+                color: Colors.black54,
+                fontFamily: FontType.balooBhai2),
           ],
         ),
       ),

@@ -38,7 +38,7 @@ class _NotesForDevsState extends State<NotesForDevs> {
               text: "Welcome Devs!",
               size: 32,
               weight: FontWeight.w100,
-              color: Colors.white,
+              color: Colors.white, 
             ),
             Lottie.asset("assets/lotties/wink_animation.json",
                 height: h * 0.4, repeat: true, fit: BoxFit.cover),

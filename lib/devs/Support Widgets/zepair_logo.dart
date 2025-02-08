@@ -22,7 +22,7 @@ class ZepairLogo extends StatelessWidget {
       child: Center(
         child: CustomText(
           text: "Zepair",
-          size: h / 5,
+          size: h / 5, 
         ),
       ),
     );

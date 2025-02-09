@@ -80,9 +80,12 @@ class _SchedulePageState extends State<SchedulePage> {
   }
 }*/
 import 'package:flutter/material.dart';
-import 'package:zepair/modules/Login%20Pages/Support%20Widgets/schedule/widgets/card.dart';
+import 'package:gap/gap.dart';
+import 'package:zepair/modules/Booking%20Page/Support%20Widget/booking_card.dart';
 import 'package:zepair/utils/custom%20widgets/custom_appbar.dart';
 import 'package:zepair/utils/custom%20widgets/custom_button.dart';
+
+import '../../utils/custom widgets/custom_text.dart';
 
 class SchedulePage extends StatefulWidget {
   const SchedulePage({super.key});
@@ -104,7 +107,7 @@ class _SchedulePageState extends State<SchedulePage> {
   }
 
   Future<void> fetchServices() async {
-    await Future.delayed(const Duration(seconds: 2)); // Simulating API call
+    await Future.delayed(const Duration(seconds: 0)); // Simulating API call
     setState(() {
       serviceList = [
         {
@@ -146,19 +149,23 @@ class _SchedulePageState extends State<SchedulePage> {
     h = dimensions.height;
 
     return Scaffold(
-      appBar: CustomAppBar(title: "Schedule"),
+      appBar: const CustomAppBar(title: "Schedule"),
       body: Column(
         children: [
           Expanded(
             child: isLoading
-                ? const Center(child: CircularProgressIndicator()) // Show loader while fetching
+                ? const Center(
+                    child:
+                        CircularProgressIndicator()) // Show loader while fetching
                 : ListView.separated(
-                    padding: EdgeInsets.fromLTRB(w * 0.05, 0, w * 0.05, h * 0.05),
+                    padding:
+                        EdgeInsets.fromLTRB(w * 0.02, 0, w * 0.02, h * 0.05),
                     itemCount: serviceList.length,
-                    separatorBuilder: (context, index) => SizedBox(height: h * 0.02), // Responsive spacing
+                    separatorBuilder: (context, index) =>
+                        SizedBox(height: h * 0.02), // Responsive spacing
                     itemBuilder: (context, index) {
                       var service = serviceList[index];
-                      return ServiceCard(
+                      return BookingCard(
                         serviceName: service["serviceName"]!,
                         amountPaid: service["amountPaid"]!,
                         description: service["description"]!,
@@ -168,13 +175,13 @@ class _SchedulePageState extends State<SchedulePage> {
                     },
                   ),
           ),
-
           Padding(
-            padding: EdgeInsets.only(left: w * 0.06, right: w * 0.06, bottom: h * 0.04),
+            padding: EdgeInsets.only(
+                left: w * 0.06, right: w * 0.06, bottom: h * 0.04),
             child: SizedBox(
               width: w * 0.9,
               height: h * 0.06,
-              child: CustomButton(
+              child: CustomOutlineButton(
                 buttonText: "Need Help?",
                 onPressed: () {
                   print("Need Help button clicked");

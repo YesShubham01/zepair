@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zepair/devs/notes.dart';
 import 'package:zepair/modules/Home%20Pages/home_page.dart';
-import 'package:zepair/modules/Login%20Pages/Support%20Widgets/schedule/schedule_page.dart';
+import 'package:zepair/modules/Booking%20Page/bookings_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

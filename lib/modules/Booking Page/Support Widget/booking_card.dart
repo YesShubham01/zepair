@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-class ServiceCard extends StatelessWidget {
+import '../../../utils/constants/colors.dart';
+
+class BookingCard extends StatelessWidget {
   late double h;
   late double w;
   final String serviceName;
@@ -9,39 +11,33 @@ class ServiceCard extends StatelessWidget {
   final String status;
   final String? highlightedStatus; // Optional for highlighted text
 
-   ServiceCard({
-    Key? key,
+  BookingCard({
+    super.key,
     required this.serviceName,
     required this.amountPaid,
     required this.description,
     required this.status,
     this.highlightedStatus,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-     var dimensions = MediaQuery.sizeOf(context);
+    var dimensions = MediaQuery.sizeOf(context);
     w = dimensions.width;
     h = dimensions.height;
-    return Container(
-      height: h*0.27,
-      width: w*1.8,
-      child: 
-    Card(
+    return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      color: Colors.grey[200],
-      
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      color: CustomColors.cardBg,
       child: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 Container(
-                  width: w*0.12,
-                  height: h*0.06,
+                  width: w * 0.12,
+                  height: h * 0.06,
                   decoration: BoxDecoration(
                     color: Colors.grey[400],
                     borderRadius: BorderRadius.circular(10),
@@ -53,39 +49,33 @@ class ServiceCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                  serviceName,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-
-                Text(
-              "Amount Paid ₹ $amountPaid",
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-            ),
-
-
-
+                      serviceName,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      "Amount Paid ₹ $amountPaid",
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.w500),
+                    ),
                   ],
                 )
-                
               ],
             ),
-            
-            
             const SizedBox(height: 4),
             Text(
               "· $description",
               style: const TextStyle(fontSize: 15, color: Colors.black54),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 2),
             const Divider(thickness: 3, color: Colors.grey),
-            const SizedBox(height: 10),
+            const SizedBox(height: 2),
             RichText(
               text: TextSpan(
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: 16,
                   color: Colors.black,
                   fontWeight: FontWeight.w600,
                 ),
@@ -109,7 +99,6 @@ class ServiceCard extends StatelessWidget {
           ],
         ),
       ),
-    )
     );
   }
 }

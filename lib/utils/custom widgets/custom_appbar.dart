@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title; // Accepts title dynamically
 
-  const CustomAppBar({Key? key, required this.title}) : super(key: key);
+  const CustomAppBar({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back),
-        onPressed: () {
-          Navigator.pop(context); // Moves back to the previous page
-        },
+      title: Row(
+        children: [
+          const Gap(5), // 5 pixels spacing between the icon and text
+          CustomText(
+            text: title,
+            size: 24,
+            fontFamily: FontType.sfPro,
+            color: Colors.black,
+            weight: FontWeight.bold,
+          ),
+        ],
       ),
-      title: CustomText(text: title,fontFamily: FontType.sfPro,color: Colors.black), // Uses your custom text widget
-     
     );
   }
 

@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
           Gap(h * 0.02),
           const CustomSearchBar(),
           Gap(h * 0.02),
-          CustomText(
+          const CustomText(
               text: "Repair & Service",
               color: Colors.black,
               fontFamily: FontType.sfPro,

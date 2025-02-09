@@ -61,6 +61,7 @@ class _ServiceGridState extends State<ServiceGrid> {
         const SizedBox(height: 5),
         CustomText(
             text: serviceName,
+            alignment: TextAlign.center,
             size: 16,
             fontFamily: FontType.balooBhai2,
             color: Colors.black),

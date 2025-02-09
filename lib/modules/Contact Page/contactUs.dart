@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:disclosure/disclosure.dart';
 import 'package:gap/gap.dart';
-import 'package:zepair/modules/Contact%20Page/Support%20Widgets/custom_button.dart';
 import 'package:zepair/modules/Contact%20Page/Support%20Widgets/faq.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
+
+import 'Support Widgets/bookCall_button.dart';
 
 class ContactUsPage extends StatefulWidget {
   const ContactUsPage({super.key});
@@ -25,7 +25,7 @@ class _HelpSupportPageState extends State<ContactUsPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: header(),
+        title: _getAppBar(),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -33,17 +33,17 @@ class _HelpSupportPageState extends State<ContactUsPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomText(
+              const CustomText(
                 text: "FAQ",
                 fontFamily: FontType.sfPro,
                 size: 24,
                 weight: FontWeight.bold,
               ),
-              Gap(h * 0.011),
+              Gap(h * 0.006),
               FAQWidget(screenWidth: w),
-              Gap(h * 0.02),
+              Gap(h * 0.015),
               _buildDropMessageSection(),
-              Gap(h * 0.011),
+              Gap(h * 0.006),
               _buildRequestCallSection(),
             ],
           ),
@@ -53,61 +53,58 @@ class _HelpSupportPageState extends State<ContactUsPage> {
   }
 
   Widget _buildDropMessageSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CustomText(
-            text: "Drop Message",
-            size: 24,
-            fontFamily: FontType.sfPro,
-            weight: FontWeight.bold),
-        Gap(h * 0.011),
-        Padding(
-          padding: EdgeInsets.only(right: w * 0.05),
-          child: Container(
+    return Padding(
+      padding: EdgeInsets.only(right: w * 0.05),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const CustomText(
+              text: "Drop Message",
+              size: 24,
+              fontFamily: FontType.sfPro,
+              weight: FontWeight.bold),
+          Gap(h * 0.011),
+          Container(
             decoration: BoxDecoration(
               border: Border.all(color: Colors.black54),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Padding(
               padding: EdgeInsets.only(left: w * 0.02),
-              child: TextField(
+              child: const TextField(
                 decoration: InputDecoration(
                   hintText: "Type your query here...",
                   border: InputBorder.none,
                 ),
-                maxLines: 6,
+                maxLines: 4,
               ),
             ),
           ),
-        ),
-        Gap(h * 0.011),
-        Padding(
-          padding: EdgeInsets.only(right: w * 0.05),
-          child: Align(
+          Gap(h * 0.005),
+          Align(
             alignment: Alignment.centerRight,
-            child: SizedBox(
-              width: w * 0.25, // Set the desired width
-              height: h * 0.04, // Set the desired height
-              child: OutlinedButton(
-                onPressed: () {},
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: Colors.blue.shade500), // Border color
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10), // Rounded corners
-                  ),
+            child: OutlinedButton(
+              onPressed: () {},
+              style: OutlinedButton.styleFrom(
+                side: BorderSide(color: Colors.blue.shade500), // Border color
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10), // Rounded corners
                 ),
-                child: CustomText(
-                  text: "Send",
-                  size: 22,
-                  fontFamily: FontType.sfPro,
-                  color: Colors.blue.shade500,
-                ),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 12, vertical: 1), // Reduce padding
+                minimumSize:
+                    Size.zero, // Allows button to shrink to content size
+              ),
+              child: CustomText(
+                text: "Send",
+                size: 20,
+                fontFamily: FontType.sfPro,
+                color: Colors.blue.shade500,
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -115,7 +112,7 @@ class _HelpSupportPageState extends State<ContactUsPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CustomText(
+        const CustomText(
           text: "Request a call",
           size: 24,
           fontFamily: FontType.sfPro,
@@ -133,12 +130,9 @@ class _HelpSupportPageState extends State<ContactUsPage> {
     );
   }
 
-  Widget header() {
-    return Row(
+  Widget _getAppBar() {
+    return const Row(
       children: [
-        InkWell(
-            onTap: () {},
-            child: const Icon(Icons.arrow_back, color: Colors.black)),
         Gap(5), // 5 pixels spacing between the icon and text
         CustomText(
           text: "Help & Support",

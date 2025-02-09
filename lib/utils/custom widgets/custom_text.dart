@@ -13,6 +13,7 @@ class CustomText extends StatelessWidget {
   final Color color;
   final FontWeight weight;
   final FontType fontFamily;
+  final TextAlign alignment;
 
   const CustomText({
     super.key,
@@ -21,6 +22,7 @@ class CustomText extends StatelessWidget {
     this.color = CustomColors.black,
     this.weight = FontWeight.w300,
     this.fontFamily = FontType.sfPro,
+    this.alignment = TextAlign.left,
   });
 
   @override
@@ -34,6 +36,7 @@ class CustomText extends StatelessWidget {
         color: color,
         fontWeight: weight,
       ),
+      textAlign: alignment,
     );
   }
 

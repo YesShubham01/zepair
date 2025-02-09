@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zepair/devs/notes.dart';
+import 'package:zepair/modules/Contact%20Page/contactUs.dart';
 import 'package:zepair/modules/Home%20Pages/home_page.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
     HomePage(),
     NotesForDevs(),
     NotesForDevs(),
-    NotesForDevs(),
+    ContactUsPage(),
   ];
 
   @override

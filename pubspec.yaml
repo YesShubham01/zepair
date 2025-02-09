@@ -23,6 +23,7 @@ dependencies:
   gap: ^3.0.1
   lottie: ^3.2.0
   pinput: ^3.0.1
+  disclosure: ^2.2.0
 
 dev_dependencies:
   flutter_test:

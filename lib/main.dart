@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:zepair/modules/Home%20Pages/home_page.dart';
+import 'package:zepair/modules/Home%20Pages/home_screen.dart';
 import 'package:zepair/modules/Login%20Pages/otp_page.dart';
+import 'package:zepair/modules/Login%20Pages/Support%20Widgets/schedule/schedule_page.dart';
 import 'package:zepair/modules/Splash%20Page/splash_page.dart';
 import 'package:zepair/utils/constants/colors.dart';
 
@@ -22,7 +25,7 @@ class ZepairApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       // call here the page you are working on.
-      home: const OTPVerificationPage(),
+      home: const HomeScreen(),
     );
   }
 }

@@ -12,17 +12,19 @@ class WarrantyPage extends StatefulWidget {
 }
 
 class _WarrantyPageState extends State<WarrantyPage> {
-  late double width;
-  late double height;
+  late double w;
+  late double h;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
-    width = size.width;
-    height = size.height;
+    w = size.width;
+    h = size.height;
 
     return Scaffold(
       backgroundColor: Colors.white,
+
+      //! here we can use custom Appbar
       appBar: AppBar(
         title: const CustomText(
           text: 'Warranty',
@@ -32,26 +34,22 @@ class _WarrantyPageState extends State<WarrantyPage> {
         ),
       ),
       body: ListView(
-        padding: EdgeInsets.all(width * 0.05),
+        padding: EdgeInsets.symmetric(horizontal: w * 0.06),
         children: [
-          const _HeaderText(),
-          Gap(height * 0.03),
+          Gap(h * 0.02),
+          _getTitleText(),
+          Gap(h * 0.015),
           WarrantyList(
             warranties: dummyWarranties,
-            width: width,
-            height: height,
+            width: w,
+            height: h,
           ),
         ],
       ),
     );
   }
-}
 
-class _HeaderText extends StatelessWidget {
-  const _HeaderText();
-
-  @override
-  Widget build(BuildContext context) {
+  _getTitleText() {
     return const CustomText(
       text: 'Available Warranty',
       size: 24,

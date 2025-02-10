@@ -26,8 +26,6 @@ class WarrantyList extends StatelessWidget {
         title: warranties[index].title,
         onDate: warranties[index].onDate,
         validTill: warranties[index].validTill,
-        width: width,
-        height: height,
       ),
     );
   }

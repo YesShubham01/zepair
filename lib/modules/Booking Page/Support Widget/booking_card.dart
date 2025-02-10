@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import '../../../utils/constants/colors.dart';
+import '../../../utils/custom widgets/custom_text.dart';
 
 class BookingCard extends StatelessWidget {
   late double h;
@@ -48,26 +48,25 @@ class BookingCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      serviceName,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    CustomText(
+                      text: serviceName,
+                      size: 20,
+                      weight: FontWeight.bold,
                     ),
-                    Text(
-                      "Amount Paid ₹ $amountPaid",
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.w500),
+                    CustomText(
+                      text: "Amount Paid ₹ $amountPaid",
+                      size: 18,
+                      weight: FontWeight.w500,
                     ),
                   ],
                 )
               ],
             ),
             const SizedBox(height: 4),
-            Text(
-              "· $description",
-              style: const TextStyle(fontSize: 15, color: Colors.black54),
+            CustomText(
+              text: "· $description",
+              size: 15,
+              color: Colors.black54,
             ),
             const SizedBox(height: 2),
             const Divider(thickness: 3, color: Colors.grey),

@@ -11,6 +11,7 @@ class OTPMessage extends StatelessWidget {
     return const CustomText(
       text: 'We have sent you the verification code on your phone number.',
       size:20,
+      fontFamily: FontType.sfPro,
       color:CustomColors.black
     );
   }

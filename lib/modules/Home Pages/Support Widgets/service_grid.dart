@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zepair/utils/constants/colors.dart';
+import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 
 class ServiceGrid extends StatefulWidget {
   const ServiceGrid({
@@ -58,11 +59,12 @@ class _ServiceGridState extends State<ServiceGrid> {
           ),
         ),
         const SizedBox(height: 5),
-        Text(
-          serviceName,
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 15),
-        ),
+        CustomText(
+            text: serviceName,
+            alignment: TextAlign.center,
+            size: 16,
+            fontFamily: FontType.balooBhai2,
+            color: Colors.black),
       ],
     );
   }

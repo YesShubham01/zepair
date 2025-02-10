@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:zepair/devs/notes.dart';
+import 'package:zepair/modules/Contact%20Page/contactUs.dart';
 import 'package:zepair/modules/Home%20Pages/home_page.dart';
 import 'package:zepair/modules/Warranty%20Page/warranty_page.dart';
+import 'package:zepair/modules/Booking%20Page/bookings_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,9 +16,9 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   final List<Widget> _pages = const [
     HomePage(),
-    NotesForDevs(),
+    SchedulePage(),
     WarrantyPage(),
-    NotesForDevs(),
+    ContactUsPage(),
   ];
 
   @override

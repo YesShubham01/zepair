@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import '../../../utils/constants/colors.dart';
+import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
 import '../../../utils/custom widgets/custom_text.dart';
 
-class BookingCard extends StatelessWidget {
-  late double h;
-  late double w;
+class BookingCard extends StatefulWidget {
   final String serviceName;
   final String amountPaid;
   final String description;
   final String status;
   final String? highlightedStatus; // Optional for highlighted text
 
-  BookingCard({
+  const BookingCard({
     super.key,
     required this.serviceName,
     required this.amountPaid,
@@ -21,13 +19,19 @@ class BookingCard extends StatelessWidget {
   });
 
   @override
+  State<BookingCard> createState() => _BookingCardState();
+}
+
+class _BookingCardState extends State<BookingCard> {
+  late double h;
+  late double w;
+
+  @override
   Widget build(BuildContext context) {
     var dimensions = MediaQuery.sizeOf(context);
     w = dimensions.width;
     h = dimensions.height;
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      color: CustomColors.cardBg,
+    return CustomCardWidget(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
         child: Column(
@@ -49,13 +53,13 @@ class BookingCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomText(
-                      text: serviceName,
+                      text: widget.serviceName,
                       size: 20,
                       weight: FontWeight.bold,
                     ),
                     CustomText(
                       fontFamily: FontType.balooBhai2,
-                      text: "Amount Paid ₹ $amountPaid",
+                      text: "Amount Paid ₹ ${widget.amountPaid}",
                       size: 18,
                       weight: FontWeight.w400,
                     ),
@@ -65,7 +69,7 @@ class BookingCard extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             CustomText(
-              text: "· $description",
+              text: "· ${widget.description}",
               size: 15,
               color: Colors.black54,
               fontFamily: FontType.balooBhai2,
@@ -84,16 +88,16 @@ class BookingCard extends StatelessWidget {
                 children: [
                   const TextSpan(text: "Status: "),
                   TextSpan(
-                    text: status,
+                    text: widget.status,
                     style: const TextStyle(
                       fontWeight: FontWeight.w400,
                       fontFamily: 'SF-Pro',
                     ),
                   ),
-                  if (highlightedStatus != null) ...[
+                  if (widget.highlightedStatus != null) ...[
                     const TextSpan(text: " "),
                     TextSpan(
-                      text: highlightedStatus,
+                      text: widget.highlightedStatus,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.brown,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zepair/utils/constants/colors.dart';
+import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 
 class WarrantyCard extends StatefulWidget {
@@ -27,20 +28,18 @@ class _WarrantyCardState extends State<WarrantyCard> {
     final size = MediaQuery.sizeOf(context);
     w = size.width;
     h = size.height;
-    return Container(
-      padding: EdgeInsets.all(w * 0.04),
-      decoration: BoxDecoration(
-        color: CustomColors.lightGray,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _getImagePlaceHolder(),
-          SizedBox(width: w * 0.04),
-          _getWarrantyDetailsText(
-              widget.title, widget.onDate, widget.validTill),
-        ],
+    return CustomCardWidget(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _getImagePlaceHolder(),
+            SizedBox(width: w * 0.04),
+            _getWarrantyDetailsText(
+                widget.title, widget.onDate, widget.validTill),
+          ],
+        ),
       ),
     );
   }

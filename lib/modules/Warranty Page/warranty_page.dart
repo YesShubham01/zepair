@@ -3,6 +3,9 @@ import 'package:gap/gap.dart';
 import 'package:zepair/modules/Warranty%20Page/Support%20Widgets/warranty_data.dart';
 import 'package:zepair/modules/Warranty%20Page/Support%20Widgets/warranty_list.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
+import 'package:zepair/utils/custom%20widgets/custom_title.dart';
+
+import '../../utils/custom widgets/custom_appbar.dart';
 
 class WarrantyPage extends StatefulWidget {
   const WarrantyPage({super.key});
@@ -23,22 +26,14 @@ class _WarrantyPageState extends State<WarrantyPage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-
-      //! here we can use custom Appbar
-      appBar: AppBar(
-        title: const CustomText(
-          text: 'Warranty',
-          size: 24,
-          weight: FontWeight.w600,
-          fontFamily: FontType.sfPro,
-        ),
-      ),
+      appBar: const CustomAppBar(title: "Warranty"),
       body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: w * 0.06),
+        padding:
+            EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.005),
         children: [
-          Gap(h * 0.02),
-          _getTitleText(),
           Gap(h * 0.015),
+          CustomTitle(text: "Available Warranty"),
+          Gap(h * 0.006),
           WarrantyList(
             warranties: dummyWarranties,
             width: w,
@@ -46,15 +41,6 @@ class _WarrantyPageState extends State<WarrantyPage> {
           ),
         ],
       ),
-    );
-  }
-
-  _getTitleText() {
-    return const CustomText(
-      text: 'Available Warranty',
-      size: 24,
-      weight: FontWeight.w500,
-      fontFamily: FontType.sfPro,
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zepair/devs/notes.dart';
 import 'package:zepair/modules/Home%20Pages/home_page.dart';
+import 'package:zepair/modules/Warranty%20Page/warranty_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _pages = const [
     HomePage(),
     NotesForDevs(),
-    NotesForDevs(),
+    WarrantyPage(),
     NotesForDevs(),
   ];
 

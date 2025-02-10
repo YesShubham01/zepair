@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:zepair/modules/Home%20Pages/Support%20Widgets/custom_searchbar.dart';
 import 'package:zepair/modules/Home%20Pages/Support%20Widgets/service_grid.dart';
 import 'package:zepair/utils/constants/colors.dart';
+import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -38,8 +39,11 @@ class _HomePageState extends State<HomePage> {
           Gap(h * 0.02),
           const CustomSearchBar(),
           Gap(h * 0.02),
-          const Text("Repair & Service",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+          const CustomText(
+              text: "Repair & Service",
+              color: Colors.black,
+              fontFamily: FontType.sfPro,
+              size: 24),
           Gap(h * 0.02),
           const ServiceGrid(),
         ],
@@ -65,7 +69,12 @@ class _HomePageState extends State<HomePage> {
         children: [
           const Icon(Icons.location_on, color: Colors.orange),
           Gap(w * 0.0125),
-          const Text("Home", style: TextStyle(fontWeight: FontWeight.bold)),
+          const CustomText(
+              text: "Home",
+              size: 20,
+              weight: FontWeight.bold,
+              color: Colors.black,
+              fontFamily: FontType.sfPro),
           const Icon(Icons.keyboard_arrow_down, color: Colors.black54),
         ],
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zepair/devs/notes.dart';
+import 'package:zepair/modules/Contact%20Page/contactUs.dart';
 import 'package:zepair/modules/Home%20Pages/home_page.dart';
 import 'package:zepair/modules/Booking%20Page/bookings_page.dart';
 
@@ -16,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
     HomePage(),
     SchedulePage(),
     NotesForDevs(),
-    NotesForDevs(),
+    ContactUsPage(),
   ];
 
   @override

@@ -17,6 +17,7 @@ class ZepairApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: CustomColors.primary),
         useMaterial3: true,
+        fontFamily: 'SF-Pro',
       ),
       debugShowCheckedModeBanner: false,
 

@@ -54,9 +54,10 @@ class BookingCard extends StatelessWidget {
                       weight: FontWeight.bold,
                     ),
                     CustomText(
+                      fontFamily: FontType.balooBhai2,
                       text: "Amount Paid ₹ $amountPaid",
                       size: 18,
-                      weight: FontWeight.w500,
+                      weight: FontWeight.w400,
                     ),
                   ],
                 )
@@ -67,6 +68,7 @@ class BookingCard extends StatelessWidget {
               text: "· $description",
               size: 15,
               color: Colors.black54,
+              fontFamily: FontType.balooBhai2,
             ),
             const SizedBox(height: 2),
             const Divider(thickness: 3, color: Colors.grey),
@@ -77,19 +79,26 @@ class BookingCard extends StatelessWidget {
                   fontSize: 16,
                   color: Colors.black,
                   fontWeight: FontWeight.w600,
+                  fontFamily: 'SF-Pro',
                 ),
                 children: [
                   const TextSpan(text: "Status: "),
                   TextSpan(
                     text: status,
-                    style: const TextStyle(fontWeight: FontWeight.w400),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'SF-Pro',
+                    ),
                   ),
                   if (highlightedStatus != null) ...[
                     const TextSpan(text: " "),
                     TextSpan(
                       text: highlightedStatus,
                       style: const TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.brown),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.brown,
+                        fontFamily: 'SF-Pro',
+                      ),
                     ),
                   ],
                 ],

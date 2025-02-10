@@ -153,11 +153,15 @@ class _SchedulePageState extends State<SchedulePage> {
         children: [
           Expanded(
             child: isLoading
-                ? const Center(child: CircularProgressIndicator()) // Show loader while fetching
+                ? const Center(
+                    child:
+                        CircularProgressIndicator()) // Show loader while fetching
                 : ListView.separated(
-                    padding: EdgeInsets.fromLTRB(w * 0.02, 0, w * 0.02, h * 0.05),
+                    padding:
+                        EdgeInsets.fromLTRB(w * 0.02, 0, w * 0.02, h * 0.05),
                     itemCount: serviceList.length,
-                    separatorBuilder: (context, index) => SizedBox(height: h * 0.02), // Responsive spacing
+                    separatorBuilder: (context, index) =>
+                        SizedBox(height: h * 0.02), // Responsive spacing
                     itemBuilder: (context, index) {
                       var service = serviceList[index];
                       return BookingCard(
@@ -171,10 +175,10 @@ class _SchedulePageState extends State<SchedulePage> {
                   ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: w * 0.06, right: w * 0.06, bottom: h * 0.04),
+            padding: EdgeInsets.only(
+                left: w * 0.06, right: w * 0.06, bottom: h * 0.04),
             child: Column(
               children: [
-               
                 SizedBox(
                   width: w * 0.9,
                   height: h * 0.06,

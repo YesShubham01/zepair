@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zepair/modules/Home%20Pages/home_page.dart';
 import 'package:zepair/modules/Home%20Pages/home_screen.dart';
 import 'package:zepair/modules/Splash%20Page/splash_page.dart';
+import 'package:zepair/modules/complete_address/complete_address.dart';
 import 'package:zepair/utils/constants/colors.dart';
 
 void main() {
@@ -24,7 +25,7 @@ class ZepairApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       // call here the page you are working on.
-      home: const HomeScreen(),
+      home: const AddressForm(userName: "zepair", userPhone: "123456789"),
     );
   }
 }

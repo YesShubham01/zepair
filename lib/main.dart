@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zepair/modules/Home%20Pages/home_page.dart';
 import 'package:zepair/modules/Home%20Pages/home_screen.dart';
-import 'package:zepair/modules/Profile%20Page/profile_page.dart';
 import 'package:zepair/modules/Splash%20Page/splash_page.dart';
 import 'package:zepair/utils/constants/colors.dart';
 
@@ -20,11 +19,13 @@ class ZepairApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: CustomColors.primary),
         useMaterial3: true,
+        fontFamily: 'SF-Pro',
       ),
       debugShowCheckedModeBanner: false,
 
       // call here the page you are working on.
-      home: const ProfileScreen(),
+      home: const SplashPage(),
+
     );
   }
 }

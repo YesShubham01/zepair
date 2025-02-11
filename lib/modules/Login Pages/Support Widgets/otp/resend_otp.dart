@@ -20,12 +20,13 @@ class ResendOTPSection extends StatelessWidget {
     return Row(
       
       children: [
-        const CustomText(text: 'Did not get the OTP?', size: 17,color: CustomColors.black),
+        const CustomText(text: 'Did not get the OTP?',fontFamily: FontType.sfPro, size: 17,color: CustomColors.black),
         TextButton(
           onPressed: canResend ? onResend : null,
           child: CustomText(
             text: canResend ? 'Resend' : 'Wait $seconds seconds',
             size: 17,
+            fontFamily: FontType.sfPro,
             color: canResend ? Colors.blue : Color.fromARGB(100, 91, 91, 91),
           ),
         ),

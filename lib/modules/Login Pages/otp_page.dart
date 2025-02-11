@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:zepair/utils/constants/colors.dart';
+import 'package:zepair/utils/custom%20widgets/custom_appbar.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
-import 'package:zepair/modules/Login%20Pages/Support%20Widgets/otp/otp_appbar.dart';
+
 import 'package:zepair/modules/Login%20Pages/Support%20Widgets/otp/otp_input_field.dart';
 import 'package:zepair/modules/Login%20Pages/Support%20Widgets/otp/otp_message.dart';
 import 'package:zepair/modules/Login%20Pages/Support%20Widgets/otp/resend_otp.dart';
@@ -50,15 +51,15 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
     h = dimensions.height;
 
     return Scaffold(
-      appBar: OTPAppBar(onBack: () => _navigateToLogin(context)),
+      appBar: CustomAppBar(title: "Verification Code"),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        padding: EdgeInsets.symmetric(horizontal: w*0.06),
         child: Column(
           crossAxisAlignment:
               CrossAxisAlignment.start, // Aligns everything to the left
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const CustomText(text: "Verification Code", size: 20),
+            //const CustomText(text: "Verification Code", size: 20,fontFamily: FontType.sfPro),
             Gap(h * 0.02),
             const OTPMessage(),
             Gap(h * 0.05),
@@ -81,12 +82,13 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
             Align(
               alignment: Alignment.center,
               child: TextButton(
-                child: const Text(
+                child: const CustomText(text: 
                   'Go back to login page',
-                  style: TextStyle(
-                    fontSize: 22,
-                    color: CustomColors.primary,
-                  ),
+                  color: Colors.orange,
+                  
+                  size: 22,
+                  fontFamily: FontType.sfPro,
+                  
                 ),
                 onPressed: () => _navigateToLogin(context),
               ),

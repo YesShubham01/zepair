@@ -41,5 +41,19 @@
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
         </intent>
+
+        <intent>
+        <action android:name="android.intent.action.VIEW"/>
+        <data android:scheme="upi"/>
+    </intent>
+
+        <!-- for upi package -->
+        <package android:name="com.google.android.apps.nbu.paisa.user" /> <!-- Google Pay -->
+        <package android:name="net.one97.paytm" /> <!-- Paytm -->
+        <package android:name="com.phonepe.app" /> <!-- PhonePe -->
+        <package android:name="com.whatsapp" /> <!-- WhatsApp (optional) -->
+        
     </queries>
+
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
 </manifest>

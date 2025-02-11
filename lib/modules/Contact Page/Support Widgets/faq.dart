@@ -4,9 +4,14 @@ import 'package:gap/gap.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 // import 'package:zepair/modules/Contact%20Page/Support%20Widgets/faqs_data.dart';
 
-class FAQWidget extends StatelessWidget {
-  final double screenWidth;
+class FAQWidget extends StatefulWidget {
+  const FAQWidget({super.key});
 
+  @override
+  State<FAQWidget> createState() => _FAQWidgetState();
+}
+
+class _FAQWidgetState extends State<FAQWidget> {
   final List<Map<String, String>> faqs = [
     {
       "question": "How to change Address?",
@@ -30,14 +35,17 @@ class FAQWidget extends StatelessWidget {
     },
   ];
 
-  FAQWidget({Key? key, required this.screenWidth}) : super(key: key);
+  late double w;
+  late double h;
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+    w = size.width;
+    h = size.height;
     return DisclosureGroup(
       multiple: false,
       clearable: true,
-      insets: EdgeInsets.only(right: screenWidth * 0.05),
       children: List.generate(faqs.length, (i) {
         return Disclosure(
           key: ValueKey('disclosure-$i'),
@@ -72,9 +80,11 @@ class FAQWidget extends StatelessWidget {
           ),
           divider: const Divider(height: 1),
           child: Padding(
-            padding: EdgeInsets.all(screenWidth * 0.03),
+            padding: EdgeInsets.all(w * 0.03),
             child: CustomText(
               text: faqs[i]["answer"]!,
+              size: 18,
+              fontFamily: FontType.balooBhai2,
             ),
           ),
         );

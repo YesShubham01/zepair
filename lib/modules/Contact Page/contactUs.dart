@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:zepair/modules/Contact%20Page/Support%20Widgets/faq.dart';
+import 'package:zepair/utils/custom%20widgets/custom_outline_button.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
-
-import 'Support Widgets/bookCall_button.dart';
+import 'package:zepair/utils/custom%20widgets/custom_title.dart';
+import '../../utils/custom widgets/custom_appbar.dart';
 
 class ContactUsPage extends StatefulWidget {
   const ContactUsPage({super.key});
@@ -24,23 +25,19 @@ class _HelpSupportPageState extends State<ContactUsPage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: _getAppBar(),
-      ),
+      appBar: const CustomAppBar(title: "Help & Support"),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.only(left: w * 0.05, top: h * 0.005),
+          padding:
+              EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.005),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const CustomText(
+              CustomTitle(
                 text: "FAQ",
-                fontFamily: FontType.sfPro,
-                size: 24,
-                weight: FontWeight.bold,
               ),
               Gap(h * 0.006),
-              FAQWidget(screenWidth: w),
+              const FAQWidget(),
               Gap(h * 0.015),
               _buildDropMessageSection(),
               Gap(h * 0.006),
@@ -53,58 +50,52 @@ class _HelpSupportPageState extends State<ContactUsPage> {
   }
 
   Widget _buildDropMessageSection() {
-    return Padding(
-      padding: EdgeInsets.only(right: w * 0.05),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const CustomText(
-              text: "Drop Message",
-              size: 24,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CustomTitle(
+          text: "Drop Message",
+        ),
+        Gap(h * 0.011),
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey),
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: w * 0.02),
+            child: const TextField(
+              decoration: InputDecoration(
+                hintText: "Type your query here...",
+                border: InputBorder.none,
+              ),
+              maxLines: 4,
+            ),
+          ),
+        ),
+        Gap(h * 0.005),
+        Align(
+          alignment: Alignment.centerRight,
+          child: OutlinedButton(
+            onPressed: () {},
+            style: OutlinedButton.styleFrom(
+              side: BorderSide(color: Colors.blue.shade500), // Border color
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10), // Rounded corners
+              ),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 12, vertical: 1), // Reduce padding
+              minimumSize: Size.zero, // Allows button to shrink to content size
+            ),
+            child: CustomText(
+              text: "Send",
+              size: 20,
               fontFamily: FontType.sfPro,
-              weight: FontWeight.bold),
-          Gap(h * 0.011),
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black54),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Padding(
-              padding: EdgeInsets.only(left: w * 0.02),
-              child: const TextField(
-                decoration: InputDecoration(
-                  hintText: "Type your query here...",
-                  border: InputBorder.none,
-                ),
-                maxLines: 4,
-              ),
+              color: Colors.blue.shade500,
             ),
           ),
-          Gap(h * 0.005),
-          Align(
-            alignment: Alignment.centerRight,
-            child: OutlinedButton(
-              onPressed: () {},
-              style: OutlinedButton.styleFrom(
-                side: BorderSide(color: Colors.blue.shade500), // Border color
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10), // Rounded corners
-                ),
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 12, vertical: 1), // Reduce padding
-                minimumSize:
-                    Size.zero, // Allows button to shrink to content size
-              ),
-              child: CustomText(
-                text: "Send",
-                size: 20,
-                fontFamily: FontType.sfPro,
-                color: Colors.blue.shade500,
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -112,35 +103,10 @@ class _HelpSupportPageState extends State<ContactUsPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const CustomText(
-          text: "Request a call",
-          size: 24,
-          fontFamily: FontType.sfPro,
-          color: Colors.black,
-          weight: FontWeight.bold,
-        ),
+        CustomTitle(text: "Request a call"),
         Gap(h * 0.011),
-        BookCallButton(
-          onPressed: () {},
-          width: w * 0.89,
-          height: h * 0.059,
-        ),
+        CustomOutlineButton(buttonText: "Book Call", onPressed: () {}),
         Gap(h * 0.03),
-      ],
-    );
-  }
-
-  Widget _getAppBar() {
-    return const Row(
-      children: [
-        Gap(5), // 5 pixels spacing between the icon and text
-        CustomText(
-          text: "Help & Support",
-          size: 24,
-          fontFamily: FontType.sfPro,
-          color: Colors.black,
-          weight: FontWeight.bold,
-        ),
       ],
     );
   }

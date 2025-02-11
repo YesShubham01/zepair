@@ -83,8 +83,10 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:zepair/modules/Booking%20Page/Support%20Widget/booking_card.dart';
 import 'package:zepair/utils/custom%20widgets/custom_appbar.dart';
-import 'package:zepair/utils/custom%20widgets/custom_button.dart';
+import 'package:zepair/utils/custom%20widgets/custom_outline_button.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
+
+import '../../utils/custom widgets/custom_title.dart';
 
 class SchedulePage extends StatefulWidget {
   const SchedulePage({super.key});
@@ -148,51 +150,60 @@ class _SchedulePageState extends State<SchedulePage> {
     h = dimensions.height;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: const CustomAppBar(title: "Schedule"),
-      body: Column(
-        children: [
-          Expanded(
-            child: isLoading
-                ? const Center(
-                    child:
-                        CircularProgressIndicator()) // Show loader while fetching
-                : ListView.separated(
-                    padding:
-                        EdgeInsets.fromLTRB(w * 0.02, 0, w * 0.02, h * 0.05),
-                    itemCount: serviceList.length,
-                    separatorBuilder: (context, index) =>
-                        SizedBox(height: h * 0.02), // Responsive spacing
-                    itemBuilder: (context, index) {
-                      var service = serviceList[index];
-                      return BookingCard(
-                        serviceName: service["serviceName"]!,
-                        amountPaid: service["amountPaid"]!,
-                        description: service["description"]!,
-                        status: service["status"]!,
-                        highlightedStatus: service["highlightedStatus"],
-                      );
-                    },
-                  ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-                left: w * 0.06, right: w * 0.06, bottom: h * 0.04),
-            child: Column(
-              children: [
-                SizedBox(
-                  width: w * 0.9,
-                  height: h * 0.06,
-                  child: CustomOutlineButton(
-                    buttonText: "Need Help?",
-                    onPressed: () {
-                      print("Need Help button clicked");
-                    },
-                  ),
-                ),
-              ],
+      body: Padding(
+        padding:
+            EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.005),
+        child: Column(
+          children: [
+            Expanded(
+              child: isLoading
+                  ? const Center(
+                      child:
+                          CircularProgressIndicator()) // Show loader while fetching
+                  : ListView.separated(
+                      itemCount: serviceList.length + 1,
+                      separatorBuilder: (context, index) =>
+                          const Gap(0), // Responsive spacing
+                      itemBuilder: (context, index) {
+                        if (index == 0) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Gap(h * 0.015),
+                              CustomTitle(text: "Active Bookings"),
+                              Gap(h * 0.006),
+                            ],
+                          );
+                        }
+                        var service = serviceList[index - 1];
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: h * 0.02),
+                          child: BookingCard(
+                            serviceName: service["serviceName"]!,
+                            amountPaid: service["amountPaid"]!,
+                            description: service["description"]!,
+                            status: service["status"]!,
+                            highlightedStatus: service["highlightedStatus"],
+                          ),
+                        );
+                      },
+                    ),
             ),
-          ),
-        ],
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: h * 0.01),
+              child: CustomOutlineButton(
+                height: h * 0.06,
+                width: w * 0.9,
+                buttonText: "Need Help?",
+                onPressed: () {
+                  print("Need Help button clicked");
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

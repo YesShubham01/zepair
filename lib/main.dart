@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zepair/devs/notes.dart';
+import 'package:zepair/modules/Login%20Pages/login_page.dart';
+import 'package:zepair/modules/Login%20Pages/login_screen.dart/login_page.dart';
 import 'package:zepair/utils/constants/colors.dart';
 
 void main() {
@@ -21,7 +23,7 @@ class ZepairApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       // call here the page you are working on.
-      home: const NotesForDevs(),
+      home: const LoginPage(),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:zepair/modules/Location%20Permission%20Bottom%20Sheet/location_permission_bottom_sheet.dart';
 import 'package:zepair/modules/Manage%20Addresses%20Page/Support%20Widgets/address_data.dart';
 import 'package:zepair/modules/Manage%20Addresses%20Page/Support%20Widgets/address_list.dart';
 import 'package:zepair/utils/constants/colors.dart';
@@ -16,6 +17,24 @@ class ManageAddressesPage extends StatefulWidget {
 class _ManageAddressesPageState extends State<ManageAddressesPage> {
   late double w;
   late double h;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showModalBottomSheet(
+        context: context,
+        isDismissible: false,
+        enableDrag: false,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(16),
+          ),
+        ),
+        builder: (context) => const LocationPermissionBottomSheet(),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

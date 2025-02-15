@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zepair/modules/Services/service_detail.dart';
 import 'package:zepair/utils/constants/colors.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 
@@ -48,24 +49,32 @@ class _ServiceGridState extends State<ServiceGrid> {
   }
 
   Widget serviceCard(String serviceName) {
-    return Column(
-      children: [
-        Container(
-          height: h * 0.11,
-          width: w * 0.25,
-          decoration: BoxDecoration(
-            color: CustomColors.containerBg,
-            borderRadius: BorderRadius.circular(10),
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) => ServiceDetailPage(
+                  service: serviceName,
+                )));
+      },
+      child: Column(
+        children: [
+          Container(
+            height: h * 0.11,
+            width: w * 0.25,
+            decoration: BoxDecoration(
+              color: CustomColors.containerBg,
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
-        ),
-        const SizedBox(height: 5),
-        CustomText(
-            text: serviceName,
-            alignment: TextAlign.center,
-            size: 16,
-            fontFamily: FontType.balooBhai2,
-            color: Colors.black),
-      ],
+          const SizedBox(height: 5),
+          CustomText(
+              text: serviceName,
+              alignment: TextAlign.center,
+              size: 16,
+              fontFamily: FontType.balooBhai2,
+              color: Colors.black),
+        ],
+      ),
     );
   }
 }

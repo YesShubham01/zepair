@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:zepair/modules/Profile%20Page/Support%20Widgets/profile_card.dart';
-import 'package:zepair/utils/custom%20widgets/custom_container.dart';
-import 'package:zepair/utils/custom%20widgets/custom_outline_button.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 import 'package:zepair/utils/custom%20widgets/custom_title.dart';
@@ -12,10 +9,11 @@ class ServiceDetailPage extends StatefulWidget {
   final String description;
 
   const ServiceDetailPage({
-    Key? key,
-    required this.service,
-    required this.description,
-  }) : super(key: key);
+    super.key,
+    this.service = "AC Service",
+    this.description =
+        "Get your AC cleaned and serviced to extend its lifespan and reduce power consumption.",
+  });
 
   @override
   _ServiceDetailPageState createState() => _ServiceDetailPageState();
@@ -51,10 +49,12 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
               color: Colors.grey[400],
             ),
             _serviceDetails(),
+            _addAddressButton(),
             _aboutService(),
             _brandService(),
             _zepairBenefits(),
             _addAddressButton(),
+            Gap(h * 0.05),
           ],
         ),
       ),
@@ -73,12 +73,12 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
             size: 18,
             fontFamily: FontType.balooBhai2,
           ),
-          Gap(h * 0.006),
+          Gap(h * 0.008),
           Row(
             children: [
               const Icon(localOffer, color: Colors.green),
               Gap(w * 0.02),
-              CustomText(
+              const CustomText(
                 text: "Get quality service at best price in Market.",
                 size: 16,
                 fontFamily: FontType.sfPro,
@@ -86,7 +86,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          Gap(h * 0.008),
           Row(
             children: [
               CustomText(
@@ -109,7 +109,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
                         size: 24,
                       ),
                       Gap(w * 0.02),
-                      Column(
+                      const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           CustomText(
@@ -175,7 +175,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
                       padding: EdgeInsets.symmetric(
                           horizontal: w * 0.001), // Add spacing between items
                       child: CustomCardWidget(
-                        child: Container(
+                        child: SizedBox(
                           height: h * 0.07,
                           width: w * 0.24,
                         ),
@@ -192,7 +192,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
                     (index) => Padding(
                       padding: EdgeInsets.symmetric(horizontal: w * 0.001),
                       child: CustomCardWidget(
-                        child: Container(
+                        child: SizedBox(
                           height: h * 0.07,
                           width: w * 0.24,
                         ),
@@ -279,11 +279,11 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
           backgroundColor: Colors.amber,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          side: BorderSide(color: Colors.black),
+          side: const BorderSide(color: Colors.black),
           minimumSize: const Size(double.infinity, 50),
         ),
         onPressed: () {},
-        child: CustomText(
+        child: const CustomText(
           text: "Add address and slot",
           size: 22,
           fontFamily: FontType.sfPro,

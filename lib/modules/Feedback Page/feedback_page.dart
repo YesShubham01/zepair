@@ -28,7 +28,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
         title: Row(
           children: [
             Gap(w * 0.0001), // Adjust the width for custom spacing
-            CustomText(
+            const CustomText(
               text: "Feedback",
               size: 24,
               fontFamily: FontType.sfPro,
@@ -58,6 +58,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
               _buildFeedbackSection(),
               Gap(h * 0.015),
               CustomOutlineButton(buttonText: "Done", onPressed: () {}),
+              Gap(h * 0.015),
             ],
           ),
         ),
@@ -97,7 +98,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
               size: 42,
             ),
             Gap(w * 0.02),
-            Expanded(
+            const Expanded(
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

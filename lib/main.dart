@@ -27,10 +27,7 @@ class ZepairApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       // call here the page you are working on.
-      home: const ServiceDetailPage(
-          service: 'AC Service',
-          description:
-              'Get your AC cleaned and serviced to extend its lifespan and reduce power consumption.'),
+      home: const SplashPage(),
     );
   }
 }

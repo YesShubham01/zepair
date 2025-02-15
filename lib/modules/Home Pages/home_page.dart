@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:zepair/modules/Home%20Pages/Support%20Widgets/custom_searchbar.dart';
 import 'package:zepair/modules/Home%20Pages/Support%20Widgets/service_grid.dart';
+import 'package:zepair/modules/Service%20Progress/service_progress.dart';
 import 'package:zepair/utils/constants/colors.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 
@@ -48,6 +49,7 @@ class _HomePageState extends State<HomePage> {
           const ServiceGrid(),
         ],
       ),
+      bottomNavigationBar: const ServiceInProgressBottomBar(),
     );
   }
 

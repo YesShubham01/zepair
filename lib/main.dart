@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:zepair/modules/Splash%20Page/splash_page.dart';
-import 'package:zepair/modules/complete_address/complete_address.dart';
-
-import 'package:zepair/modules/sharing_otp/sharing_otp.dart';
 import 'package:zepair/utils/constants/colors.dart';
 
 void main() {

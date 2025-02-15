@@ -7,7 +7,6 @@ import '../../utils/custom widgets/custom_text.dart';
 import 'Support widget/image/image.dart';
 import 'Support widget/otp bar/otp.dart';
 
-
 class ServiceProgressPage extends StatelessWidget {
   final String otp;
 
@@ -20,7 +19,7 @@ class ServiceProgressPage extends StatelessWidget {
     double h = size.height;
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -39,13 +38,12 @@ class ServiceProgressPage extends StatelessWidget {
             Center(
               child: Column(
                 children: [
-                  ImageWidget(height: h * 0.2, width: 1.5* w),
+                  ImageWidget(height: h * 0.2, width: 1.5 * w),
                   SizedBox(height: h * 0.02),
                   const CustomText(
                     text: "Your Service in Progress",
                     size: 26,
                     fontFamily: FontType.balooBhai2,
-                   
                     alignment: TextAlign.center,
                   ),
                 ],
@@ -63,7 +61,6 @@ class ServiceProgressPage extends StatelessWidget {
               text: "OTP",
               size: 22,
               fontFamily: FontType.sfPro,
-             
             ),
             SizedBox(height: h * 0.01),
 
@@ -85,8 +82,7 @@ class ServiceProgressPage extends StatelessWidget {
                     text: "Copy",
                     size: 22,
                     fontFamily: FontType.sfPro,
-                    
-                    color:CustomColors.primary,
+                    color: CustomColors.primary,
                   ),
                 ),
               ],
@@ -109,14 +105,12 @@ class ServiceProgressPage extends StatelessWidget {
                 size: 16,
                 fontFamily: FontType.sfPro,
                 color: CustomColors.primary,
-                
               ),
             ),
 
             const Spacer(),
 
             CustomButton(
-              
               text: "Done",
               onPressed: () {}, // Action here
             ),

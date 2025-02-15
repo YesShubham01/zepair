@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:zepair/utils/custom%20widgets/custom_outline_button.dart';
+import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 
 import '../../utils/custom widgets/custom_appbar.dart';
@@ -11,7 +13,8 @@ class AddressForm extends StatelessWidget {
   final String userName;
   final String userPhone;
 
-  const AddressForm({super.key, required this.userName, required this.userPhone});
+  const AddressForm(
+      {super.key, required this.userName, required this.userPhone});
 
   @override
   Widget build(BuildContext context) {
@@ -21,34 +24,42 @@ class AddressForm extends StatelessWidget {
 
     return Scaffold(
       appBar: const CustomAppBar(title: "Enter complete address"),
-      body: SingleChildScrollView( // ✅ Prevents overflow when keyboard appears
+      body: SingleChildScrollView(
+        // ✅ Prevents overflow when keyboard appears
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.005),
+          padding:
+              EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.005),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // User Info Container
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: w * 0.04, vertical: h * 0.015),
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(205, 242, 240, 240),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  children: [
-                    const Icon(Icons.phone, color: Colors.black),
-                    SizedBox(width: w * 0.02),
-                    CustomText(text: "$userName, ", fontFamily: FontType.balooBhai2, color: Colors.black),
-                    CustomText(text: userPhone, fontFamily: FontType.balooBhai2, size: 18, color: Colors.black),
-                    const Spacer(),
-                    GestureDetector(
-                      onTap: () {
-                        // Handle edit action here (e.g., open a dialog)
-                        print("Edit icon clicked!");
-                      },
-                      child: const Icon(Icons.edit, color: Colors.black),
-                    ),
-                  ],
+              CustomCardWidget(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: w * 0.04, vertical: h * 0.015),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.phone, color: Colors.black),
+                      SizedBox(width: w * 0.02),
+                      CustomText(
+                          text: "$userName, ",
+                          fontFamily: FontType.balooBhai2,
+                          color: Colors.black),
+                      CustomText(
+                          text: userPhone,
+                          fontFamily: FontType.balooBhai2,
+                          size: 18,
+                          color: Colors.black),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          // Handle edit action here (e.g., open a dialog)
+                          print("Edit icon clicked!");
+                        },
+                        child: const Icon(Icons.edit, color: Colors.black),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: h * 0.03),
@@ -65,7 +76,11 @@ class AddressForm extends StatelessWidget {
               // Save As Section
               Padding(
                 padding: EdgeInsets.only(left: 0.02 * w),
-                child: const CustomText(text: "Save as", fontFamily: FontType.sfPro, color: Color.fromARGB(60, 0, 0, 0), size: 18),
+                child: const CustomText(
+                    text: "Save as",
+                    fontFamily: FontType.sfPro,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    size: 18),
               ),
               SizedBox(height: h * 0.01),
               Row(

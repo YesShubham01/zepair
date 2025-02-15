@@ -6,7 +6,7 @@ class CustomTextField extends StatelessWidget {
   late double h;
   late double w;
 
-   CustomTextField({super.key, required this.hintText});
+  CustomTextField({super.key, required this.hintText});
 
   @override
   Widget build(BuildContext context) {
@@ -14,18 +14,19 @@ class CustomTextField extends StatelessWidget {
     w = dimensions.width;
     h = dimensions.height;
     return Padding(
-      padding:  EdgeInsets.symmetric(horizontal: w * 0.02, vertical: h * 0.005),
+      padding: EdgeInsets.symmetric(horizontal: w * 0.02, vertical: h * 0.005),
       child: TextField(
         decoration: InputDecoration(
-          hintText: null,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          contentPadding:  EdgeInsets.only(left: 0.05*w,top: 0.02*h ,bottom: 0.02*h ),
-          label: CustomText(text: hintText,
-          size: 18,
-          color:Colors.grey ,
-          fontFamily: FontType.sfPro,
-          )
-        ),
+            hintText: null,
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+            contentPadding: EdgeInsets.only(
+                left: 0.05 * w, top: 0.02 * h, bottom: 0.02 * h),
+            label: CustomText(
+              text: hintText,
+              size: 18,
+              color: const Color.fromARGB(255, 83, 83, 83),
+              fontFamily: FontType.sfPro,
+            )),
       ),
     );
   }

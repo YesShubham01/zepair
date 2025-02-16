@@ -21,19 +21,19 @@ class _ManageAddressesPageState extends State<ManageAddressesPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      showModalBottomSheet(
-        context: context,
-        isDismissible: false,
-        enableDrag: false,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(16),
-          ),
-        ),
-        builder: (context) => const LocationPermissionBottomSheet(),
-      );
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   showModalBottomSheet(
+    //     context: context,
+    //     isDismissible: false,
+    //     enableDrag: false,
+    //     shape: const RoundedRectangleBorder(
+    //       borderRadius: BorderRadius.vertical(
+    //         top: Radius.circular(16),
+    //       ),
+    //     ),
+    //     builder: (context) => const LocationPermissionBottomSheet(),
+    //   );
+    // });
   }
 
   @override
@@ -45,6 +45,7 @@ class _ManageAddressesPageState extends State<ManageAddressesPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const CustomAppBar(
+          applyBackButton: true,
           title:
               "Manage Addresses"), // Please add the back button in CustomAppBar.
       body: ListView(

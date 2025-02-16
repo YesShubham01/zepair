@@ -4,15 +4,22 @@ import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title; // Accepts title dynamically
+  final bool applyBackButton;
 
-  const CustomAppBar({super.key, required this.title});
+  const CustomAppBar({
+    super.key,
+    required this.title,
+    this.applyBackButton = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false,
       title: Row(
         children: [
-          const Gap(5), // 5 pixels spacing between the icon and text
+          applyBackButton ? _buildBackButton(context) : const Gap(0),
+          applyBackButton ? const Gap(10) : const Gap(5),
           CustomText(
             text: title,
             size: 24,
@@ -27,4 +34,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  _buildBackButton(BuildContext context) {
+    return InkWell(
+        onTap: () {
+          Navigator.pop(context);
+        },
+        child: const Icon(
+          Icons.arrow_back,
+        ));
+  }
 }

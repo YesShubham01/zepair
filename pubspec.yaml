@@ -40,7 +40,7 @@ flutter:
 
 # here will go all the asset's path we will use in project
   assets:
-    # - assets/images/
+    - assets/images/
     - assets/lotties/
   #   - images/a_dot_ham.jpeg
 

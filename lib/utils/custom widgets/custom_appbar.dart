@@ -18,8 +18,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: false,
       title: Row(
         children: [
-          applyBackButton ? _buildBackButton(context) : const Gap(0),
-          applyBackButton ? const Gap(10) : const Gap(5),
+          applyBackButton ? _buildBackButton(context) : const Gap(5),
           CustomText(
             text: title,
             size: 24,
@@ -37,11 +36,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   _buildBackButton(BuildContext context) {
     return InkWell(
-        onTap: () {
-          Navigator.pop(context);
-        },
-        child: const Icon(
-          Icons.arrow_back,
-        ));
+      onTap: () {
+        Navigator.pop(context);
+      },
+      child: const Row(
+        children: [
+          Icon(
+            Icons.arrow_back,
+          ),
+          Gap(10),
+        ],
+      ),
+    );
   }
 }

@@ -3,6 +3,8 @@ import 'package:gap/gap.dart';
 import 'package:zepair/modules/Home%20Pages/Support%20Widgets/custom_searchbar.dart';
 import 'package:zepair/modules/Home%20Pages/Support%20Widgets/service_grid.dart';
 import 'package:zepair/modules/Manage%20Addresses%20Page/manage_addresses_page.dart';
+import 'package:zepair/modules/Profile%20Page/Support%20Widgets/profile_card.dart';
+import 'package:zepair/modules/Profile%20Page/profile_page.dart';
 import 'package:zepair/modules/Service%20Progress/service_progress.dart';
 import 'package:zepair/utils/constants/colors.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
@@ -92,8 +94,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   _getProfileAvatar() {
-    return const CircleAvatar(
-      foregroundColor: CustomColors.lightBlue,
+    return InkWell(
+      onTap: () {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => const ProfileScreen()));
+      },
+      child: const CircleAvatar(
+        foregroundColor: CustomColors.lightBlue,
+      ),
     );
   }
 

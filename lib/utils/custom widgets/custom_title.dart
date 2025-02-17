@@ -10,7 +10,7 @@ class CustomTitle extends StatelessWidget {
     return CustomText(
       text: text,
       fontFamily: FontType.sfPro,
-      size: 24,
+      size: 22,
       weight: FontWeight.bold,
     );
   }

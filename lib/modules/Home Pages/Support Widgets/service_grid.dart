@@ -1,13 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:zepair/modules/Home%20Pages/Models/device_option_data_model.dart';
 import 'package:zepair/modules/Services/service_detail.dart';
-import 'package:zepair/utils/constants/colors.dart';
-import 'package:zepair/utils/constants/image_paths.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
-import 'package:flutter/material.dart';
 import 'package:zepair/utils/custom%20widgets/serviceEnum.dart';
 
 class ServiceGrid extends StatefulWidget {

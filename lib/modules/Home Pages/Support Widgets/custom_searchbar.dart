@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:zepair/utils/constants/colors.dart';
+import 'package:zepair/utils/constants/image_paths.dart';
+import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 
 class CustomSearchBar extends StatelessWidget {
@@ -16,24 +18,22 @@ class CustomSearchBar extends StatelessWidget {
         showSearch(
             context: context, delegate: CustomSearchDelegate(h: h, w: w));
       },
-      child: Container(
-        height: 50,
-        decoration: BoxDecoration(
-          color: CustomColors.containerBg,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: const Row(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Icon(Icons.search, color: Colors.orange),
-            ),
-            CustomText(
-                text: 'Search "Services"',
-                size: 18,
-                color: Colors.black54,
-                fontFamily: FontType.balooBhai2),
-          ],
+      child: CustomCardWidget(
+        child: SizedBox(
+          height: h * 0.05,
+          child: const Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Icon(Icons.search, color: Colors.orange),
+              ),
+              CustomText(
+                  text: 'Search "Services"',
+                  size: 18,
+                  color: Colors.black54,
+                  fontFamily: FontType.balooBhai2),
+            ],
+          ),
         ),
       ),
     );
@@ -105,7 +105,7 @@ class CustomSearchDelegate extends SearchDelegate<String?> {
 
     if (suggestions.isEmpty) {
       return Center(
-        child: Lottie.asset("assets/lotties/search_animation.json",
+        child: Lottie.asset(ImagePaths.searchLottieAnimation,
             width: w * 0.8, repeat: true, fit: BoxFit.cover),
       );
     }

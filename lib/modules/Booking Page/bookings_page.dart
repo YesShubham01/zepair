@@ -144,7 +144,7 @@ class _SchedulePageState extends State<SchedulePage> {
       backgroundColor: Colors.white,
       appBar: const CustomAppBar(title: "Bookings"),
       body: Padding(
-        padding: EdgeInsets.fromLTRB(w * 0.05, h * 0.01, w * 0.05, h * 0.005),
+        padding: EdgeInsets.fromLTRB(w * 0.05, h * 0.01, w * 0.05, h * 0.04),
         child: Column(
           children: [
             Expanded(

@@ -7,7 +7,9 @@ import 'package:zepair/modules/Profile%20Page/Support%20Widgets/profile_card.dar
 import 'package:zepair/modules/Profile%20Page/profile_page.dart';
 import 'package:zepair/modules/Service%20Progress/service_progress.dart';
 import 'package:zepair/utils/constants/colors.dart';
+import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
+import 'package:zepair/utils/custom%20widgets/custom_title.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -29,7 +31,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: header(),
+        title: addressBar(),
         actions: <Widget>[
           _getNotificationButton(),
           _getProfileAvatar(),
@@ -37,18 +39,16 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: ListView(
-        padding: EdgeInsets.all(w * 0.05),
+        padding: EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.01),
         children: [
           _buildBanner(),
-          Gap(h * 0.02),
+          Gap(h * 0.012),
           const CustomSearchBar(),
           Gap(h * 0.02),
-          const CustomText(
-              text: "Repair & Service",
-              color: Colors.black,
-              fontFamily: FontType.sfPro,
-              size: 24),
-          Gap(h * 0.02),
+          CustomTitle(
+            text: "Repair & Service",
+          ),
+          Gap(h * 0.006),
           const ServiceGrid(),
         ],
       ),
@@ -57,17 +57,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildBanner() {
-    return Container(
-      height: h * 0.18,
-      decoration: BoxDecoration(
-        color: CustomColors.containerBg,
-        borderRadius: BorderRadius.circular(10),
+    return CustomCardWidget(
+      child: Container(
+        height: h * 0.15,
+        alignment: Alignment.center,
       ),
-      alignment: Alignment.center,
     );
   }
 
-  Widget header() {
+  Widget addressBar() {
     return Row(
       children: [
         InkWell(

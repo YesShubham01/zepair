@@ -3,6 +3,7 @@ import 'package:zepair/modules/Contact%20Page/contactUs.dart';
 import 'package:zepair/modules/Home%20Pages/home_page.dart';
 import 'package:zepair/modules/Warranty%20Page/warranty_page.dart';
 import 'package:zepair/modules/Booking%20Page/bookings_page.dart';
+import 'package:zepair/utils/constants/colors.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,6 +13,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late double w;
+  late double h;
+
   int _selectedIndex = 0;
   final PageController _pageController = PageController();
   final List<Widget> _pages = const [
@@ -23,6 +27,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var dimensions = MediaQuery.sizeOf(context);
+    w = dimensions.width;
+    h = dimensions.height;
+
     return Scaffold(
       body: SafeArea(
         child: PageView(
@@ -32,9 +40,12 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       bottomNavigationBar: NavigationBar(
-        height: 80,
-        elevation: 0,
+        // backgroundColor: const Color.fromARGB(255, 245, 243, 228),
+        // indicatorColor: CustomColors.primary,
+        height: h * 0.085,
+        elevation: 10,
         selectedIndex: _selectedIndex,
+
         onDestinationSelected: (index) {
           setState(() {
             _onItemTapped(index);
@@ -71,7 +82,6 @@ class _HomeScreenState extends State<HomeScreen> {
       default:
         time = 500;
     }
-    print(time);
     _pageController.animateToPage(
       index,
       duration: Duration(milliseconds: time), // Adjust speed

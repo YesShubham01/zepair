@@ -4,6 +4,7 @@ import 'package:zepair/modules/Home%20Pages/home_page.dart';
 import 'package:zepair/modules/Warranty%20Page/warranty_page.dart';
 import 'package:zepair/modules/Booking%20Page/bookings_page.dart';
 import 'package:zepair/utils/constants/colors.dart';
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -39,28 +40,29 @@ class _HomeScreenState extends State<HomeScreen> {
           children: _pages,
         ),
       ),
-      bottomNavigationBar: NavigationBar(
-        // backgroundColor: const Color.fromARGB(255, 245, 243, 228),
-        // indicatorColor: CustomColors.primary,
-        height: h * 0.085,
+      bottomNavigationBar: ConvexAppBar(
+        backgroundColor: Colors.white,
+        activeColor: CustomColors.primary,
+        color: Colors.black,
+        height: 55,
         elevation: 10,
-        selectedIndex: _selectedIndex,
-
-        onDestinationSelected: (index) {
+        style: TabStyle.react,
+        items: const [
+          TabItem(
+            icon: Icons.home,
+            title: 'Home',
+          ),
+          TabItem(icon: Icons.calendar_month, title: 'Bookings'),
+          TabItem(icon: Icons.verified_user, title: 'Warranty'),
+          TabItem(icon: Icons.headphones_outlined, title: 'Contact Us'),
+        ],
+        initialActiveIndex: _selectedIndex,
+        onTap: (index) {
           setState(() {
             _onItemTapped(index);
             _selectedIndex = index;
           });
         },
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-          NavigationDestination(
-              icon: Icon(Icons.calendar_month), label: 'Bookings'),
-          NavigationDestination(
-              icon: Icon(Icons.verified_user), label: 'Warranty'),
-          NavigationDestination(
-              icon: Icon(Icons.headphones_outlined), label: 'Contact Us'),
-        ],
       ),
     );
   }

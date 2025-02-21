@@ -14,21 +14,18 @@ class CustomButton extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-        
-          
-          backgroundColor: Color.fromARGB( 255,234, 190, 17),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          backgroundColor: const Color.fromARGB(255, 234, 190, 17),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           padding: const EdgeInsets.symmetric(vertical: 12),
         ),
         onPressed: onPressed,
         child: CustomText(
           alignment: TextAlign.center,
-          
           text: text,
           size: 22,
           color: Colors.black,
           fontFamily: FontType.sfPro,
-         
         ),
       ),
     );

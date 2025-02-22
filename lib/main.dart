@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zepair/modules/AC%20repair/ac_repair.dart';
 import 'package:zepair/modules/Splash%20Page/splash_page.dart';
 import 'package:zepair/modules/bill%20page/bill_page.dart';
 import 'package:zepair/utils/constants/colors.dart';
@@ -23,7 +24,7 @@ class ZepairApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       // call here the page you are working on.
-      home:  BillScreen(),
+      home:  ACServicePage(),
     );
   }
 }

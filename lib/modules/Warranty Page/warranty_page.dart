@@ -28,10 +28,8 @@ class _WarrantyPageState extends State<WarrantyPage> {
       backgroundColor: Colors.white,
       appBar: const CustomAppBar(title: "Warranty"),
       body: ListView(
-        padding:
-            EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.005),
+        padding: EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.01),
         children: [
-          Gap(h * 0.015),
           CustomTitle(text: "Available Warranty"),
           Gap(h * 0.006),
           WarrantyList(

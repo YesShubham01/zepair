@@ -49,12 +49,14 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
               color: Colors.grey[400],
             ),
             _serviceDetails(),
-            _addAddressButton(),
             _aboutService(),
             _brandService(),
             _zepairBenefits(),
-            _addAddressButton(),
-            Gap(h * 0.05),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: w * 0.05),
+              child: _addAddressButton(),
+            ),
+            Gap(h * 0.1),
           ],
         ),
       ),
@@ -132,6 +134,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
               ),
             ],
           ),
+          _addAddressButton(),
         ],
       ),
     );
@@ -273,7 +276,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
 
   Widget _addAddressButton() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 20),
+      padding: EdgeInsets.fromLTRB(w * 0.01, h * 0.018, 0, 0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.amber,
@@ -287,7 +290,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
           text: "Add address and slot",
           size: 22,
           fontFamily: FontType.sfPro,
-          weight: FontWeight.bold,
+          weight: FontWeight.w500,
         ),
       ),
     );

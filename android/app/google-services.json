@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "97716782554",
+    "project_id": "zepair-backend",
+    "storage_bucket": "zepair-backend.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:97716782554:android:1935b7fb982daedc266ce3",
+        "android_client_info": {
+          "package_name": "com.example.zepair"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcZ5MkEqvikKpxb_b2H3aNjklsETGMaVY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

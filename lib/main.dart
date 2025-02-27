@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:zepair/modules/AC%20repair/ac_repair.dart';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:zepair/firebase_options.dart';
+
 import 'package:zepair/modules/Splash%20Page/splash_page.dart';
-import 'package:zepair/modules/bill%20page/bill_page.dart';
+
 import 'package:zepair/utils/constants/colors.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const ZepairApp());
 }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zepair/utils/constants/colors.dart';
+import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 
 class ProfileMenuItem extends StatelessWidget {
@@ -23,32 +24,30 @@ class ProfileMenuItem extends StatelessWidget {
     h = dimensions.height;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: w * 0.04, vertical: h * 0.005),
-      child: TextButton(
-        onPressed: onTap,
-        style: TextButton.styleFrom(
-          backgroundColor: CustomColors.containerBg,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          padding:
-              EdgeInsets.fromLTRB(w * 0.03, h * 0.016, w * 0.03, h * 0.016),
-        ),
-        child: Row(
-          children: [
-            Icon(icon, size: 24, color: Colors.black),
-            const SizedBox(width: 10),
-            Expanded(
-                child: CustomText(
-              text: text,
-              size: 18,
-              fontFamily: FontType.sfPro,
-            )),
-            const Icon(
-              Icons.arrow_forward_ios,
-              size: 20,
-              color: Colors.black,
+      child: CustomCardWidget(
+        child: InkWell(
+          onTap: onTap,
+          child: Padding(
+            padding:
+                EdgeInsets.fromLTRB(w * 0.03, h * 0.016, w * 0.03, h * 0.016),
+            child: Row(
+              children: [
+                Icon(icon, size: 24, color: Colors.black),
+                const SizedBox(width: 10),
+                Expanded(
+                    child: CustomText(
+                  text: text,
+                  size: 18,
+                  fontFamily: FontType.sfPro,
+                )),
+                const Icon(
+                  Icons.arrow_forward_ios,
+                  size: 20,
+                  color: Colors.black,
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

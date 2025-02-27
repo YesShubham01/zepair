@@ -1,2 +1,0 @@
-/Users/pranjalbharat/Documents/Projects/zepair/android/app/.cxx/Debug/714bq5j4/armeabi-v7a/CMakeFiles/edit_cache.dir
-/Users/pranjalbharat/Documents/Projects/zepair/android/app/.cxx/Debug/714bq5j4/armeabi-v7a/CMakeFiles/rebuild_cache.dir

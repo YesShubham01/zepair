@@ -79,9 +79,12 @@ class _SchedulePageState extends State<SchedulePage> {
     );
   }
 }*/
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:zepair/modules/Booking%20Page/Models/booking_details_models.dart';
+import 'package:zepair/backend/appointment_service.dart';
+import 'package:zepair/models/appointment_model.dart';
+
 import 'package:zepair/modules/Booking%20Page/Support%20Widget/booking_card.dart';
 import 'package:zepair/utils/custom%20widgets/custom_appbar.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_button.dart';
@@ -91,7 +94,9 @@ import 'package:zepair/utils/custom%20widgets/serviceEnum.dart';
 import '../../utils/custom widgets/custom_title.dart';
 
 class SchedulePage extends StatefulWidget {
-  const SchedulePage({super.key});
+  final String? uid; // Make it nullable
+
+  const SchedulePage({super.key, this.uid});
 
   @override
   State<SchedulePage> createState() => _SchedulePageState();
@@ -100,39 +105,6 @@ class SchedulePage extends StatefulWidget {
 class _SchedulePageState extends State<SchedulePage> {
   late double h;
   late double w;
-  List<BookingDetailsModels> serviceList = [];
-  bool isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    fetchServices(); // Fetch services when the screen loads
-  }
-
-  Future<void> fetchServices() async {
-    await Future.delayed(const Duration(seconds: 0)); // Simulating API call
-    setState(() {
-      serviceList = [
-        BookingDetailsModels(
-            device: Device.refrigerator,
-            amountPaid: "100",
-            description: "Single door refrigerator check-up X 1",
-            status:
-                "We will soon assign one of our engineers at your doorstep."),
-        BookingDetailsModels(
-            device: Device.ac,
-            amountPaid: "450",
-            description: "AC Service & checkup X 1",
-            status: "Our engineer will be at your doorstep at 10 am tomorrow"),
-        BookingDetailsModels(
-            device: Device.washingMachine,
-            amountPaid: "350",
-            description: "Washing Machine check-up X 1",
-            status: "Our engineer will be at your doorstep at 3pm today"),
-      ];
-      isLoading = false;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,54 +117,76 @@ class _SchedulePageState extends State<SchedulePage> {
       appBar: const CustomAppBar(title: "Bookings"),
       body: Padding(
         padding: EdgeInsets.fromLTRB(w * 0.05, h * 0.01, w * 0.05, h * 0.04),
-        child: Column(
-          children: [
-            Expanded(
-              child: isLoading
-                  ? const Center(
-                      child:
-                          CircularProgressIndicator()) // Show loader while fetching
-                  : ListView.separated(
-                      itemCount: serviceList.length + 1,
-                      separatorBuilder: (context, index) =>
-                          const Gap(0), // Responsive spacing
-                      itemBuilder: (context, index) {
-                        if (index == 0) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomTitle(text: "Active Bookings"),
-                              Gap(h * 0.006),
-                            ],
-                          );
-                        }
-                        var service = serviceList[index - 1];
-                        return Padding(
-                          padding: EdgeInsets.only(bottom: h * 0.006),
-                          child: BookingCard(
-                            device: service.device,
-                            amountPaid: service.amountPaid,
-                            description: service.description,
-                            status: service.status,
-                          ),
+        child: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('Appointments')
+              .where('uid', isEqualTo: widget.uid ?? "12345") // Use test UID if needed
+             // .orderBy('timestamp', descending: true) // Order by latest appointments
+              .snapshots(), // Real-time stream
+          builder: (context, snapshot) {
+  if (snapshot.hasError) {
+    return Center(child: Text("Error: ${snapshot.error}"));
+  }
+  
+  print("Raw Data: ${snapshot.data?.docs}"); // Debug print
+
+  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+    return const Center(child: Text("No bookings available."));
+  }
+  
+  // Convert Firestore documents to List<Appointment>
+  List<Appointment> serviceList = snapshot.data!.docs
+      .map((doc) => Appointment.fromFirestore(doc))
+      .toList();
+
+
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.separated(
+                    itemCount: serviceList.length + 1,
+                    separatorBuilder: (context, index) => const Gap(0),
+                    itemBuilder: (context, index) {
+                      if (index == 0) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomTitle(text: "Active Bookings"),
+                            Gap(h * 0.006),
+                          ],
                         );
-                      },
-                    ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: h * 0.006),
-              child: CustomOutlineButton(
-                height: h * 0.06,
-                width: w * 0.9,
-                buttonText: "Need Help?",
-                onPressed: () {
-                  print("Need Help button clicked");
-                },
-              ),
-            ),
-          ],
+                      }
+                      var service = serviceList[index - 1];
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: h * 0.006),
+                        child: BookingCard(
+                          imagePath: service.imagePath,
+                          title: service.title,
+                          amountPaid: service.amount_paid,
+                          description: service.description,
+                          status: service.status,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: h * 0.006),
+                  child: CustomOutlineButton(
+                    height: h * 0.06,
+                    width: w * 0.9,
+                    buttonText: "Need Help?",
+                    onPressed: () {
+                      print("Need Help button clicked");
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
   }
 }
+

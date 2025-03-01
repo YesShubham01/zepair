@@ -5,14 +5,16 @@ import 'package:zepair/utils/custom%20widgets/serviceEnum.dart';
 import '../../../utils/custom widgets/custom_text.dart';
 
 class BookingCard extends StatefulWidget {
-  final Device device;
-  final String amountPaid;
+  final String imagePath;
+  final String title;
+  final double amountPaid;
   final String description;
   final String status;
 
   const BookingCard({
     super.key,
-    required this.device,
+    required this.title,
+    required this.imagePath,
     required this.amountPaid,
     required this.description,
     required this.status,
@@ -45,7 +47,7 @@ class _BookingCardState extends State<BookingCard> {
                     width: w * 0.12,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Image.asset(widget.device.icon),
+                      child: Image.asset(widget.imagePath),
                     ),
                   ),
                 ),
@@ -55,7 +57,7 @@ class _BookingCardState extends State<BookingCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomText(
-                      text: widget.device.title,
+                      text: widget.title,
                       size: 18,
                       weight: FontWeight.bold,
                     ),

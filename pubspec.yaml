@@ -25,6 +25,7 @@ dependencies:
   url_launcher: ^6.3.1
   convex_bottom_bar: ^3.2.0
   firebase_core: ^3.12.0
+  cloud_firestore: ^5.2.4
 
 dev_dependencies:
   flutter_test:

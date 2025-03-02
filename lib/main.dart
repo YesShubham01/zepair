@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:zepair/firebase_options.dart';
 import 'package:zepair/modules/Booking%20Page/bookings_page.dart';
 import 'package:zepair/modules/Home%20Pages/home_page.dart';
+import 'package:zepair/modules/Profile%20Page/profile_page.dart';
 
 import 'package:zepair/modules/Splash%20Page/splash_page.dart';
 
@@ -36,7 +37,9 @@ class ZepairApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       // call here the page you are working on.
-      home:  SchedulePage(),
+   
+  
+      home:  SplashPage(),
     );
   }
 }

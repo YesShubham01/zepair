@@ -1,32 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class User {
+class UserModel {
   final String uid;
   final String name;
-  
-  final List<String> bookings;
+  final String phone;
 
-  User({
+  UserModel({
     required this.uid,
     required this.name,
-    required this.bookings,
-    
+    required this.phone,
   });
 
-  factory User.fromFirestore(DocumentSnapshot doc) {
-    Map data = doc.data() as Map;
-    return User(
-      uid: doc.id,
-      name: data['name'] ?? '',
-    
-      bookings: List<String>.from(data['bookings'] ?? []),
-    );
-  }
+  factory UserModel.fromFirestore(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>? ?? {};
 
-  Map<String, dynamic> toFirestore() {
-    return {
-      'name': name,
-      'bookings': bookings,
-    };
+    return UserModel(
+      uid: doc.id,
+      name: data['name'] ?? 'Unknown',
+      phone: data['phone'] ?? 'No phone',
+    );
   }
 }

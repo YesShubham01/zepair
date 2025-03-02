@@ -4,11 +4,13 @@ class UserModel {
   final String uid;
   final String name;
   final String phone;
+  final String bookings;
 
   UserModel({
     required this.uid,
     required this.name,
     required this.phone,
+    required this.bookings
   });
 
   factory UserModel.fromFirestore(DocumentSnapshot doc) {
@@ -18,6 +20,7 @@ class UserModel {
       uid: doc.id,
       name: data['name'] ?? 'Unknown',
       phone: data['phone'] ?? 'No phone',
+      bookings: data['bookings'] ?? 'no bookings',
     );
   }
 }

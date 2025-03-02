@@ -39,7 +39,7 @@ class ZepairApp extends StatelessWidget {
       // call here the page you are working on.
    
   
-      home:  ProfileScreen(),
+      home:  SplashPage(),
     );
   }
 }

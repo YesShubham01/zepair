@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:zepair/modules/Login%20Pages/Support%20Widgets/login/phone_input.dart';
-import 'package:zepair/modules/Login%20Pages/Support%20Widgets/login/terms_text.dart';
+import 'package:zepair/modules/Login%20Pages/Support%20Widgets/language_radio.dart';
 import 'package:zepair/utils/constants/colors.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
-import 'package:zepair/utils/custom%20widgets/custom_title.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+//! This page needs work
+//! Incomplete
+class LanguagePage extends StatefulWidget {
+  const LanguagePage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LanguagePage> createState() => _LanguagePageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LanguagePageState extends State<LanguagePage> {
   late double w;
   late double h;
+  String selectedLanguage = 'English';
 
   @override
   Widget build(BuildContext context) {
@@ -36,16 +37,37 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Gap(h * 0.04),
-                      CustomTitle(
-                        text: 'Login with Phone number',
+                      const CustomText(
+                        text: 'Choose your language',
+                        size: 24,
+                        weight: FontWeight.w400,
                       ),
-                      Gap(h * 0.02),
-                      PhoneInput(w: w),
                       Gap(h * 0.03),
-                      _buildContinueButton(),
+                      LanguageRadio(
+                        w: w,
+                        label: 'English',
+                        startText: 'A B C',
+                        isSelected: selectedLanguage == 'English',
+                        onTap: () {
+                          setState(() {
+                            selectedLanguage = 'English';
+                          });
+                        },
+                      ),
+                      Gap(h * 0.03),
+                      LanguageRadio(
+                        w: w,
+                        label: 'हिंदी',
+                        startText: 'क ख ग',
+                        isSelected: selectedLanguage == 'हिंदी',
+                        onTap: () {
+                          setState(() {
+                            selectedLanguage = 'हिंदी';
+                          });
+                        },
+                      ),
                       const Spacer(),
-                      TermsText(w: w),
+                      _buildContinueButton(),
                       Gap(h * 0.025),
                     ],
                   ),
@@ -89,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
       height: h * 0.06,
       child: ElevatedButton(
         onPressed: () {
-          // Add login logic here
+          // Add continue logic here
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: CustomColors.buttonBg,

@@ -11,7 +11,7 @@ class CustomColors {
 
   static const Color themeGradientStart = Color.fromRGBO(255, 229, 0, 1);
   static const Color themeGradientEnd = Color.fromRGBO(211, 140, 0, 1);
-
+  static const Color buttonBg = Color.fromRGBO(255, 198, 0, 1);
   static const Color containerBg = Color.fromRGBO(217, 217, 217, 1);
   static Color cardBg = Colors.grey.shade200;
   static Color customGrey = const Color.fromARGB(100, 241, 237, 237);

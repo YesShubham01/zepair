@@ -27,7 +27,7 @@ class ZepairApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       // call here the page you are working on.
-      home: const LanguagePage(),
+      home: const SplashPage(),
     );
   }
 }

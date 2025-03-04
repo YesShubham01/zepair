@@ -4,6 +4,7 @@ import 'package:zepair/modules/Login%20Pages/Support%20Widgets/login/phone_input
 import 'package:zepair/modules/Login%20Pages/Support%20Widgets/login/terms_text.dart';
 import 'package:zepair/utils/constants/colors.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
+import 'package:zepair/utils/custom%20widgets/custom_title.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -36,12 +37,10 @@ class _LoginPageState extends State<LoginPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Gap(h * 0.04),
-                      const CustomText(
+                      CustomTitle(
                         text: 'Login with Phone number',
-                        size: 24,
-                        weight: FontWeight.w400,
                       ),
-                      Gap(h * 0.03),
+                      Gap(h * 0.02),
                       PhoneInput(w: w),
                       Gap(h * 0.03),
                       _buildContinueButton(),

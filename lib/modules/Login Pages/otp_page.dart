@@ -9,7 +9,11 @@ import 'package:zepair/modules/Login%20Pages/Support%20Widgets/otp/otp_message.d
 import 'package:zepair/modules/Login%20Pages/Support%20Widgets/otp/resend_otp.dart';
 
 class OTPVerificationPage extends StatefulWidget {
-  const OTPVerificationPage({super.key});
+  final String phone;
+  final String verificationId;
+
+  const OTPVerificationPage(
+      {super.key, required this.phone, required this.verificationId});
 
   @override
   State<OTPVerificationPage> createState() => _OTPVerificationPageState();
@@ -51,9 +55,9 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
     h = dimensions.height;
 
     return Scaffold(
-      appBar: CustomAppBar(title: "Verification Code"),
+      appBar: const CustomAppBar(title: "Verification Code"),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: w*0.06),
+        padding: EdgeInsets.symmetric(horizontal: w * 0.06),
         child: Column(
           crossAxisAlignment:
               CrossAxisAlignment.start, // Aligns everything to the left
@@ -82,13 +86,11 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
             Align(
               alignment: Alignment.center,
               child: TextButton(
-                child: const CustomText(text: 
-                  'Go back to login page',
+                child: const CustomText(
+                  text: 'Go back to login page',
                   color: Colors.orange,
-                  
                   size: 22,
                   fontFamily: FontType.sfPro,
-                  
                 ),
                 onPressed: () => _navigateToLogin(context),
               ),

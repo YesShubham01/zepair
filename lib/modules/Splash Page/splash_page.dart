@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:zepair/modules/Home%20Pages/home_screen.dart';
+import 'package:zepair/modules/Login%20Pages/login_page.dart';
 import 'package:zepair/modules/Splash%20Page/Support%20Widgets/splash_logo.dart';
 import 'package:zepair/modules/Splash%20Page/Support%20Widgets/splash_tagline.dart';
 import 'package:zepair/utils/constants/colors.dart';
@@ -31,8 +32,10 @@ class _SplashPageState extends State<SplashPage> {
 
   void _navigateToHome() {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    // Navigator.of(context)
+    //     .pushReplacement(MaterialPageRoute(builder: (_) => const HomeScreen()));
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (_) => const HomeScreen()));
+        .pushReplacement(MaterialPageRoute(builder: (_) => const LoginPage()));
   }
 
   @override

@@ -81,10 +81,12 @@ class _SchedulePageState extends State<SchedulePage> {
 }*/
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:zepair/modules/Booking%20Page/Models/booking_details_models.dart';
 import 'package:zepair/modules/Booking%20Page/Support%20Widget/booking_card.dart';
 import 'package:zepair/utils/custom%20widgets/custom_appbar.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_button.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
+import 'package:zepair/utils/custom%20widgets/serviceEnum.dart';
 
 import '../../utils/custom widgets/custom_title.dart';
 
@@ -98,7 +100,7 @@ class SchedulePage extends StatefulWidget {
 class _SchedulePageState extends State<SchedulePage> {
   late double h;
   late double w;
-  List<Map<String, String>> serviceList = [];
+  List<BookingDetailsModels> serviceList = [];
   bool isLoading = true;
 
   @override
@@ -111,33 +113,22 @@ class _SchedulePageState extends State<SchedulePage> {
     await Future.delayed(const Duration(seconds: 0)); // Simulating API call
     setState(() {
       serviceList = [
-        {
-          "serviceName": "Refrigerator Repair",
-          "amountPaid": "100",
-          "description": "Single door refrigerator check-up X 1",
-          "status": "We will soon assign one of our engineers at your doorstep."
-        },
-        {
-          "serviceName": "AC Service",
-          "amountPaid": "450",
-          "description": "AC Service X 1",
-          "status": "Our engineer will be at your doorstep at",
-          "highlightedStatus": "10 am tomorrow"
-        },
-        {
-          "serviceName": "AC Service",
-          "amountPaid": "450",
-          "description": "AC Service X 1",
-          "status": "Our engineer will be at your doorstep at",
-          "highlightedStatus": "10 am tomorrow"
-        },
-        {
-          "serviceName": "AC Service",
-          "amountPaid": "450",
-          "description": "AC Service X 1",
-          "status": "Our engineer will be at your doorstep at",
-          "highlightedStatus": "10 am tomorrow"
-        }
+        BookingDetailsModels(
+            device: Device.refrigerator,
+            amountPaid: "100",
+            description: "Single door refrigerator check-up X 1",
+            status:
+                "We will soon assign one of our engineers at your doorstep."),
+        BookingDetailsModels(
+            device: Device.ac,
+            amountPaid: "450",
+            description: "AC Service & checkup X 1",
+            status: "Our engineer will be at your doorstep at 10 am tomorrow"),
+        BookingDetailsModels(
+            device: Device.washingMachine,
+            amountPaid: "350",
+            description: "Washing Machine check-up X 1",
+            status: "Our engineer will be at your doorstep at 3pm today"),
       ];
       isLoading = false;
     });
@@ -151,10 +142,9 @@ class _SchedulePageState extends State<SchedulePage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const CustomAppBar(title: "Schedule"),
+      appBar: const CustomAppBar(title: "Bookings"),
       body: Padding(
-        padding:
-            EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.005),
+        padding: EdgeInsets.fromLTRB(w * 0.05, h * 0.01, w * 0.05, h * 0.04),
         child: Column(
           children: [
             Expanded(
@@ -171,7 +161,6 @@ class _SchedulePageState extends State<SchedulePage> {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Gap(h * 0.015),
                               CustomTitle(text: "Active Bookings"),
                               Gap(h * 0.006),
                             ],
@@ -179,20 +168,19 @@ class _SchedulePageState extends State<SchedulePage> {
                         }
                         var service = serviceList[index - 1];
                         return Padding(
-                          padding: EdgeInsets.only(bottom: h * 0.02),
+                          padding: EdgeInsets.only(bottom: h * 0.006),
                           child: BookingCard(
-                            serviceName: service["serviceName"]!,
-                            amountPaid: service["amountPaid"]!,
-                            description: service["description"]!,
-                            status: service["status"]!,
-                            highlightedStatus: service["highlightedStatus"],
+                            device: service.device,
+                            amountPaid: service.amountPaid,
+                            description: service.description,
+                            status: service.status,
                           ),
                         );
                       },
                     ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: h * 0.01),
+              padding: EdgeInsets.symmetric(vertical: h * 0.006),
               child: CustomOutlineButton(
                 height: h * 0.06,
                 width: w * 0.9,

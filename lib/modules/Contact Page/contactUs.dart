@@ -29,7 +29,7 @@ class _HelpSupportPageState extends State<ContactUsPage> {
       body: SingleChildScrollView(
         child: Padding(
           padding:
-              EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.005),
+              EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.01),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -38,7 +38,7 @@ class _HelpSupportPageState extends State<ContactUsPage> {
               ),
               Gap(h * 0.006),
               const FAQWidget(),
-              Gap(h * 0.015),
+              Gap(h * 0.006),
               _buildDropMessageSection(),
               Gap(h * 0.006),
               _buildRequestCallSection(),
@@ -106,7 +106,6 @@ class _HelpSupportPageState extends State<ContactUsPage> {
         CustomTitle(text: "Request a call"),
         Gap(h * 0.011),
         CustomOutlineButton(buttonText: "Book Call", onPressed: () {}),
-        Gap(h * 0.03),
       ],
     );
   }

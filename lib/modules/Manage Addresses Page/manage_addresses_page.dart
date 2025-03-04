@@ -44,10 +44,8 @@ class _ManageAddressesPageState extends State<ManageAddressesPage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const CustomAppBar(
-          applyBackButton: true,
-          title:
-              "Manage Addresses"), // Please add the back button in CustomAppBar.
+      appBar:
+          const CustomAppBar(applyBackButton: true, title: "Manage Addresses"),
       body: ListView(
         padding:
             EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.005),

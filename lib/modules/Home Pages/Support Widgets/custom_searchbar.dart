@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:zepair/utils/constants/colors.dart';
+import 'package:zepair/utils/constants/image_paths.dart';
+import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 
 class CustomSearchBar extends StatelessWidget {
@@ -7,28 +10,30 @@ class CustomSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var dimensions = MediaQuery.sizeOf(context);
+    double w = dimensions.width;
+    double h = dimensions.height;
     return InkWell(
       onTap: () {
-        showSearch(context: context, delegate: CustomSearchDelegate());
+        showSearch(
+            context: context, delegate: CustomSearchDelegate(h: h, w: w));
       },
-      child: Container(
-        height: 50,
-        decoration: BoxDecoration(
-          color: CustomColors.containerBg,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: const Row(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Icon(Icons.search, color: Colors.orange),
-            ),
-            CustomText(
-                text: 'Search "Services"',
-                size: 18,
-                color: Colors.black54,
-                fontFamily: FontType.balooBhai2),
-          ],
+      child: CustomCardWidget(
+        child: SizedBox(
+          height: h * 0.05,
+          child: const Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Icon(Icons.search, color: Colors.orange),
+              ),
+              CustomText(
+                  text: 'Search "Services"',
+                  size: 18,
+                  color: Colors.black54,
+                  fontFamily: FontType.balooBhai2),
+            ],
+          ),
         ),
       ),
     );
@@ -44,6 +49,10 @@ class CustomSearchDelegate extends SearchDelegate<String?> {
     "Inverter Service",
     "Fridge Maintenance"
   ];
+
+  final double w;
+  final double h;
+  CustomSearchDelegate({required this.w, required this.h});
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -93,6 +102,13 @@ class CustomSearchDelegate extends SearchDelegate<String?> {
         : searchItems
             .where((item) => item.toLowerCase().contains(query.toLowerCase()))
             .toList();
+
+    if (suggestions.isEmpty) {
+      return Center(
+        child: Lottie.asset(ImagePaths.searchLottieAnimation,
+            width: w * 0.8, repeat: true, fit: BoxFit.cover),
+      );
+    }
 
     return ListView.builder(
       itemCount: suggestions.length,

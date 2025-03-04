@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
+import 'package:zepair/utils/custom%20widgets/serviceEnum.dart';
 import '../../../utils/custom widgets/custom_text.dart';
 
 class BookingCard extends StatefulWidget {
-  final String serviceName;
+  final Device device;
   final String amountPaid;
   final String description;
   final String status;
-  final String? highlightedStatus; // Optional for highlighted text
 
   const BookingCard({
     super.key,
-    required this.serviceName,
+    required this.device,
     required this.amountPaid,
     required this.description,
     required this.status,
-    this.highlightedStatus,
   });
 
   @override
@@ -33,50 +33,50 @@ class _BookingCardState extends State<BookingCard> {
     h = dimensions.height;
     return CustomCardWidget(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        padding: EdgeInsets.symmetric(vertical: h * 0.01, horizontal: w * 0.03),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                Container(
-                  width: w * 0.12,
-                  height: h * 0.06,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[400],
-                    borderRadius: BorderRadius.circular(10),
+                CustomCardWidget(
+                  child: SizedBox(
+                    height: h * 0.06,
+                    width: w * 0.12,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.asset(widget.device.icon),
+                    ),
                   ),
                 ),
-                const SizedBox(width: 10),
+                Gap(h * 0.006),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomText(
-                      text: widget.serviceName,
-                      size: 20,
+                      text: widget.device.title,
+                      size: 18,
                       weight: FontWeight.bold,
                     ),
                     CustomText(
                       fontFamily: FontType.balooBhai2,
                       text: "Amount Paid ₹ ${widget.amountPaid}",
-                      size: 18,
+                      size: 16,
                       weight: FontWeight.w400,
                     ),
                   ],
                 )
               ],
             ),
-            const SizedBox(height: 4),
+            Gap(h * 0.001),
             CustomText(
               text: "· ${widget.description}",
               size: 15,
               color: Colors.black54,
               fontFamily: FontType.balooBhai2,
             ),
-            const SizedBox(height: 2),
             const Divider(thickness: 3, color: Colors.grey),
-            const SizedBox(height: 2),
             RichText(
               text: TextSpan(
                 style: const TextStyle(
@@ -94,17 +94,6 @@ class _BookingCardState extends State<BookingCard> {
                       fontFamily: 'SF-Pro',
                     ),
                   ),
-                  if (widget.highlightedStatus != null) ...[
-                    const TextSpan(text: " "),
-                    TextSpan(
-                      text: widget.highlightedStatus,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.brown,
-                        fontFamily: 'SF-Pro',
-                      ),
-                    ),
-                  ],
                 ],
               ),
             ),

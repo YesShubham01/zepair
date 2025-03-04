@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:zepair/backend/warranty_detail_backend.dart';
 import 'package:zepair/modules/Warranty%20Page/Support%20Widgets/warranty_data.dart';
 import 'package:zepair/modules/Warranty%20Page/Support%20Widgets/warranty_list.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
@@ -24,6 +25,7 @@ class _WarrantyPageState extends State<WarrantyPage> {
     w = size.width;
     h = size.height;
 
+    String userId = "12345";
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const CustomAppBar(title: "Warranty"),
@@ -33,10 +35,7 @@ class _WarrantyPageState extends State<WarrantyPage> {
           CustomTitle(text: "Available Warranty"),
           Gap(h * 0.006),
           WarrantyList(
-            warranties: dummyWarranties,
-            width: w,
-            height: h,
-          ),
+              warrantyStream: WarrantyService().getUserWarrantiesStream(userId))
         ],
       ),
     );

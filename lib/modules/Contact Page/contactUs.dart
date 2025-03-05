@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:zepair/modules/Contact%20Page/Support%20Widgets/faq.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_button.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 import 'package:zepair/utils/custom%20widgets/custom_title.dart';
+import '../../backend/bookCall_backend.dart';
+import '../../backend/message_service.dart';
 import '../../utils/custom widgets/custom_appbar.dart';
 
 class ContactUsPage extends StatefulWidget {
@@ -16,6 +19,8 @@ class ContactUsPage extends StatefulWidget {
 class _HelpSupportPageState extends State<ContactUsPage> {
   late double w;
   late double h;
+  final TextEditingController _messageController = TextEditingController();
+  String messageType = "User"; // Default to "User"
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +38,7 @@ class _HelpSupportPageState extends State<ContactUsPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomTitle(
-                text: "FAQ",
-              ),
+              CustomTitle(text: "FAQ"),
               Gap(h * 0.006),
               const FAQWidget(),
               Gap(h * 0.006),
@@ -53,9 +56,7 @@ class _HelpSupportPageState extends State<ContactUsPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CustomTitle(
-          text: "Drop Message",
-        ),
+        CustomTitle(text: "Drop Message"),
         Gap(h * 0.011),
         Container(
           decoration: BoxDecoration(
@@ -64,8 +65,9 @@ class _HelpSupportPageState extends State<ContactUsPage> {
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: w * 0.02),
-            child: const TextField(
-              decoration: InputDecoration(
+            child: TextField(
+              controller: _messageController,
+              decoration: const InputDecoration(
                 hintText: "Type your query here...",
                 border: InputBorder.none,
               ),
@@ -73,19 +75,33 @@ class _HelpSupportPageState extends State<ContactUsPage> {
             ),
           ),
         ),
+        Gap(h * 0.011),
+
+        // Dropdown for selecting message type
+       /* DropdownButton<String>(
+          value: messageType,
+          items: ["User", "Technician"]
+              .map((type) => DropdownMenuItem(value: type, child: Text(type)))
+              .toList(),
+          onChanged: (value) {
+            setState(() {
+              messageType = value!;
+            });
+          },
+        ),*/
         Gap(h * 0.005),
+
         Align(
           alignment: Alignment.centerRight,
           child: OutlinedButton(
-            onPressed: () {},
+            onPressed: _sendMessage,
             style: OutlinedButton.styleFrom(
-              side: BorderSide(color: Colors.blue.shade500), // Border color
+              side: BorderSide(color: Colors.blue.shade500),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10), // Rounded corners
+                borderRadius: BorderRadius.circular(10),
               ),
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 12, vertical: 1), // Reduce padding
-              minimumSize: Size.zero, // Allows button to shrink to content size
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 1),
+              minimumSize: Size.zero,
             ),
             child: CustomText(
               text: "Send",
@@ -99,14 +115,52 @@ class _HelpSupportPageState extends State<ContactUsPage> {
     );
   }
 
-  Widget _buildRequestCallSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CustomTitle(text: "Request a call"),
-        Gap(h * 0.011),
-        CustomOutlineButton(buttonText: "Book Call", onPressed: () {}),
-      ],
+  void _sendMessage() async {
+  if (_messageController.text.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Please enter a message")),
     );
+    return;
   }
+
+  Timestamp timestamp = Timestamp.now(); // ✅ Capture system time
+
+  await MessageService().sendMessage(
+    message: _messageController.text,
+    messageType: "USER", // ✅ "User" or "Technician"
+    userId: "USER_123",
+    phone: "+91XXXXXXXXXX",
+  );
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text("Message sent successfully at ${timestamp.toDate()}!")), // ✅ Show timestamp
+  );
+
+  _messageController.clear();
+}
+
+
+  Widget _buildRequestCallSection() {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      CustomTitle(text: "Request a call"),
+      Gap(h * 0.011),
+      CustomOutlineButton(
+        buttonText: "Book Call",
+        onPressed: () async {
+          await CallService().bookCall(
+            userId: "USER_123", // Replace with actual user ID
+            phone: "+91XXXXXXXXXX", // Replace with actual phone number
+          );
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Call booked successfully!")),
+          );
+        },
+      ),
+    ],
+  );
+}
+
 }

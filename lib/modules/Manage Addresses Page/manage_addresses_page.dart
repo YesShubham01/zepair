@@ -3,7 +3,10 @@ import 'package:gap/gap.dart';
 import 'package:zepair/modules/Location%20Permission%20Bottom%20Sheet/location_permission_bottom_sheet.dart';
 import 'package:zepair/modules/Manage%20Addresses%20Page/Support%20Widgets/address_data.dart';
 import 'package:zepair/modules/Manage%20Addresses%20Page/Support%20Widgets/address_list.dart';
+import 'package:zepair/modules/Add%20New%20Address%20Page/add_new_address.dart';
+import 'package:zepair/modules/bill%20page/bill_page.dart';
 import 'package:zepair/utils/constants/colors.dart';
+import 'package:zepair/utils/custom%20widgets/custom_button.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 import 'package:zepair/utils/custom%20widgets/custom_appbar.dart';
 
@@ -46,21 +49,26 @@ class _ManageAddressesPageState extends State<ManageAddressesPage> {
       backgroundColor: Colors.white,
       appBar:
           const CustomAppBar(applyBackButton: true, title: "Manage Addresses"),
-      body: ListView(
+      body: Padding(
         padding:
             EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.005),
-        children: [
-          Gap(h * 0.015),
-          const Divider(height: 1), // First separator
-          _buildAddAddressButton(),
-          const Divider(height: 1), // Second separator
-          Gap(h * 0.015),
-          AddressList(
-            addresses: dummyAddresses,
-            width: w,
-            height: h,
-          ),
-        ],
+        child: Column(
+          children: [
+            Gap(h * 0.015),
+            const Divider(height: 1), // First separator
+            _buildAddAddressButton(),
+            const Divider(height: 1), // Second separator
+            Gap(h * 0.015),
+            AddressList(
+              addresses: dummyAddresses,
+              width: w,
+              height: h,
+            ),
+            const Spacer(),
+            _buildConitnueButton(),
+            Gap(h * 0.1),
+          ],
+        ),
       ),
     );
   }
@@ -69,6 +77,8 @@ class _ManageAddressesPageState extends State<ManageAddressesPage> {
     return TextButton(
       onPressed: () {
         // Handle add address
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => const AddNewAddressPage()));
       },
       style: TextButton.styleFrom(
         padding: EdgeInsets.symmetric(vertical: h * 0.015),
@@ -88,6 +98,19 @@ class _ManageAddressesPageState extends State<ManageAddressesPage> {
             fontFamily: FontType.balooBhai2,
           ),
         ],
+      ),
+    );
+  }
+
+  _buildConitnueButton() {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(w * 0.01, h * 0.018, 0, 0),
+      child: CustomButton(
+        onPressed: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => BillScreen()));
+        },
+        text: "Confirm Address",
       ),
     );
   }

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:zepair/models/service_detail_model.dart';
+
+import 'package:zepair/modules/Manage%20Addresses%20Page/Support%20Widgets/address_data.dart';
+import 'package:zepair/modules/Manage%20Addresses%20Page/manage_addresses_page.dart';
+import 'package:zepair/modules/Add%20New%20Address%20Page/add_new_address.dart';
+import 'package:zepair/utils/custom%20widgets/custom_button.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 import 'package:zepair/utils/custom%20widgets/custom_title.dart';
@@ -272,21 +277,12 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
   Widget _addAddressButton() {
     return Padding(
       padding: EdgeInsets.fromLTRB(w * 0.01, h * 0.018, 0, 0),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.amber,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          side: const BorderSide(color: Colors.black),
-          minimumSize: const Size(double.infinity, 50),
-        ),
-        onPressed: () {},
-        child: const CustomText(
-          text: "Add address and slot",
-          size: 22,
-          fontFamily: FontType.sfPro,
-          weight: FontWeight.w500,
-        ),
+      child: CustomButton(
+        onPressed: () {
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const ManageAddressesPage()));
+        },
+        text: "Add address and slot",
       ),
     );
   }

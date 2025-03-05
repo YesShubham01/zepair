@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:zepair/utils/custom%20widgets/custom_outline_button.dart';
+import 'package:zepair/utils/custom%20widgets/custom_button.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 
 import '../../utils/custom widgets/custom_appbar.dart';
-import 'support_widget/confirm_button.dart';
 import 'support_widget/custom_save_button.dart';
 import 'support_widget/custom_text_field.dart';
 
-class AddressForm extends StatelessWidget {
+class AddNewAddressPage extends StatelessWidget {
   final String userName;
   final String userPhone;
 
-  const AddressForm(
-      {super.key, required this.userName, required this.userPhone});
+  const AddNewAddressPage(
+      {super.key, this.userName = "Oggy", this.userPhone = "+91 9876543210"});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,10 @@ class AddressForm extends StatelessWidget {
     double h = size.height;
 
     return Scaffold(
-      appBar: const CustomAppBar(title: "Enter complete address"),
+      appBar: const CustomAppBar(
+        title: "Enter complete address",
+        applyBackButton: true,
+      ),
       body: SingleChildScrollView(
         // ✅ Prevents overflow when keyboard appears
         child: Padding(
@@ -97,7 +99,10 @@ class AddressForm extends StatelessWidget {
               Gap(h * 0.15),
 
               // Confirm Button
-              ConfirmButton(),
+              CustomButton(
+                text: "Add Address",
+                onPressed: () {},
+              )
             ],
           ),
         ),

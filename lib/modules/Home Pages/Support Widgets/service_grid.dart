@@ -65,7 +65,9 @@ class _ServiceGridState extends State<ServiceGrid> {
     return InkWell(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => ServiceDetailPage(service: serviceData.title),
+          builder: (_) => ServiceDetailPage(
+            serviceModel: serviceData,
+          ),
         ));
       },
       child: Column(

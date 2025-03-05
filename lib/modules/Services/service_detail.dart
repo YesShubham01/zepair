@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:zepair/models/service_detail_model.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 import 'package:zepair/utils/custom%20widgets/custom_title.dart';
 
 class ServiceDetailPage extends StatefulWidget {
-  final String service;
-  final String description;
+  final ServiceModel serviceModel;
 
-  const ServiceDetailPage({
-    super.key,
-    this.service = "AC Service",
-    this.description =
-        "Get your AC cleaned and serviced to extend its lifespan and reduce power consumption.",
-  });
+  const ServiceDetailPage({super.key, required this.serviceModel});
 
   @override
   _ServiceDetailPageState createState() => _ServiceDetailPageState();
@@ -68,10 +63,10 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomTitle(text: widget.service),
+          CustomTitle(text: widget.serviceModel.title),
           Gap(h * 0.006),
           CustomText(
-            text: widget.description,
+            text: widget.serviceModel.description,
             size: 18,
             fontFamily: FontType.balooBhai2,
           ),
@@ -92,7 +87,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
           Row(
             children: [
               CustomText(
-                text: "₹$price",
+                text: "₹${widget.serviceModel.price}",
                 size: 24,
                 fontFamily: FontType.sfPro,
                 weight: FontWeight.bold,
@@ -150,9 +145,9 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
           _buildListItem(
               "We will assign a qualified engineer who will reach your doorstep within 24 hours."),
           _buildListItem(
-              "The engineer will thoroughly inspect your ${widget.service} for any issues."),
+              "The engineer will thoroughly inspect your ${widget.serviceModel.deviceName} for any issues."),
           _buildListItem(
-              "Your ${widget.service} will be professionally cleaned and serviced for optimal performance."),
+              "Your ${widget.serviceModel.deviceName} will be professionally cleaned and serviced for optimal performance."),
         ],
       ),
     );

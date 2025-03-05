@@ -4,6 +4,7 @@ class ServiceModel {
   final double price;
   final String imagePath;
   final String description;
+  final String deviceName;
 
   ServiceModel({
     required this.title,
@@ -11,6 +12,7 @@ class ServiceModel {
     required this.price,
     required this.imagePath,
     required this.description,
+    required this.deviceName,
   });
 
   // Convert Firestore JSON to Model
@@ -20,7 +22,8 @@ class ServiceModel {
       available: data['available'] ?? false,
       price: (data['price'] ?? 0).toDouble(),
       imagePath: data['imagePath'] ?? '',
-      description: data['description'] ?? '', // Default if missing
+      description: data['description'] ?? '',
+      deviceName: data['deviceName'] ?? '', // Default if missing
     );
   }
 

@@ -72,17 +72,7 @@ class _ServiceGridState extends State<ServiceGrid> {
       },
       child: Column(
         children: [
-          CustomCardWidget(
-            child: SizedBox(
-              height: h * 0.09,
-              width: w * 0.25,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image.asset(serviceData
-                    .imagePath), // 🔥 Now loading images from Firestore
-              ),
-            ),
-          ),
+          _getDeviceIconCard(serviceData),
           const SizedBox(height: 5),
           CustomText(
             text: serviceData.title,
@@ -92,6 +82,23 @@ class _ServiceGridState extends State<ServiceGrid> {
             color: Colors.black,
           ),
         ],
+      ),
+    );
+  }
+
+  _getDeviceIconCard(ServiceModel serviceData) {
+    return CustomCardWidget(
+      child: Hero(
+        tag: serviceData.title,
+        child: SizedBox(
+          height: h * 0.09,
+          width: w * 0.25,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset(
+                serviceData.imagePath), // 🔥 Now loading images from Firestore
+          ),
+        ),
       ),
     );
   }

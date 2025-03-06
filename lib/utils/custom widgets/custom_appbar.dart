@@ -5,17 +5,20 @@ import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title; // Accepts title dynamically
   final bool applyBackButton;
+  final Color? customColor;
 
   const CustomAppBar({
     super.key,
     required this.title,
     this.applyBackButton = false,
+    this.customColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
+      backgroundColor: customColor ?? Colors.white,
       title: Row(
         children: [
           applyBackButton ? _buildBackButton(context) : const Gap(5),

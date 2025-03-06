@@ -4,6 +4,8 @@ class ImagePaths {
   // static const String welcome_lottie = "assets/lotties/lottiewelcome.json";
   static const String searchLottieAnimation =
       "assets/lotties/search_animation.json";
+  static const String loadingLottieAnimation =
+      "assets/lotties/tool_loading_animation.json";
 
   // Device Icons
   static const String acIcon = "assets/images/Devices_Icons/custom_ac.png";

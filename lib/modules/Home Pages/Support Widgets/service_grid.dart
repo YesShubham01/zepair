@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zepair/backend/service_detail_backend.dart';
 import 'package:zepair/models/service_detail_model.dart';
 import 'package:zepair/modules/Services/service_detail.dart';
+import 'package:zepair/utils/custom%20widgets/custom_loading_screen.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 
@@ -27,8 +28,7 @@ class _ServiceGridState extends State<ServiceGrid> {
           .getAvailableServices(), // 🔥 Firestore real-time stream
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-              child: CircularProgressIndicator()); // 🌀 Show loading
+          return const Center(child: CustomLoadingScreen()); // 🌀 Show loading
         }
 
         if (snapshot.hasError) {
@@ -54,7 +54,23 @@ class _ServiceGridState extends State<ServiceGrid> {
           ),
           itemCount: services.length,
           itemBuilder: (context, index) {
-            return serviceCard(services[index]);
+            return TweenAnimationBuilder(
+              duration: Duration(
+                  milliseconds:
+                      300 + (index * 100)), // Delayed animation per item
+              tween: Tween<double>(begin: 0, end: 1),
+              curve: Curves.easeOut, // Smooth animation
+              builder: (context, double value, child) {
+                return Opacity(
+                  opacity: value,
+                  child: Transform.scale(
+                    scale: value,
+                    child: child,
+                  ),
+                );
+              },
+              child: serviceCard(services[index]),
+            );
           },
         );
       },

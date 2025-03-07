@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:zepair/models/warranty_model.dart';
 import 'package:zepair/modules/Warranty%20Page/Support%20Widgets/warranty_card.dart';
 import 'package:zepair/modules/Warranty%20Page/Support%20Widgets/warranty_data.dart';
+import 'package:zepair/utils/custom%20widgets/custom_loading_screen.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 import 'package:zepair/utils/custom%20widgets/serviceEnum.dart';
 
@@ -39,10 +40,10 @@ class WarrantyList extends StatelessWidget {
       stream: warrantyStream,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CustomLoadingScreen());
         }
         if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: CustomText(text: "No warranties found"));
+          return const Center(child: CustomText(text: "No warranties found"));
         }
 
         List<WarrantyModel> warranties = snapshot.data!;
@@ -50,9 +51,24 @@ class WarrantyList extends StatelessWidget {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: warranties.length,
-          separatorBuilder: (context, index) => Gap(10),
-          itemBuilder: (context, index) =>
-              WarrantyCard(warranty: warranties[index]),
+          separatorBuilder: (context, index) => const Gap(10),
+          itemBuilder: (context, index) => TweenAnimationBuilder(
+            duration: Duration(
+                milliseconds:
+                    300 + (index * 100)), // Delayed animation per item
+            tween: Tween<double>(begin: 0, end: 1),
+            curve: Curves.easeOut, // Smooth animation
+            builder: (context, double value, child) {
+              return Opacity(
+                opacity: value,
+                child: Transform.scale(
+                  scale: value,
+                  child: child,
+                ),
+              );
+            },
+            child: WarrantyCard(warranty: warranties[index]),
+          ),
         );
       },
     );

@@ -5,6 +5,7 @@ import 'package:zepair/models/service_detail_model.dart';
 import 'package:zepair/modules/Manage%20Addresses%20Page/Support%20Widgets/address_data.dart';
 import 'package:zepair/modules/Manage%20Addresses%20Page/manage_addresses_page.dart';
 import 'package:zepair/modules/Add%20New%20Address%20Page/add_new_address.dart';
+import 'package:zepair/utils/custom%20widgets/custom_appbar.dart';
 import 'package:zepair/utils/custom%20widgets/custom_button.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
@@ -33,20 +34,21 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
     h = dimensions.height;
     return Scaffold(
       backgroundColor: Colors.grey[300],
-      appBar: AppBar(
-        backgroundColor: Colors.grey[400],
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
+      appBar: CustomAppBar(
+        title: "",
+        applyBackButton: true,
+        customColor: Colors.grey.shade300,
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: 100,
-              color: Colors.grey[400],
+              height: h * 0.12,
+              color: Colors.grey.shade300,
+              child: Center(
+                child: _getDeviceIcon(widget.serviceModel),
+              ),
             ),
             _serviceDetails(),
             _aboutService(),
@@ -316,6 +318,20 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
           weight: FontWeight.normal,
         )),
       ],
+    );
+  }
+
+  _getDeviceIcon(ServiceModel serviceData) {
+    return Hero(
+      tag: widget.serviceModel.title,
+      child: SizedBox(
+        height: h * 0.2,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset(
+              serviceData.imagePath), // 🔥 Now loading images from Firestore
+        ),
+      ),
     );
   }
 }

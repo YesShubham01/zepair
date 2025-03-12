@@ -6,6 +6,7 @@ import 'package:zepair/modules/Login%20Pages/login_page.dart';
 import 'package:zepair/modules/Manage%20Addresses%20Page/manage_addresses_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:zepair/firebase_options.dart';
+import 'package:zepair/modules/Notification%20Page/notification_page.dart';
 import 'package:zepair/modules/Splash%20Page/splash_page.dart';
 
 import 'package:zepair/utils/constants/colors.dart';
@@ -34,7 +35,7 @@ class ZepairApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       // call here the page you are working on.
-      home:  ACServicePage(),
+      home: const NotificationPage(),
     );
   }
 }

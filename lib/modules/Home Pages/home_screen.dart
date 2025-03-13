@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zepair/devs/developer_tools.dart';
 import 'package:zepair/modules/Contact%20Page/contactUs.dart';
 import 'package:zepair/modules/Home%20Pages/home_page.dart';
 import 'package:zepair/modules/Warranty%20Page/warranty_page.dart';
@@ -18,16 +19,22 @@ class _HomeScreenState extends State<HomeScreen> {
   late double h;
 
   int _selectedIndex = 0;
+
+  // turn this off to disable devs tab
+  bool includeDevsPage = false;
+
   final PageController _pageController = PageController();
-  final List<Widget> _pages = const [
-    HomePage(),
-    SchedulePage(),
-    WarrantyPage(),
-    ContactUsPage(),
-  ];
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> pages = [
+      const HomePage(),
+      const SchedulePage(),
+      const WarrantyPage(),
+      const ContactUsPage(),
+      if (includeDevsPage) const DeveloperToolsPage(),
+    ];
+
     var dimensions = MediaQuery.sizeOf(context);
     w = dimensions.width;
     h = dimensions.height;
@@ -37,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: PageView(
           controller: _pageController,
           physics: const NeverScrollableScrollPhysics(), // Disable manual swipe
-          children: _pages,
+          children: pages,
         ),
       ),
       bottomNavigationBar: ConvexAppBar(
@@ -47,14 +54,15 @@ class _HomeScreenState extends State<HomeScreen> {
         height: 55,
         elevation: 10,
         style: TabStyle.react,
-        items: const [
-          TabItem(
+        items: [
+          const TabItem(
             icon: Icons.home,
             title: 'Home',
           ),
-          TabItem(icon: Icons.calendar_month, title: 'Bookings'),
-          TabItem(icon: Icons.verified_user, title: 'Warranty'),
-          TabItem(icon: Icons.headphones_outlined, title: 'Contact Us'),
+          const TabItem(icon: Icons.calendar_month, title: 'Bookings'),
+          const TabItem(icon: Icons.verified_user, title: 'Warranty'),
+          const TabItem(icon: Icons.headphones_outlined, title: 'Contact Us'),
+          if (includeDevsPage) const TabItem(icon: Icons.code, title: 'Devs'),
         ],
         initialActiveIndex: _selectedIndex,
         onTap: (index) {

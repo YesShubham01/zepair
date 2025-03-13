@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class CustomCardWidget extends StatefulWidget {
   final Widget child;
-
-  const CustomCardWidget({super.key, required this.child});
+  final Color? color;
+  const CustomCardWidget({super.key, required this.child, this.color});
 
   @override
   State<CustomCardWidget> createState() => _CustomCardWidgetState();
@@ -13,7 +13,7 @@ class _CustomCardWidgetState extends State<CustomCardWidget> {
   @override
   Widget build(BuildContext context) {
     return Card.outlined(
-      color: const Color.fromARGB(100, 241, 237, 237),
+      color: widget.color ?? const Color.fromARGB(100, 241, 237, 237),
       clipBehavior: Clip.antiAlias,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(5)),

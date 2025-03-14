@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zepair/modules/Payment%20Page/payment_page.dart';
 import 'package:zepair/utils/custom%20widgets/custom_appbar.dart';
 import 'package:zepair/utils/custom%20widgets/custom_button.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
@@ -68,7 +69,12 @@ class _BillScreenState extends State<BillScreen> {
                 title: 'Name and Phone',
                 details: 'Shubham Puhal, +91 123456789'),
             SizedBox(height: 0.11 * h),
-            CustomButton(text: "Complete payment", onPressed: () {}),
+            CustomButton(
+                text: "Complete payment",
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const PaymentPage()));
+                }),
           ],
         ),
       ),

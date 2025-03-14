@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:zepair/backend/payment_backend.dart';
 import 'package:zepair/modules/Payment%20Page/Payment%20Response%20Pages/payment_response_success.dart';
-import 'package:zepair/utils/constants/colors.dart';
-import 'package:zepair/utils/custom%20widgets/custom_button.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:zepair/utils/custom%20widgets/custom_loading_screen.dart';
 
 import 'Payment Response Pages/payment_response_error.dart';
 
 class PaymentPage extends StatefulWidget {
-  const PaymentPage({super.key});
+  final String amountInRupees;
+  const PaymentPage({super.key, required this.amountInRupees});
 
   @override
   State<PaymentPage> createState() => _PaymentPageState();
@@ -18,7 +18,10 @@ class PaymentPage extends StatefulWidget {
 class _PaymentPageState extends State<PaymentPage> {
   final _razorpay = Razorpay();
   String? _orderId;
-  bool _isLoading = false;
+  bool _isLoading = true;
+
+  late double h;
+  late double w;
 
   @override
   void initState() {
@@ -26,55 +29,34 @@ class _PaymentPageState extends State<PaymentPage> {
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-    createOrder();
+
+    _setOrderId();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: CustomColors.primary,
-        body: Center(
-          child: _isLoading
-              ? const CircularProgressIndicator()
-              : CustomButton(text: "Pay Now", onPressed: _openPaymentSheet),
-        ),
+    var dimensions = MediaQuery.sizeOf(context);
+    w = dimensions.width;
+    h = dimensions.height;
+    return Scaffold(
+      body: Center(
+        child: _isLoading
+            ? const CustomLoadingScreen()
+            : Lottie.asset("assets/lotties/wink_animation.json",
+                height: h * 0.4, repeat: true, fit: BoxFit.cover),
       ),
     );
   }
 
-  Future<void> createOrder() async {
-    setState(() => _isLoading = true);
+  void _setOrderId() async {
+    String amountInPaise = getAmountInPaise();
+    _orderId = await PaymentBackend.generateOrderId(
+        amountInPaise); // pass amount in Rupee
 
-    final url = Uri.parse(
-        'https://us-central1-zepair-backend.cloudfunctions.net/createOrder');
-
-    try {
-      final response = await http.post(
-        url,
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({
-          "amount": 500, // Amount in paise (₹5)
-          "currency": "INR",
-          "receipt": "order_123",
-          "partial_payment": false,
-          "notes": {"customer": "Shubham Puhal", "service": "AC Repair"}
-        }),
-      );
-
-      if (response.statusCode == 200) {
-        final jsonResponse = jsonDecode(response.body);
-        setState(() {
-          _orderId = jsonResponse['id'];
-        });
-      } else {
-        print("Failed to create order: ${response.body}");
-      }
-    } catch (e) {
-      print("Error while creating order: $e");
-    } finally {
-      setState(() => _isLoading = false);
-    }
+    setState(() {
+      _isLoading = false;
+      _openPaymentSheet();
+    });
   }
 
   void _openPaymentSheet() {
@@ -84,8 +66,8 @@ class _PaymentPageState extends State<PaymentPage> {
     }
 
     var options = {
-      'key': 'rzp_test_RaavXK8adaE1X9',
-      'amount': 500, // ₹5 in paise
+      'key': PaymentBackend.razorpayPublicKey,
+      'amount': getAmountInPaise(),
       'currency': "INR",
       'name': 'Shubham Puhal',
       'order_id': _orderId,
@@ -105,9 +87,11 @@ class _PaymentPageState extends State<PaymentPage> {
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     print("Payment Successful: ${response.paymentId}");
     // Handle success (e.g., update order status in DB)
-    Navigator.of(context).push(MaterialPageRoute(
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (_) => PaymentResponseSuccessPage(
+              amountInRupees: widget.amountInRupees,
               response: response,
+              backendOrderId: _orderId!,
             )));
   }
 
@@ -128,5 +112,9 @@ class _PaymentPageState extends State<PaymentPage> {
   void dispose() {
     _razorpay.clear();
     super.dispose();
+  }
+
+  String getAmountInPaise() {
+    return (int.parse(widget.amountInRupees) * 100).toString();
   }
 }

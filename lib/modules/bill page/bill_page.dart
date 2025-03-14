@@ -27,6 +27,7 @@ class _BillScreenState extends State<BillScreen> {
     w = dimensions.width;
     h = dimensions.height;
 
+    String amount = "100";
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const CustomAppBar(
@@ -53,7 +54,9 @@ class _BillScreenState extends State<BillScreen> {
                   left: 0,
                   right: 0,
                   child: CustomCardWidget(
-                    child: TotalAmount(),
+                    child: TotalAmount(
+                      amount: amount,
+                    ),
                   ),
                 ),
               ],
@@ -72,8 +75,10 @@ class _BillScreenState extends State<BillScreen> {
             CustomButton(
                 text: "Complete payment",
                 onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const PaymentPage()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => PaymentPage(
+                            amountInRupees: amount,
+                          )));
                 }),
           ],
         ),

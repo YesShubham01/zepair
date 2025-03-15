@@ -4,28 +4,45 @@ import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 class SaveAsButton extends StatelessWidget {
   final IconData icon;
   final String label;
-  late double h;
-  late double w;
+  final bool selected; // ✅ Added selected parameter
+  final VoidCallback onTap;
 
-   SaveAsButton({super.key, required this.icon, required this.label});
+  const SaveAsButton({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.selected, // ✅ Accept selected
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-     var dimensions = MediaQuery.of(context).size;
-    w = dimensions.width;
-    h = dimensions.height;
-    
     return Padding(
-      padding:  EdgeInsets.only(left: 0.01*w),
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
       child: ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5), side: const BorderSide(color: Colors.black54)),
+          backgroundColor: selected
+              ? Colors.grey[700]
+              : Colors.white, // ✅ Highlight selected button
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+            side: BorderSide(
+                color: selected
+                    ? Colors.grey[700]!
+                    : Colors.black54), // ✅ Match border with selected state
+          ),
         ),
-        onPressed: () {},
-        icon: Icon(icon, color: Colors.black),
-        label:CustomText(text:label, size:18,color:Colors.black ,fontFamily: FontType.sfPro,)),
+        onPressed: onTap,
+        icon: Icon(icon,
+            color:
+                selected ? Colors.white : Colors.black), // ✅ Change icon color
+        label: CustomText(
+          text: label,
+          size: 16,
+          color: selected ? Colors.white : Colors.black, // ✅ Adjust text color
+          fontFamily: FontType.sfPro,
+        ),
+      ),
     );
-    
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zepair/utils/custom%20widgets/custom_appbar.dart';
 import 'package:zepair/utils/custom%20widgets/custom_button.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
+import 'package:zepair/models/user_detail_model.dart';
 
 import 'support widget/bill.dart';
 import 'support widget/coupon.dart';
@@ -9,7 +10,12 @@ import 'support widget/info_tile.dart';
 import 'support widget/total.dart';
 
 class BillScreen extends StatefulWidget {
-  const BillScreen({super.key});
+  final AddressModel selectedAddress;
+
+  const BillScreen({
+    super.key,
+    required this.selectedAddress,
+  });
 
   @override
   State<BillScreen> createState() => _BillScreenState();
@@ -17,7 +23,6 @@ class BillScreen extends StatefulWidget {
 
 class _BillScreenState extends State<BillScreen> {
   late double w;
-
   late double h;
 
   @override
@@ -42,13 +47,11 @@ class _BillScreenState extends State<BillScreen> {
             Stack(
               clipBehavior: Clip.none,
               children: [
-                // Bill Details with proper border styling
                 CustomCardWidget(
                   child: BillDetails(),
                 ),
-                // Total Amount overlapping correctly
                 Positioned(
-                  bottom: -40, // Overlap amount
+                  bottom: -40,
                   left: 0,
                   right: 0,
                   child: CustomCardWidget(
@@ -62,11 +65,12 @@ class _BillScreenState extends State<BillScreen> {
             SizedBox(height: 0.02 * h),
             InfoTile(
                 title: 'Location of Service',
-                details: 'house no. 412, Type 4A, Colony, Hisar'),
+                details: widget.selectedAddress.address),
             SizedBox(height: 0.02 * h),
             InfoTile(
                 title: 'Name and Phone',
-                details: 'Shubham Puhal, +91 123456789'),
+                details:
+                    '${widget.selectedAddress.name}, ${widget.selectedAddress.phone}'),
             SizedBox(height: 0.11 * h),
             CustomButton(text: "Complete payment", onPressed: () {}),
           ],

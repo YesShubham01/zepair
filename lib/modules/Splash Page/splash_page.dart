@@ -34,8 +34,10 @@ class _SplashPageState extends State<SplashPage> {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     // Navigator.of(context)
     //     .pushReplacement(MaterialPageRoute(builder: (_) => const HomeScreen()));
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (_) => const LoginPage()));
+    // Navigator.of(context)
+    //     .pushReplacement(MaterialPageRoute(builder: (_) => const LoginPage()));
+
+    Navigator.pushReplacementNamed(context, '/login');
   }
 
   @override

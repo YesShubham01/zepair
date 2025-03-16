@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:zepair/modules/Notification%20Page/Models/notification_model.dart';
+import 'package:zepair/backend/notification_backend_service.dart';
+import 'package:zepair/models/notification_model.dart';
 import 'package:zepair/modules/Notification%20Page/Support%20Widgets/notification_item.dart';
-import 'package:zepair/utils/constants/colors.dart';
 import 'package:zepair/utils/custom%20widgets/custom_appbar.dart';
+import 'package:zepair/utils/custom%20widgets/custom_loading_screen.dart';
 
 class NotificationPage extends StatefulWidget {
-  const NotificationPage({super.key});
+  final String? uid;
+
+  const NotificationPage({super.key, this.uid});
 
   @override
   State<NotificationPage> createState() => _NotificationPageState();
@@ -15,41 +18,10 @@ class NotificationPage extends StatefulWidget {
 class _NotificationPageState extends State<NotificationPage> {
   late double w;
   late double h;
+  final NotificationService _notificationService = NotificationService();
 
-  // please take care of the routes..
-  final List<NotificationModel> notifications = [
-    NotificationModel(
-      id: '1',
-      message:
-          'We have assigned one of our engineer for your AC Service Request.',
-      receivedAt: DateTime.now().subtract(const Duration(hours: 1)),
-      actionText: 'Check Schedule',
-      actionRoute: '/schedule',
-    ),
-    NotificationModel(
-      id: '2',
-      message:
-          'Your Warranty of AC Service has been expired. Thankyou for being our valueable customer.',
-      receivedAt: DateTime.now().subtract(const Duration(days: 2)),
-      actionText: 'Warranty Page',
-      actionRoute: '/warranty',
-    ),
-    NotificationModel(
-      id: '3',
-      message:
-          'Your service request #12345 has been completed. Please rate your experience.',
-      receivedAt: DateTime.now().subtract(const Duration(hours: 5)),
-      actionText: 'Rate Now',
-      actionRoute: '/rating',
-    ),
-    NotificationModel(
-      id: '4',
-      message: 'Special discount on AC servicing this weekend! Avail now.',
-      receivedAt: DateTime.now().subtract(const Duration(days: 1)),
-      actionText: 'View Offer',
-      actionRoute: '/offers',
-    ),
-  ];
+  // Default user ID if none provided (for testing)
+  String get _userId => widget.uid ?? "User ID";
 
   @override
   Widget build(BuildContext context) {
@@ -63,13 +35,32 @@ class _NotificationPageState extends State<NotificationPage> {
         applyBackButton: true,
         title: "Notifications",
       ),
-      body: notifications.isEmpty
-          ? _buildEmptyNotifications()
-          : _buildNotificationsList(),
+      body: StreamBuilder<List<NotificationModel>>(
+        stream: _notificationService.getUserNotifications(_userId),
+        builder: (context, snapshot) {
+          // Show loading state
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CustomLoadingScreen());
+          }
+
+          // Show error state
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+
+          // Get notifications list
+          final notifications = snapshot.data ?? [];
+
+          // Show empty state or notifications list
+          return notifications.isEmpty
+              ? _buildEmptyNotifications()
+              : _buildNotificationsList(notifications);
+        },
+      ),
     );
   }
 
-  Widget _buildNotificationsList() {
+  Widget _buildNotificationsList(List<NotificationModel> notifications) {
     return ListView.separated(
       padding: EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.02),
       itemCount: notifications.length,

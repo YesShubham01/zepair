@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:zepair/modules/Notification%20Page/Models/notification_model.dart';
+import 'package:zepair/models/notification_model.dart';
+import 'package:zepair/modules/Booking%20Page/bookings_page.dart';
 import 'package:zepair/utils/constants/colors.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 
@@ -61,8 +62,8 @@ class NotificationItem extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () {
-                    // Navigate to the specified route
-                    // Navigator.of(context).pushNamed(notification.actionRoute);
+                    // handle different routes based on actionRoute, uncomment when ready
+                    // _handleNavigation(context, notification.actionRoute);
                   },
                   style: TextButton.styleFrom(
                     padding: EdgeInsets.symmetric(
@@ -86,5 +87,20 @@ class NotificationItem extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  // please look into this, this will be implemented after all routes are ready.
+  void _handleNavigation(BuildContext context, String route) {
+    switch (route) {
+      case '/schedule':
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const SchedulePage()));
+        break;
+      // Add other routes as needed
+      default:
+        // default action for unknown routes
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Navigation not implemented')));
+    }
   }
 }

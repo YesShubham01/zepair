@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:zepair/modules/Contact%20Page/contactUs.dart';
 import 'package:zepair/modules/Home%20Pages/home_page.dart';
@@ -25,6 +26,19 @@ class _HomeScreenState extends State<HomeScreen> {
     WarrantyPage(),
     ContactUsPage(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
+    if (user == null) {
+      print("not loggined");
+    } else {
+      print("user logged in");
+      print(user.phoneNumber);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

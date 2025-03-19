@@ -6,7 +6,8 @@ import 'package:zepair/modules/Login%20Pages/google_login_page.dart';
 import 'package:zepair/modules/Login%20Pages/login_page.dart';
 import 'package:zepair/modules/Profile%20Page/profile_page.dart';
 import 'package:zepair/modules/Splash%20Page/splash_page.dart';
-
+import 'package:provider/provider.dart';
+import 'package:zepair/provider/user_datails_provider.dart';
 import 'package:zepair/utils/constants/colors.dart';
 
 void main() async {
@@ -23,24 +24,30 @@ class ZepairApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Zepair',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: CustomColors.primary),
-        useMaterial3: true,
-        fontFamily: 'SF-Pro',
-      ),
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const SplashPage(),
-        '/login': (context) => const GoogleLoginPage(),
-        '/home': (context) => const HomeScreen(),
-        '/profile': (context) => const ProfileScreen(),
-      },
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: ((context) => UserDatailsProvider())),
+      ],
+      child: MaterialApp(
+        title: 'Zepair',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: CustomColors.primary),
+          useMaterial3: true,
+          fontFamily: 'SF-Pro',
+        ),
+        debugShowCheckedModeBanner: false,
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const SplashPage(),
+          '/googleLogin': (context) => const GoogleLoginPage(),
+          '/phoneLogin': (context) => const LoginPage(),
+          '/home': (context) => const HomeScreen(),
+          '/profile': (context) => const ProfileScreen(),
+        },
 
-      // call here the page you are working on.
-      // home: const SplashPage(),
+        // call here the page you are working on.
+        // home: const SplashPage(),
+      ),
     );
   }
 }

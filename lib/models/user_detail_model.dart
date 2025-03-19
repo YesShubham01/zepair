@@ -1,14 +1,16 @@
 //example model
 
 class UserDetailModel {
-  final String? name;
-  final String? phone;
-  final List<String>? address;
-  final List<String>? appointment;
+  String? name;
+  String? phone;
+  String? uid;
+  List<String>? address;
+  List<String>? appointment;
 
   UserDetailModel({
     this.name,
     this.phone,
+    this.uid,
     this.address,
     this.appointment,
   });

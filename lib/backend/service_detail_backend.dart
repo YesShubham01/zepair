@@ -15,4 +15,18 @@ class ServiceBackendService {
           .toList();
     });
   }
+
+  Future<ServiceModel> fetchServices() async {
+    try {
+      DocumentSnapshot snapshot =
+          await _firestore.collection('Services').doc('AC').get();
+      if (snapshot.exists) {
+        return ServiceModel.fromMap(snapshot.data() as Map<String, dynamic>);
+      } else {
+        throw Exception("No service data found");
+      }
+    } catch (e) {
+      throw Exception("Error fetching services: $e");
+    }
+  }
 }

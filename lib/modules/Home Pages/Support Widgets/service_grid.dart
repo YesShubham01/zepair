@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zepair/backend/service_detail_backend.dart';
 import 'package:zepair/models/service_detail_model.dart';
+import 'package:zepair/modules/AC%20repair/support%20widget/appointement.dart';
 import 'package:zepair/modules/Services/service_detail.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
@@ -65,7 +66,7 @@ class _ServiceGridState extends State<ServiceGrid> {
     return InkWell(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => ServiceDetailPage(service: serviceData.title),
+          builder: (_) => AppointmentSection()
         ));
       },
       child: Column(

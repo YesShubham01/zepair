@@ -4,6 +4,8 @@ class ServiceModel {
   final double price;
   final String imagePath;
   final String description;
+  final List<Map<String, dynamic>> mainServices;
+  final List<Map<String, dynamic>> otherServices;
 
   ServiceModel({
     required this.title,
@@ -11,6 +13,8 @@ class ServiceModel {
     required this.price,
     required this.imagePath,
     required this.description,
+    required this.mainServices,
+    required this.otherServices
   });
 
   // Convert Firestore JSON to Model
@@ -21,8 +25,16 @@ class ServiceModel {
       price: (data['price'] ?? 0).toDouble(),
       imagePath: data['imagePath'] ?? '',
       description: data['description'] ?? '', // Default if missing
+      mainServices: data?["Main_Services"] != null
+          ? List<Map<String, dynamic>>.from(data!["Main_Services"])
+          : [],
+      otherServices: data["otherServices"] != null
+          ? List<Map<String, dynamic>>.from(data["otherServices"]) // 🔥 Corrected to store list of maps
+          : [],
     );
   }
+
+  
 
   // Convert Model to JSON (if needed for Firestore)
   Map<String, dynamic> toMap() {

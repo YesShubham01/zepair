@@ -7,12 +7,15 @@ import 'package:zepair/utils/custom%20widgets/custom_title.dart';
 class ServiceDetailPage extends StatefulWidget {
   final String service;
   final String description;
+  final double price;
+
 
   const ServiceDetailPage({
-    super.key,
-    this.service = "AC Service",
-    this.description =
-        "Get your AC cleaned and serviced to extend its lifespan and reduce power consumption.",
+     super.key,
+  required this.service,
+  required this.description,
+  required this.price,
+  
   });
 
   @override
@@ -20,7 +23,7 @@ class ServiceDetailPage extends StatefulWidget {
 }
 
 class _ServiceDetailPageState extends State<ServiceDetailPage> {
-  double price = 450.0;
+  
   late double w;
   late double h;
   static const IconData localOffer =
@@ -46,6 +49,12 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
           children: [
             Container(
               height: 100,
+             
+   
+
+
+
+              
               color: Colors.grey[400],
             ),
             _serviceDetails(),
@@ -92,7 +101,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
           Row(
             children: [
               CustomText(
-                text: "₹$price",
+                text: "₹${widget.price}",
                 size: 24,
                 fontFamily: FontType.sfPro,
                 weight: FontWeight.bold,

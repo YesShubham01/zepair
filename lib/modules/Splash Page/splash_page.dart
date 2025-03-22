@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:zepair/models/user_detail_model.dart';
 import 'package:zepair/modules/Home%20Pages/home_screen.dart';
 import 'package:zepair/modules/Login%20Pages/login_page.dart';
 import 'package:zepair/modules/Splash%20Page/Support%20Widgets/splash_logo.dart';
@@ -35,19 +36,7 @@ class _SplashPageState extends State<SplashPage> {
   _checkAuthenticationAndNavigate() {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
-    context.read<UserDatailsProvider>().setIsLoggedIn();
-
-    bool isLoggedIn = context.read<UserDatailsProvider>().isLoggined;
-
-    if (isLoggedIn) {
-      // context
-      //     .read<MyProvider>()
-      //     .setUserDetails(await FireStore().getUserDetails());
-
-      Navigator.pushReplacementNamed(context, '/home');
-    } else {
-      Navigator.pushReplacementNamed(context, '/login');
-    }
+    context.read<UserDatailsProvider>().checkAuthenticationAndNavigate(context);
   }
 
   @override

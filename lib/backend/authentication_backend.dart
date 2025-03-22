@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:zepair/modules/Login%20Pages/otp_page.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:zepair/provider/user_datails_provider.dart';
 
 class AuthenticationBackend {
   // checks if user is logged in
@@ -11,6 +13,7 @@ class AuthenticationBackend {
     if (auth.currentUser == null) {
       return false;
     } else {
+      print(auth.currentUser!.displayName ?? " no name ");
       return true;
     }
   }
@@ -30,7 +33,7 @@ class AuthenticationBackend {
   }
 
   // sign out
-  static sign_out() async {
+  static void logOut() async {
     await FirebaseAuth.instance.signOut();
   }
 
@@ -87,6 +90,11 @@ class AuthenticationBackend {
         verificationCompleted: (PhoneAuthCredential credential) async {
           await FirebaseAuth.instance.currentUser
               ?.linkWithCredential(credential);
+
+          context
+              .read<UserDatailsProvider>()
+              .checkAuthenticationAndNavigate(context);
+
           // Authentication successful, navigate to the next screen if needed
           // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NextScreen()));
         },

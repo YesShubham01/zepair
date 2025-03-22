@@ -1,24 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Appointment {
-  final String appointment_id;
+  final String appointmentId;
   final String uid;
   final String title;
-  final double amount_paid;
+  final double amountPaid;
   final String description;
   final String status;
   final Timestamp timestamp;
   final String imagePath;
+  final String razorpayOrderId;
+  final String razorpayPaymentId;
+  final String razorpayPaymentSignature;
 
   Appointment({
-    required this.appointment_id,
+    required this.appointmentId,
     required this.uid,
     required this.title,
-    required this.amount_paid,
+    required this.amountPaid,
     required this.description,
     required this.status,
     required this.timestamp,
     required this.imagePath,
+    required this.razorpayOrderId,
+    required this.razorpayPaymentId,
+    required this.razorpayPaymentSignature,
   });
 
   // Convert Firestore DocumentSnapshot to Appointment Model
@@ -26,14 +32,17 @@ class Appointment {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
 
     return Appointment(
-      appointment_id: doc.id,
+      appointmentId: doc.id,
       uid: data['uid'] ?? '',
       title: data['title'] ?? '',
-      amount_paid: (data['amount_paid'] ?? 0).toDouble(),
+      amountPaid: (data['amountPaid'] ?? 0).toDouble(),
       description: data['description'] ?? '',
       status: data['status'] ?? '',
       timestamp: data['timestamp'] ?? Timestamp.now(),
       imagePath: data['imagePath'] ?? '',
+      razorpayOrderId: data["razorpayOrderId"] ?? '',
+      razorpayPaymentId: data["razorpayPaymentId"] ?? '',
+      razorpayPaymentSignature: data["razorpayPaymentSignature"] ?? '',
     );
   }
 
@@ -42,11 +51,14 @@ class Appointment {
     return {
       'uid': uid,
       'title': title,
-      'amount_paid': amount_paid,
+      'amountPaid': amountPaid,
       'description': description,
       'status': status,
       'timestamp': timestamp,
+      'imagePath': imagePath,
+      'razorpayOrderId': razorpayOrderId,
+      'razorpayPaymentId': razorpayPaymentId,
+      'razorpayPaymentSignature': razorpayPaymentSignature,
     };
   }
 }
-

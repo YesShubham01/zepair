@@ -120,25 +120,25 @@ class _SchedulePageState extends State<SchedulePage> {
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('Appointments')
-              .where('uid', isEqualTo: widget.uid ?? "12345") // Use test UID if needed
-             // .orderBy('timestamp', descending: true) // Order by latest appointments
+              .where('uid',
+                  isEqualTo: widget.uid ?? "12345") // Use test UID if needed
+              // .orderBy('timestamp', descending: true) // Order by latest appointments
               .snapshots(), // Real-time stream
           builder: (context, snapshot) {
-  if (snapshot.hasError) {
-    return Center(child: Text("Error: ${snapshot.error}"));
-  }
-  
-  print("Raw Data: ${snapshot.data?.docs}"); // Debug print
+            if (snapshot.hasError) {
+              return Center(child: Text("Error: ${snapshot.error}"));
+            }
 
-  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-    return const Center(child: Text("No bookings available."));
-  }
-  
-  // Convert Firestore documents to List<Appointment>
-  List<Appointment> serviceList = snapshot.data!.docs
-      .map((doc) => Appointment.fromFirestore(doc))
-      .toList();
+            print("Raw Data: ${snapshot.data?.docs}"); // Debug print
 
+            if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+              return const Center(child: Text("No bookings available."));
+            }
+
+            // Convert Firestore documents to List<Appointment>
+            List<Appointment> serviceList = snapshot.data!.docs
+                .map((doc) => Appointment.fromFirestore(doc))
+                .toList();
 
             return Column(
               children: [
@@ -162,7 +162,7 @@ class _SchedulePageState extends State<SchedulePage> {
                         child: BookingCard(
                           imagePath: service.imagePath,
                           title: service.title,
-                          amountPaid: service.amount_paid,
+                          amountPaid: service.amountPaid,
                           description: service.description,
                           status: service.status,
                         ),
@@ -189,4 +189,3 @@ class _SchedulePageState extends State<SchedulePage> {
     );
   }
 }
-

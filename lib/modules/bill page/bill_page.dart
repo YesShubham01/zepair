@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zepair/modules/Payment%20Page/payment_page.dart';
 import 'package:zepair/utils/custom%20widgets/custom_appbar.dart';
 import 'package:zepair/utils/custom%20widgets/custom_button.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
@@ -31,6 +32,7 @@ class _BillScreenState extends State<BillScreen> {
     w = dimensions.width;
     h = dimensions.height;
 
+    String amount = "100";
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const CustomAppBar(
@@ -55,7 +57,9 @@ class _BillScreenState extends State<BillScreen> {
                   left: 0,
                   right: 0,
                   child: CustomCardWidget(
-                    child: TotalAmount(),
+                    child: TotalAmount(
+                      amount: amount,
+                    ),
                   ),
                 ),
               ],
@@ -72,7 +76,14 @@ class _BillScreenState extends State<BillScreen> {
                 details:
                     '${widget.selectedAddress.name}, ${widget.selectedAddress.phone}'),
             SizedBox(height: 0.11 * h),
-            CustomButton(text: "Complete payment", onPressed: () {}),
+            CustomButton(
+                text: "Complete payment",
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => PaymentPage(
+                            amountInRupees: amount,
+                          )));
+                }),
           ],
         ),
       ),

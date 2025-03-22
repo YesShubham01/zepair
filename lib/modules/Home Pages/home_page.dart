@@ -71,8 +71,10 @@ class _HomePageState extends State<HomePage> {
       children: [
         InkWell(
           onTap: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const ManageAddressesPage()));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => const ManageAddressesPage(
+                      showConfirmButton: false,
+                    )));
           },
           child: Row(
             children: [

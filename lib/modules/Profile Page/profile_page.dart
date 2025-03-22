@@ -13,7 +13,6 @@ import 'package:zepair/utils/constants/colors.dart';
 import 'package:zepair/utils/custom%20widgets/custom_appbar.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 
-
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -78,12 +77,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            
-           getProfileHeader(
-  name: user!['name'] ?? "Unknown",
-  phone: user!['phone'] ?? "N/A",
-),
-
+            getProfileHeader(
+              name: user!['name'] ?? "Unknown",
+              phone: user!['phone'] ?? "N/A",
+            ),
             Gap(h * 0.02),
             getProfileActions(),
             Gap(h * 0.02),
@@ -111,14 +108,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           Gap(h * 0.02),
           CustomText(
-            text:"name: $name",
+            text: "name: $name",
             size: 24,
             weight: FontWeight.bold,
             fontFamily: FontType.balooBhai2,
           ),
           Gap(h * 0.001),
           CustomText(
-             text: "phone: $phone",
+            text: "phone: $phone",
             size: 16,
             fontFamily: FontType.balooBhai2,
           ),
@@ -192,8 +189,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           icon: Icons.location_on,
           text: "Manage Addresses",
           onTap: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const ManageAddressesPage()));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => const ManageAddressesPage(
+                      showConfirmButton: false,
+                    )));
           },
         ),
         ProfileMenuItem(

@@ -281,8 +281,10 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
       padding: EdgeInsets.fromLTRB(w * 0.01, h * 0.018, 0, 0),
       child: CustomButton(
         onPressed: () {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const ManageAddressesPage()));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (_) => const ManageAddressesPage(
+                    showConfirmButton: true,
+                  )));
         },
         text: "Add address and slot",
       ),

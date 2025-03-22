@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:zepair/models/service_detail_model.dart';
+
+import 'package:zepair/modules/Manage%20Addresses%20Page/Support%20Widgets/address_data.dart';
+import 'package:zepair/modules/Manage%20Addresses%20Page/manage_addresses_page.dart';
+import 'package:zepair/modules/Add%20New%20Address%20Page/add_new_address.dart';
+import 'package:zepair/utils/custom%20widgets/custom_appbar.dart';
+import 'package:zepair/utils/custom%20widgets/custom_button.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 import 'package:zepair/utils/custom%20widgets/custom_title.dart';
 
 class ServiceDetailPage extends StatefulWidget {
-  final String service;
-  final String description;
+  final ServiceModel serviceModel;
 
-  const ServiceDetailPage({
-    super.key,
-    this.service = "AC Service",
-    this.description =
-        "Get your AC cleaned and serviced to extend its lifespan and reduce power consumption.",
-  });
+  const ServiceDetailPage({super.key, required this.serviceModel});
 
   @override
   _ServiceDetailPageState createState() => _ServiceDetailPageState();
@@ -33,20 +34,21 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
     h = dimensions.height;
     return Scaffold(
       backgroundColor: Colors.grey[300],
-      appBar: AppBar(
-        backgroundColor: Colors.grey[400],
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
+      appBar: CustomAppBar(
+        title: "",
+        applyBackButton: true,
+        customColor: Colors.grey.shade300,
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: 100,
-              color: Colors.grey[400],
+              height: h * 0.12,
+              color: Colors.grey.shade300,
+              child: Center(
+                child: _getDeviceIcon(widget.serviceModel),
+              ),
             ),
             _serviceDetails(),
             _aboutService(),
@@ -68,10 +70,10 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomTitle(text: widget.service),
+          CustomTitle(text: widget.serviceModel.title),
           Gap(h * 0.006),
           CustomText(
-            text: widget.description,
+            text: widget.serviceModel.description,
             size: 18,
             fontFamily: FontType.balooBhai2,
           ),
@@ -92,7 +94,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
           Row(
             children: [
               CustomText(
-                text: "₹$price",
+                text: "₹${widget.serviceModel.price}",
                 size: 24,
                 fontFamily: FontType.sfPro,
                 weight: FontWeight.bold,
@@ -150,9 +152,9 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
           _buildListItem(
               "We will assign a qualified engineer who will reach your doorstep within 24 hours."),
           _buildListItem(
-              "The engineer will thoroughly inspect your ${widget.service} for any issues."),
+              "The engineer will thoroughly inspect your ${widget.serviceModel.deviceName} for any issues."),
           _buildListItem(
-              "Your ${widget.service} will be professionally cleaned and serviced for optimal performance."),
+              "Your ${widget.serviceModel.deviceName} will be professionally cleaned and serviced for optimal performance."),
         ],
       ),
     );
@@ -277,21 +279,14 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
   Widget _addAddressButton() {
     return Padding(
       padding: EdgeInsets.fromLTRB(w * 0.01, h * 0.018, 0, 0),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.amber,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          side: const BorderSide(color: Colors.black),
-          minimumSize: const Size(double.infinity, 50),
-        ),
-        onPressed: () {},
-        child: const CustomText(
-          text: "Add address and slot",
-          size: 22,
-          fontFamily: FontType.sfPro,
-          weight: FontWeight.w500,
-        ),
+      child: CustomButton(
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (_) => const ManageAddressesPage(
+                    showConfirmButton: true,
+                  )));
+        },
+        text: "Add address and slot",
       ),
     );
   }
@@ -325,6 +320,20 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
           weight: FontWeight.normal,
         )),
       ],
+    );
+  }
+
+  _getDeviceIcon(ServiceModel serviceData) {
+    return Hero(
+      tag: widget.serviceModel.title,
+      child: SizedBox(
+        height: h * 0.2,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset(
+              serviceData.imagePath), // 🔥 Now loading images from Firestore
+        ),
+      ),
     );
   }
 }

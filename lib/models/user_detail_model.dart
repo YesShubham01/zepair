@@ -1,40 +1,82 @@
-class UserDetailModel {
-  String? name;
-  String? phone;
-  String? uid;
-  List<String>? address;
-  List<String>? appointment;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-  UserDetailModel({
-    this.name,
-    this.phone,
-    this.uid,
-    this.address,
-    this.appointment,
+class UserModel {
+  final String uid;
+  final String name;
+  final String phone;
+  final List<String> bookings;
+  final List<AddressModel> addresses;
+  final List<String> warranties;
+
+  UserModel({
+    required this.uid,
+    required this.name,
+    required this.phone,
+    required this.bookings,
+    required this.addresses,
+    required this.warranties,
   });
 
-  // Convert JSON to Object
-  factory UserDetailModel.fromJson(Map<String, dynamic> json) {
-    return UserDetailModel(
-      name: json['name'] as String?,
-      phone: json['phone'] as String?,
-      uid: json['uid'] as String?,
-      address:
-          (json['address'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      appointment: (json['appointment'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
-    );
-  }
+  factory UserModel.fromFirestore(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>? ?? {};
 
-  // Convert Object to JSON
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'phone': phone,
-      'uid': uid,
-      'address': address,
-      'appointment': appointment,
-    };
+    try {
+      final user = UserModel(
+        uid: data['uid'] ?? doc.id,
+        name: data['name'] ?? 'Unknown',
+        phone: data['phone'] ?? 'No phone',
+        bookings: (data['bookings'] as List<dynamic>? ?? [])
+            .map((e) => e.toString())
+            .toList(),
+        addresses: (data['addresses'] as List<dynamic>? ?? [])
+            .map((e) => AddressModel.fromMap(e))
+            .toList(),
+        warranties: (data['warranties'] as List<dynamic>? ?? [])
+            .map((e) => e.toString())
+            .toList(),
+      );
+      return user;
+    } catch (e) {
+      print("❌ Error parsing UserModel: $e");
+      return UserModel(
+        uid: doc.id,
+        name: 'Error',
+        phone: '',
+        bookings: [], // Return empty list instead of error
+        addresses: [],
+        warranties: [],
+      );
+    }
+  }
+}
+
+// ✅ Address model for better structure
+class AddressModel {
+  final String name;
+  final String phone;
+  final String address;
+  final Map<String, double> coordinates;
+  final String type;
+
+  AddressModel({
+    required this.name,
+    required this.phone,
+    required this.address,
+    required this.coordinates,
+    required this.type,
+  });
+
+  factory AddressModel.fromMap(Map<String, dynamic> map) {
+    return AddressModel(
+      name: map['name'] ?? '',
+      phone: map['phone'] ?? '',
+      address: map['address'] ?? '',
+      coordinates: {
+        "latitude": (map['coordinates']['latitude'] as num)
+            .toDouble(), // ✅ Explicit conversion
+        "longitude": (map['coordinates']['longitude'] as num).toDouble()
+      },
+      type: map['type'] ?? '',
+    );
   }
 }

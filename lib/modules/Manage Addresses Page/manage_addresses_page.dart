@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:zepair/modules/Location%20Permission%20Bottom%20Sheet/location_permission_bottom_sheet.dart';
-import 'package:zepair/modules/Manage%20Addresses%20Page/Support%20Widgets/address_data.dart';
+import 'package:zepair/backend/user_detail_backend_service.dart';
+import 'package:zepair/models/user_detail_model.dart';
+import 'package:zepair/modules/Add%20New%20Address%20Page/add_new_address.dart';
 import 'package:zepair/modules/Manage%20Addresses%20Page/Support%20Widgets/address_list.dart';
+import 'package:zepair/modules/bill%20page/bill_page.dart';
 import 'package:zepair/utils/constants/colors.dart';
+import 'package:zepair/utils/custom%20widgets/custom_button.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 import 'package:zepair/utils/custom%20widgets/custom_appbar.dart';
 
 class ManageAddressesPage extends StatefulWidget {
-  const ManageAddressesPage({super.key});
+  final bool showConfirmButton;
+
+  const ManageAddressesPage({super.key, required this.showConfirmButton});
 
   @override
   State<ManageAddressesPage> createState() => _ManageAddressesPageState();
@@ -17,50 +22,68 @@ class ManageAddressesPage extends StatefulWidget {
 class _ManageAddressesPageState extends State<ManageAddressesPage> {
   late double w;
   late double h;
-
-  @override
-  void initState() {
-    super.initState();
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   showModalBottomSheet(
-    //     context: context,
-    //     isDismissible: false,
-    //     enableDrag: false,
-    //     shape: const RoundedRectangleBorder(
-    //       borderRadius: BorderRadius.vertical(
-    //         top: Radius.circular(16),
-    //       ),
-    //     ),
-    //     builder: (context) => const LocationPermissionBottomSheet(),
-    //   );
-    // });
-  }
+  AddressModel? selectedAddress;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     w = size.width;
     h = size.height;
+    final String testUid = "12345"; // ✅ Using Test UID
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar:
           const CustomAppBar(applyBackButton: true, title: "Manage Addresses"),
-      body: ListView(
+      body: Padding(
         padding:
             EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.005),
-        children: [
-          Gap(h * 0.015),
-          const Divider(height: 1), // First separator
-          _buildAddAddressButton(),
-          const Divider(height: 1), // Second separator
-          Gap(h * 0.015),
-          AddressList(
-            addresses: dummyAddresses,
-            width: w,
-            height: h,
-          ),
-        ],
+        child: Column(
+          children: [
+            Gap(h * 0.015),
+            const Divider(height: 1),
+            _buildAddAddressButton(),
+            const Divider(height: 1),
+            Gap(h * 0.015),
+
+            // ✅ Prevent Overflow: Wrap in Expanded
+            Expanded(
+              child: StreamBuilder<UserModel?>(
+                stream: UserService().streamUserData(testUid),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (!snapshot.hasData || snapshot.data == null) {
+                    return const Center(child: Text("No addresses found"));
+                  }
+                  final user = snapshot.data!;
+                  final addresses = user.addresses;
+                  if (addresses.isEmpty) {
+                    return const Center(child: Text("No addresses found"));
+                  }
+                  return AddressList(
+                    addresses: addresses,
+                    selectedAddress: selectedAddress,
+                    onAddressSelected: (AddressModel address) {
+                      print("Before Update: ${selectedAddress?.address}");
+                      setState(() {
+                        selectedAddress = address;
+                        print("After Update: ${selectedAddress?.address}");
+                      });
+                    },
+                    width: w,
+                    height: h,
+                  );
+                },
+              ),
+            ),
+
+            // ✅ Only show confirm button when required
+            if (widget.showConfirmButton) _buildConfirmButton(),
+            Gap(h * 0.02),
+          ],
+        ),
       ),
     );
   }
@@ -68,13 +91,12 @@ class _ManageAddressesPageState extends State<ManageAddressesPage> {
   Widget _buildAddAddressButton() {
     return TextButton(
       onPressed: () {
-        // Handle add address
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => const AddNewAddressPage()));
       },
       style: TextButton.styleFrom(
         padding: EdgeInsets.symmetric(vertical: h * 0.015),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.zero,
-        ),
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       ),
       child: Row(
         children: [
@@ -88,6 +110,26 @@ class _ManageAddressesPageState extends State<ManageAddressesPage> {
             fontFamily: FontType.balooBhai2,
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildConfirmButton() {
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.only(bottom: h * 0.02), // Ensure padding at bottom
+        child: CustomButton(
+          onPressed: () {
+            if (selectedAddress != null) {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => BillScreen(selectedAddress: selectedAddress!),
+                ),
+              );
+            }
+          },
+          text: "Confirm Address",
+        ),
       ),
     );
   }

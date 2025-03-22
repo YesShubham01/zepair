@@ -1,5 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:zepair/backend/user_detail_backend_service.dart';
+import 'package:zepair/models/user_detail_model.dart';
 import 'package:provider/provider.dart';
 import 'package:zepair/backend/authentication_backend.dart';
 import 'package:zepair/modules/Manage%20Addresses%20Page/manage_addresses_page.dart';
@@ -18,16 +23,51 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final String name = "Your Name";
-  final String phoneNumber = "+91 9876543210";
+  Map<String, dynamic>? user; // Store user data
+  bool isLoading = true;
   late double w;
   late double h;
+  final String uid = "12345"; // Use a test UID directly
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  void _loadUserData() async {
+    var snapshot = await FirebaseFirestore.instance
+        .collection('Users')
+        .where('uid', isEqualTo: uid)
+        .get();
+
+    if (mounted) {
+      setState(() {
+        if (snapshot.docs.isNotEmpty) {
+          user = snapshot.docs.first.data();
+        }
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     var dimensions = MediaQuery.sizeOf(context);
     w = dimensions.width;
     h = dimensions.height;
+
+    if (isLoading) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    if (user == null) {
+      return const Scaffold(
+        body: Center(child: Text("User data not found")),
+      );
+    }
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -39,7 +79,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProfileHeader(name: name, phoneNumber: phoneNumber),
+            getProfileHeader(
+              name: user!['name'] ?? "Unknown",
+              phone: user!['phone'] ?? "N/A",
+            ),
             Gap(h * 0.02),
             getProfileActions(),
             Gap(h * 0.02),
@@ -57,7 +100,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget getProfileHeader({
     required String name,
-    required String phoneNumber,
+    required String phone,
   }) {
     return Container(
       padding: EdgeInsets.fromLTRB(w * 0.05, h * 0.01, 0, h * 0.02),
@@ -67,14 +110,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           Gap(h * 0.02),
           CustomText(
-            text: name,
+            text: "name: $name",
             size: 24,
             weight: FontWeight.bold,
             fontFamily: FontType.balooBhai2,
           ),
           Gap(h * 0.001),
           CustomText(
-            text: phoneNumber,
+            text: "phone: $phone",
             size: 16,
             fontFamily: FontType.balooBhai2,
           ),
@@ -148,8 +191,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           icon: Icons.location_on,
           text: "Manage Addresses",
           onTap: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const ManageAddressesPage()));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => const ManageAddressesPage(
+                      showConfirmButton: false,
+                    )));
           },
         ),
         ProfileMenuItem(

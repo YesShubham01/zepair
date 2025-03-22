@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:zepair/models/warranty_model.dart';
 import 'package:zepair/utils/constants/colors.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 import 'package:zepair/utils/custom%20widgets/serviceEnum.dart';
+import 'package:intl/intl.dart';
 
 class WarrantyCard extends StatefulWidget {
-  final Device device;
-  final String onDate;
-  final String validTill;
+  final WarrantyModel warranty;
 
-  const WarrantyCard({
-    super.key,
-    required this.device,
-    required this.onDate,
-    required this.validTill,
-  });
+  const WarrantyCard({super.key, required this.warranty});
+  // final Device device;
+  // final String onDate;
+  // final String validTill;
+
+  // const WarrantyCard({
+  //   super.key,
+  //   required this.device,
+  //   required this.onDate,
+  //   required this.validTill,
+  // });
 
   @override
   State<WarrantyCard> createState() => _WarrantyCardState();
@@ -31,7 +36,7 @@ class _WarrantyCardState extends State<WarrantyCard> {
     w = size.width;
     h = size.height;
 
-    device = widget.device;
+    // device = widget.device;
     return CustomCardWidget(
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: h * 0.01, horizontal: w * 0.03),
@@ -40,8 +45,7 @@ class _WarrantyCardState extends State<WarrantyCard> {
           children: [
             _getImagePlaceHolder(),
             Gap(h * 0.006),
-            _getWarrantyDetailsText(
-                widget.device.title, widget.onDate, widget.validTill),
+            _getWarrantyDetailsText(),
           ],
         ),
       ),
@@ -55,29 +59,31 @@ class _WarrantyCardState extends State<WarrantyCard> {
         height: w * 0.16, // Maintain square aspect ratio
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Image.asset(widget.device.icon),
+          child: Image.asset(widget.warranty.imagePath),
         ),
       ),
     );
   }
 
-  _getWarrantyDetailsText(String title, String onDate, String validTill) {
+  _getWarrantyDetailsText() {
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomText(
-            text: widget.device.title,
+            text: widget.warranty.serviceTitle,
             size: 18,
             weight: FontWeight.bold,
           ),
           CustomText(
-            text: 'On Date: $onDate',
+            text:
+                'On Date: ${DateFormat('dd-MM-yyyy').format(widget.warranty.startDate.toDate())}',
             size: 16,
             weight: FontWeight.w400,
           ),
           CustomText(
-            text: 'Valid Till: $validTill',
+            text:
+                'Valid Till: ${DateFormat('dd-MM-yyyy').format(widget.warranty.endDate.toDate())}',
             size: 16,
             weight: FontWeight.w400,
           ),

@@ -5,13 +5,13 @@ class UserService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // ✅ Get user data as a Future (for one-time fetch)
-  Future<UserModel?> fetchUserData(String uid) async {
+  Future<UserDetailModel?> fetchUserData(String uid) async {
     try {
       DocumentSnapshot doc =
           await _firestore.collection('Users').doc(uid).get();
 
       if (doc.exists && doc.data() != null) {
-        return UserModel.fromFirestore(doc);
+        return UserDetailModel.fromFirestore(doc);
       }
     } catch (e) {
       print("Error fetching user: $e");
@@ -20,7 +20,7 @@ class UserService {
   }
 
   // ✅ Get user data as a Stream (for real-time updates)
-  Stream<UserModel?> streamUserData(String uid) async* {
+  Stream<UserDetailModel?> streamUserData(String uid) async* {
     try {
       QuerySnapshot querySnapshot = await _firestore
           .collection('Users')
@@ -38,7 +38,7 @@ class UserService {
       // ✅ Log when data is fetched
       yield* _firestore.collection('Users').doc(docId).snapshots().map((doc) {
         if (doc.exists && doc.data() != null) {
-          return UserModel.fromFirestore(doc);
+          return UserDetailModel.fromFirestore(doc);
         }
         return null;
       });

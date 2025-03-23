@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zepair/backend/service_detail_backend.dart';
 import 'package:zepair/models/service_detail_model.dart';
+import 'package:zepair/modules/AC%20repair/ac_repair.dart';
 import 'package:zepair/modules/AC%20repair/support%20widget/appointement.dart';
 import 'package:zepair/modules/Services/service_detail.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
@@ -63,11 +64,20 @@ class _ServiceGridState extends State<ServiceGrid> {
   }
 
   Widget serviceCard(ServiceModel serviceData) {
+    print(
+        "Service Data: ${serviceData.title}, ${serviceData.imagePath}"); // Debugging
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => AppointmentSection()
-        ));
+        if (serviceData == null) {
+          print("Error: serviceData is null");
+          return;
+        }
+
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => ACServicePage(serviceModel: serviceData),
+          ),
+        );
       },
       child: Column(
         children: [
@@ -77,14 +87,13 @@ class _ServiceGridState extends State<ServiceGrid> {
               width: w * 0.25,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Image.asset(serviceData
-                    .imagePath), // 🔥 Now loading images from Firestore
+                child: Image.asset(serviceData.imagePath ?? ""), // ✅ Avoid null
               ),
             ),
           ),
           const SizedBox(height: 5),
           CustomText(
-            text: serviceData.title,
+            text: serviceData.title ?? "No Title", // ✅ Avoid null title
             alignment: TextAlign.center,
             size: 16,
             fontFamily: FontType.balooBhai2,

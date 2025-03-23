@@ -1,134 +1,177 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gap/gap.dart';
 import 'package:zepair/backend/service_detail_backend.dart';
 import 'package:zepair/models/service_detail_model.dart';
+import 'package:zepair/modules/Services/service_detail.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 
 class OtherServicesSection extends StatefulWidget {
-  const OtherServicesSection({super.key});
+  final String serviceCategory;
+  const OtherServicesSection({super.key, required this.serviceCategory});
 
   @override
   _OtherServicesSectionState createState() => _OtherServicesSectionState();
 }
 
 class _OtherServicesSectionState extends State<OtherServicesSection> {
-  Map<int, bool> _expandedStates = {}; // 🔹 Track which dropdown is open
+  String? _expandedService;
 
   @override
   Widget build(BuildContext context) {
-    
-    double h = MediaQuery.of(context).size.height;
-
-    return FutureBuilder<ServiceModel>(
-      future: ServiceBackendService().fetchServices(), // 🔹 Fetching services from Firestore
+    return StreamBuilder<ServiceModel>(
+      stream:
+          ServiceBackendService().fetchOtherServices(widget.serviceCategory),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Center(child: Text("Error: ${snapshot.error}"));
         } else if (!snapshot.hasData || snapshot.data!.otherServices.isEmpty) {
-          return const Center(child: Text("No services available"));
+          return const Center(child: Text("No additional services available"));
         }
 
-        List<Map<String, dynamic>> otherservices =
-            List<Map<String, dynamic>>.from(snapshot.data!.otherServices);
+        Map<String, List<Map<String, dynamic>>> otherServices =
+            snapshot.data!.otherServices;
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const CustomText(
-              text: "Other Services",
-              fontFamily: FontType.sfPro,
-              size: 24,
-              weight: FontWeight.bold,
-            ),
-            SizedBox(height: h * 0.01),
+        return ListView.builder(
+          padding: const EdgeInsets.only(top: 10),
+          physics: const BouncingScrollPhysics(), // ✅ Allow separate scrolling
+          shrinkWrap: true,
+          itemCount: otherServices.length,
+          itemBuilder: (context, index) {
+            String docName = otherServices.keys.elementAt(index);
+            List<Map<String, dynamic>> servicesList = otherServices[docName]!;
 
-            // 🔹 Dynamically creating dropdowns for each service
-            ...otherservices.asMap().entries.map((entry) {
-              int index = entry.key;
-              Map<String, dynamic> service = entry.value; // 🔹 Each service from array
-
-              return Column(
-                children: [
-                  CustomCardWidget(
-                    child: Column(
-                      children: [
-                        ListTile(
-                          title: CustomText(
-                            text: service["title"], // 🔹 Fetch title from Firestore
-                            fontFamily: FontType.sfPro,
-                            size: 18,
-                          ),
-                          trailing: IconButton(
-                            icon: Icon(_expandedStates[index] == true
-                                ? Icons.arrow_drop_up
-                                : Icons.arrow_drop_down),
-                            onPressed: () {
-                              setState(() {
-                                _expandedStates[index] =
-                                    !(_expandedStates[index] ?? false);
-                              });
-                            },
-                          ),
+            return Column(
+              children: [
+                CustomCardWidget(
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: CustomText(
+                          text: docName,
+                          fontFamily: FontType.sfPro,
+                          size: 18,
+                          weight: FontWeight.normal,
                         ),
-                        if (_expandedStates[index] == true)
-                          _buildServiceDetails(service), // 🔹 Show image, price, desc
-                      ],
-                    ),
+                        trailing: IconButton(
+                          iconSize: 32,
+                          icon: Icon(
+                            _expandedService == docName
+                                ? Icons.arrow_drop_up
+                                : Icons.arrow_drop_down,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _expandedService = (_expandedService == docName)
+                                  ? null
+                                  : docName;
+                            });
+                          },
+                        ),
+                      ),
+                      if (_expandedService == docName)
+                        Column(
+                          children: servicesList.map((service) {
+                            return _buildServiceDetails(service, context);
+                          }).toList(),
+                        ),
+                    ],
                   ),
-                  SizedBox(height: h * 0.01),
-                ],
-              );
-            }).toList(),
-          ],
+                ),
+                const SizedBox(height: 4),
+              ],
+            );
+          },
         );
       },
     );
   }
-
-  /// 🔹 Function to show image, price & description
-  Widget _buildServiceDetails(Map<String, dynamic> service) {
-     double h = MediaQuery.of(context).size.height;
-    double w = MediaQuery.of(context).size.width;
-    String imagePath = service["image"] ?? "";
-
-    Widget imageWidget;
-    if (imagePath.startsWith("http")) {
-      // 🔹 Load network image if it's a URL
-      imageWidget = Image.network(imagePath, height: h*0.07, fit: BoxFit.cover);
-    } else {
-      // 🔹 Load local asset image if it's an asset path
-      imageWidget = Image.asset(imagePath, height: h*0.07, fit: BoxFit.cover);
-    }
-
-    double price = (service["price"] is num) ? (service["price"] as num).toDouble() : 0.0;
-
-    return Column(
-      children: [
-        imageWidget,
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: CustomText(
-            text: service["description"],
-            fontFamily: FontType.sfPro,
-            size: 16,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: CustomText(
-            text: "Price: ₹${price.toStringAsFixed(2)}", // 🔹 Ensures price is formatted correctly
-            fontFamily: FontType.sfPro,
-            size: 16,
-            weight: FontWeight.bold,
-          ),
-        ),
-      ],
-    );
-  }
 }
 
+Widget _buildServiceDetails(
+    Map<String, dynamic> service, BuildContext context) {
+  double h = MediaQuery.of(context).size.height;
+  double w = MediaQuery.of(context).size.width;
+  String imagePath = service["image"] ?? "";
+  double price =
+      (service["price"] is num) ? (service["price"] as num).toDouble() : 0.0;
 
+  return Column(
+    children: [
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start, // Ensure alignment
+          children: [
+            // Image inside Card
+            CustomCardWidget(
+              child: SizedBox(
+                height: h * 0.075,
+                width: w * 0.2,
+                child: Image.asset(imagePath),
+              ),
+            ),
+            SizedBox(width: w * 0.03),
 
+            // Column with Proper Alignment
+            Column(
+              spacing: 0.0,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment:
+                  MainAxisAlignment.start, // Align text with image
+              children: [
+                CustomText(
+                  text: service["title"],
+                  fontFamily: FontType.sfPro,
+                  size: 16,
+                  weight: FontWeight.w600,
+                ),
+                SizedBox(
+                    height: h * 0.001), // Reduce gap between title and price
+                CustomText(
+                  text: "₹${price.toStringAsFixed(2)}",
+                  fontFamily: FontType.sfPro,
+                  size: 14,
+                  weight: FontWeight.bold,
+                ),
+                // SizedBox(
+                //     height: h * 0.001), // Reduce gap between price and button
+                TextButton(
+                  onPressed: () {
+                    // Navigate to service details page
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ServiceDetailPage(
+                          service: service["title"],
+                          price: (service["price"] as num?)?.toDouble() ?? 0.0,
+                          description:
+                              service["description"] ?? "No Description",
+                        ),
+                      ),
+                    );
+                  },
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    // minimumSize: Size(0, 0),
+                  ),
+                  child: CustomText(
+                    text: "View Details",
+                    fontFamily: FontType.sfPro,
+                    size: 14,
+                    color: Colors.blue,
+                    weight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      Divider(
+          color: Colors.grey[300], thickness: 1), // 🔹 Line after each service
+    ],
+  );
+}

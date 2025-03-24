@@ -151,8 +151,8 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
     });
 
     try {
-      bool result =
-          await AuthenticationBackend.verifyOtp(pin, widget.verificationId);
+      bool result = await AuthenticationBackend.verifyOtp(
+          pin, widget.verificationId, widget.phone, context);
 
       if (!result) {
         _showErrorSnackbar("Incorrect OTP. Please try again.");
@@ -179,18 +179,18 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
           ),
         );
 
-        // Wait for animation to play before navigating
-        await Future.delayed(const Duration(seconds: 2));
+        // // Wait for animation to play before navigating
+        // await Future.delayed(const Duration(seconds: 2));
 
-        // Close the dialog
-        if (mounted) {
-          Navigator.pop(context);
-        }
+        // // Close the dialog
+        // if (mounted) {
+        //   Navigator.pop(context);
+        // }
 
-        // Navigate to the homepage (replace with your actual homepage route)
-        if (mounted) {
-          Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-        }
+        // // Navigate to the homepage (replace with your actual homepage route)
+        // if (mounted) {
+        //   Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+        // }
       }
     } catch (e) {
       _showErrorSnackbar("Something went wrong. Please try again.");

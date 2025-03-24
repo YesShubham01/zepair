@@ -2,13 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/user_detail_model.dart';
 
 class UserService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
   // ✅ Get user data as a Future (for one-time fetch)
-  Future<UserDetailModel?> fetchUserData(String uid) async {
+  static Future<UserDetailModel?> fetchUserData(String uid) async {
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
     try {
-      DocumentSnapshot doc =
-          await _firestore.collection('Users').doc(uid).get();
+      DocumentSnapshot doc = await firestore.collection('Users').doc(uid).get();
 
       if (doc.exists && doc.data() != null) {
         return UserDetailModel.fromFirestore(doc);
@@ -21,8 +20,10 @@ class UserService {
 
   // ✅ Get user data as a Stream (for real-time updates)
   Stream<UserDetailModel?> streamUserData(String uid) async* {
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
     try {
-      QuerySnapshot querySnapshot = await _firestore
+      QuerySnapshot querySnapshot = await firestore
           .collection('Users')
           .where('uid', isEqualTo: uid)
           .get();
@@ -36,7 +37,7 @@ class UserService {
       String docId = querySnapshot.docs.first.id;
 
       // ✅ Log when data is fetched
-      yield* _firestore.collection('Users').doc(docId).snapshots().map((doc) {
+      yield* firestore.collection('Users').doc(docId).snapshots().map((doc) {
         if (doc.exists && doc.data() != null) {
           return UserDetailModel.fromFirestore(doc);
         }
@@ -57,9 +58,11 @@ class UserService {
     required Map<String, double> coordinates,
     required String type,
   }) async {
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
     try {
       // Step 1: Find the document where uid == "12345"
-      QuerySnapshot querySnapshot = await _firestore
+      QuerySnapshot querySnapshot = await firestore
           .collection('Users')
           .where('uid', isEqualTo: uid)
           .get();
@@ -71,7 +74,7 @@ class UserService {
 
       // Step 2: Get the correct document ID from Firestore
       String docId = querySnapshot.docs.first.id;
-      DocumentReference userRef = _firestore.collection('Users').doc(docId);
+      DocumentReference userRef = firestore.collection('Users').doc(docId);
 
       // Step 3: Update the addresses array
       Map<String, dynamic> newAddress = {
@@ -103,9 +106,11 @@ class UserService {
     required Map<String, double> coordinates,
     required String type,
   }) async {
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
     try {
       // Step 1: Find the user document where uid == "12345"
-      QuerySnapshot querySnapshot = await _firestore
+      QuerySnapshot querySnapshot = await firestore
           .collection('Users')
           .where('uid', isEqualTo: uid)
           .get();
@@ -117,7 +122,7 @@ class UserService {
 
       // Step 2: Get the correct document ID
       String docId = querySnapshot.docs.first.id;
-      DocumentReference userRef = _firestore.collection('Users').doc(docId);
+      DocumentReference userRef = firestore.collection('Users').doc(docId);
 
       // Step 3: Retrieve existing addresses
       DocumentSnapshot userDoc = await userRef.get();
@@ -152,9 +157,11 @@ class UserService {
 
   // ✅ Delete  Address and return success/failure
   Future<bool> deleteUserAddress(String uid, String addressToDelete) async {
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
     try {
       // Step 1: Find the user document where uid == "12345"
-      QuerySnapshot querySnapshot = await _firestore
+      QuerySnapshot querySnapshot = await firestore
           .collection('Users')
           .where('uid', isEqualTo: uid)
           .get();
@@ -166,7 +173,7 @@ class UserService {
 
       // Step 2: Get the correct document ID from Firestore
       String docId = querySnapshot.docs.first.id;
-      DocumentReference userRef = _firestore.collection('Users').doc(docId);
+      DocumentReference userRef = firestore.collection('Users').doc(docId);
 
       // Step 3: Retrieve current addresses
       DocumentSnapshot userDoc = await userRef.get();

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -38,7 +37,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _loadUserData() async {
     var snapshot = await FirebaseFirestore.instance
         .collection('Users')
-        .where('uid', isEqualTo: uid)
+        .where('uid',
+            isEqualTo: context.read<UserDatailsProvider>().userDetail.uid)
         .get();
 
     if (mounted) {

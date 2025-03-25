@@ -33,8 +33,9 @@ class _SplashPageState extends State<SplashPage> {
   void _startNavigationTimer() => _navigationTimer =
       Timer(const Duration(seconds: 5), _checkAuthenticationAndNavigate);
 
-  _checkAuthenticationAndNavigate() {
+  _checkAuthenticationAndNavigate() async {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    await context.read<UserDatailsProvider>().setUserDetails();
 
     context.read<UserDatailsProvider>().checkAuthenticationAndNavigate(context);
   }

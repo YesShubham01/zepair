@@ -21,10 +21,11 @@ class UserDatailsProvider extends ChangeNotifier {
 
   bool isPhoneNumberLinked() {
     print("phone number : ${userDetail.phone}");
-    return !(userDetail.phone == null);
+    return !(userDetail.phone == null || userDetail.phone == "");
   }
 
   checkAuthenticationAndNavigate(BuildContext context) {
+    setUserDetails();
     setIsLoggedIn();
     if (isLogin) {
       if (isPhoneNumberLinked()) {

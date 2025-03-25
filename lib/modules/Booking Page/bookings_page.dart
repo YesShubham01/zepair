@@ -1,84 +1,3 @@
-/*import 'package:flutter/material.dart';
-import 'package:zepair/modules/Login%20Pages/Support%20Widgets/schedule/widgets/card.dart';
-import 'package:zepair/utils/custom%20widgets/custom_appbar.dart';
-import 'package:zepair/utils/custom%20widgets/custom_button.dart';
-
-class SchedulePage extends StatefulWidget {
-  const SchedulePage({super.key});
-
-  @override
-  State<SchedulePage> createState() => _SchedulePageState();
-}
-
-class _SchedulePageState extends State<SchedulePage> {
-  late double h;
-  late double w;
-
-  @override
-  Widget build(BuildContext context) {
-    var dimensions = MediaQuery.sizeOf(context);
-    w = dimensions.width;
-    h = dimensions.height;
-
-    return Scaffold(
-      appBar: CustomAppBar(title: "Schedule"),
-      body: Column(
-        children: [
-          // Service List (Scrollable)
-          Expanded(
-            child: ListView(
-              padding:  EdgeInsets.fromLTRB(w*0.05, 0, w*0.05,0.67*h),
-              children: [
-                ServiceCard(
-                  serviceName: "Refrigerator Repair",
-                  amountPaid: "100",
-                  description: "Single door refrigerator check-up X 1",
-                  status: "We will soon assign one of our engineers at your doorstep.",
-                ),
-                ServiceCard(
-                  serviceName: "AC Service",
-                  amountPaid: "450",
-                  description: "AC Service X 1",
-                  status: "Our engineer will be at your doorstep at",
-                  highlightedStatus: "10 am tomorrow",
-                ),
-                ServiceCard(
-                  serviceName: "AC Service",
-                  amountPaid: "450",
-                  description: "AC Service X 1",
-                  status: "Our engineer will be at your doorstep at",
-                  highlightedStatus: "10 am tomorrow",
-                ),
-                ServiceCard(
-                  serviceName: "AC Service",
-                  amountPaid: "450",
-                  description: "AC Service X 1",
-                  status: "Our engineer will be at your doorstep at",
-                  highlightedStatus: "10 am tomorrow",
-                ),
-              ],
-            ),
-          ),
-
-          // "Need Help?" Button Positioned at Bottom
-          Padding(
-            padding: const EdgeInsets.only(left: 25, right: 25, bottom: 30),
-            child: SizedBox(
-              width: w * 0.9,
-              height: h * 0.06,
-              child: CustomButton(
-                buttonText: "Need Help?",
-                onPressed: () {
-                  print("Need Help button clicked");
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}*/
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -140,7 +59,9 @@ class _SchedulePageState extends State<SchedulePage> {
                 .map((doc) => Appointment.fromFirestore(doc))
                 .toList();
 
-            return Column(
+            return ListView(
+              padding: EdgeInsets.symmetric(
+                  horizontal: w * 0.05, vertical: h * 0.01),
               children: [
                 CustomTitle(text: "Available Warranty"),
                 Gap(h * 0.006),

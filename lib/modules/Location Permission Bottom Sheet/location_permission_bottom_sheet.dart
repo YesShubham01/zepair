@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:zepair/modules/Add%20New%20Address%20Page/add_new_address.dart';
+import 'package:zepair/utils/custom%20widgets/custom_button.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 
 class LocationPermissionBottomSheet extends StatelessWidget {
@@ -46,24 +48,12 @@ class LocationPermissionBottomSheet extends StatelessWidget {
           const SizedBox(height: 24),
           SizedBox(
             width: double.infinity,
-            child: ElevatedButton(
+            child: CustomButton(
+              text: "Enable location permission",
               onPressed: () {
                 Navigator.pop(context);
+                navigateToAddAddressPage(context);
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromRGBO(255, 198, 0, 1),
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: const CustomText(
-                text: "Enable location permission",
-                size: 22,
-                weight: FontWeight.w400,
-                fontFamily: FontType.sfPro,
-                color: Colors.black,
-              ),
             ),
           ),
           const SizedBox(height: 12),
@@ -72,6 +62,7 @@ class LocationPermissionBottomSheet extends StatelessWidget {
             child: TextButton(
               onPressed: () {
                 Navigator.pop(context);
+                navigateToAddAddressPage(context);
               },
               style: TextButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 12),
@@ -88,5 +79,11 @@ class LocationPermissionBottomSheet extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  navigateToAddAddressPage(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const AddNewAddressPage(addBackButton: false),
+    ));
   }
 }

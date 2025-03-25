@@ -35,9 +35,9 @@ class _SplashPageState extends State<SplashPage> {
 
   _checkAuthenticationAndNavigate() async {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    await context.read<UserDatailsProvider>().setUserDetails();
+    await context.read<UserDetailsProvider>().setUserDetails();
 
-    context.read<UserDatailsProvider>().checkAuthenticationAndNavigate(context);
+    context.read<UserDetailsProvider>().checkAuthenticationAndNavigate(context);
   }
 
   @override

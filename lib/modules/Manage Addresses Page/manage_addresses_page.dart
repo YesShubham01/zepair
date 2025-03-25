@@ -29,7 +29,6 @@ class _ManageAddressesPageState extends State<ManageAddressesPage> {
     final size = MediaQuery.sizeOf(context);
     w = size.width;
     h = size.height;
-    const String testUid = "12345"; // ✅ Using Test UID
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -49,7 +48,7 @@ class _ManageAddressesPageState extends State<ManageAddressesPage> {
             // ✅ Prevent Overflow: Wrap in Expanded
             Expanded(
               child: StreamBuilder<UserDetailModel?>(
-                stream: UserService().streamUserData(testUid),
+                stream: UserService().streamUserData(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
+import 'package:zepair/models/user_detail_model.dart';
 import 'package:zepair/modules/Home%20Pages/Support%20Widgets/custom_searchbar.dart';
 import 'package:zepair/modules/Home%20Pages/Support%20Widgets/service_grid.dart';
 import 'package:zepair/modules/Manage%20Addresses%20Page/manage_addresses_page.dart';
@@ -7,10 +9,13 @@ import 'package:zepair/modules/Notification%20Page/notification_page.dart';
 import 'package:zepair/modules/Profile%20Page/Support%20Widgets/profile_card.dart';
 import 'package:zepair/modules/Profile%20Page/profile_page.dart';
 import 'package:zepair/modules/Service%20Progress/service_progress.dart';
+import 'package:zepair/provider/user_datails_provider.dart';
 import 'package:zepair/utils/constants/colors.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 import 'package:zepair/utils/custom%20widgets/custom_title.dart';
+
+import '../Location Permission Bottom Sheet/location_permission_bottom_sheet.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,6 +27,19 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late double w;
   late double h;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      UserDetailModel userDetails =
+          context.read<UserDetailsProvider>().userDetail;
+
+      if (userDetails.addresses == null || userDetails.addresses!.isEmpty) {
+        showLocationPermissionSheet();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,6 +137,17 @@ class _HomePageState extends State<HomePage> {
             builder: (context) => const NotificationPage(),
           ),
         );
+      },
+    );
+  }
+
+  void showLocationPermissionSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return const LocationPermissionBottomSheet();
       },
     );
   }

@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:zepair/backend/authentication_backend.dart';
 import '../models/user_detail_model.dart';
 
 class UserService {
@@ -19,8 +21,10 @@ class UserService {
   }
 
   // ✅ Get user data as a Stream (for real-time updates)
-  Stream<UserDetailModel?> streamUserData(String uid) async* {
+  Stream<UserDetailModel?> streamUserData() async* {
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    String uid = AuthenticationBackend.getUserUid();
 
     try {
       QuerySnapshot querySnapshot = await firestore
@@ -61,7 +65,6 @@ class UserService {
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
     try {
-      // Step 1: Find the document where uid == "12345"
       QuerySnapshot querySnapshot = await firestore
           .collection('Users')
           .where('uid', isEqualTo: uid)
@@ -109,7 +112,6 @@ class UserService {
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
     try {
-      // Step 1: Find the user document where uid == "12345"
       QuerySnapshot querySnapshot = await firestore
           .collection('Users')
           .where('uid', isEqualTo: uid)
@@ -146,7 +148,6 @@ class UserService {
 
       // Step 6: Push updated addresses array to Firestore
       await userRef.update({'addresses': addresses});
-
       print("✅ Address updated successfully for UID: $uid!");
       return true;
     } catch (e) {
@@ -156,11 +157,11 @@ class UserService {
   }
 
   // ✅ Delete  Address and return success/failure
-  Future<bool> deleteUserAddress(String uid, String addressToDelete) async {
+  Future<bool> deleteUserAddress(String addressToDelete) async {
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    String uid = AuthenticationBackend.getUserUid();
 
     try {
-      // Step 1: Find the user document where uid == "12345"
       QuerySnapshot querySnapshot = await firestore
           .collection('Users')
           .where('uid', isEqualTo: uid)

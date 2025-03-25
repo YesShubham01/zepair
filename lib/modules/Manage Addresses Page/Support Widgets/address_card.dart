@@ -42,7 +42,7 @@ class _AddressCardState extends State<AddressCard> {
                 GestureDetector(
                   onTapDown: (details) =>
                       _showPopupMenu(context, details, widget.address),
-                  child: Icon(Icons.more_vert, color: Colors.black),
+                  child: const Icon(Icons.more_vert, color: Colors.black),
                 ),
               ],
             ),
@@ -69,7 +69,6 @@ class _AddressCardState extends State<AddressCard> {
   // ✅ Delete  function for deleting address
   void _deleteAddress() async {
     bool success = await UserService().deleteUserAddress(
-      "12345", // Replace with the actual user ID
       widget.address.address, // Pass the current address to delete
     );
 
@@ -104,7 +103,7 @@ class _AddressCardState extends State<AddressCard> {
         details.globalPosition.dx + 50,
         details.globalPosition.dy + 70, // Lowered height
       ),
-      constraints: BoxConstraints(
+      constraints: const BoxConstraints(
         minWidth: 110, // Slightly reduced width for neatness
         maxWidth: 120,
         minHeight: 50, // Compact height
@@ -115,7 +114,7 @@ class _AddressCardState extends State<AddressCard> {
       ),
       color: Colors.white,
       items: [
-        PopupMenuItem(
+        const PopupMenuItem(
           value: 'edit',
           height: 30, // Manually controlling height
           child: Row(
@@ -132,7 +131,7 @@ class _AddressCardState extends State<AddressCard> {
             ],
           ),
         ),
-        PopupMenuItem(
+        const PopupMenuItem(
           value: 'delete',
           height: 30, // Same height as "Edit"
           child: Row(

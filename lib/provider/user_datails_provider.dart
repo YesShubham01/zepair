@@ -1,15 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:zepair/backend/authentication_backend.dart';
-import 'package:zepair/backend/user_detail_backend_service.dart';
 import 'package:zepair/models/user_detail_model.dart';
 
-class UserDatailsProvider extends ChangeNotifier {
+class UserDetailsProvider extends ChangeNotifier {
   bool isLogin;
   UserDetailModel userDetail = UserDetailModel();
 
-  UserDatailsProvider({
+  UserDetailsProvider({
     this.isLogin = false,
   });
 
@@ -39,7 +37,7 @@ class UserDatailsProvider extends ChangeNotifier {
     }
   }
 
-  setUserDetails() async {
+  Future<void> setUserDetails() async {
     String? uid = AuthenticationBackend.getUserUid();
     print("User UID: $uid");
 
@@ -104,11 +102,6 @@ class UserDatailsProvider extends ChangeNotifier {
 
   /// **🔥 Updates Firestore whenever user details are changed**
   Future<void> _updateUserInFirestore() async {
-    if (userDetail.uid == null) {
-      print("❌ Error: Cannot update Firestore, UID is null");
-      return;
-    }
-
     try {
       await FirebaseFirestore.instance
           .collection("Users")

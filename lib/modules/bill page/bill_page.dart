@@ -1,12 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:zepair/modules/Payment%20Page/payment_page.dart';
+import 'package:zepair/utils/custom%20widgets/custom_appbar.dart';
 import 'package:zepair/utils/custom%20widgets/custom_button.dart';
+import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
+import 'package:zepair/models/user_detail_model.dart';
 
 import 'support widget/bill.dart';
 import 'support widget/coupon.dart';
-import 'support widget/service_details.dart';
+import 'support widget/info_tile.dart';
 import 'support widget/total.dart';
 
-class BillScreen extends StatelessWidget {
+class BillScreen extends StatefulWidget {
+  final AddressModel selectedAddress;
+
+  const BillScreen({
+    super.key,
+    required this.selectedAddress,
+  });
+
+  @override
+  State<BillScreen> createState() => _BillScreenState();
+}
+
+class _BillScreenState extends State<BillScreen> {
   late double w;
   late double h;
 
@@ -16,59 +32,58 @@ class BillScreen extends StatelessWidget {
     w = dimensions.width;
     h = dimensions.height;
 
+    String amount = "100";
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text('Bill'),
-        leading: Icon(Icons.arrow_back),
+      appBar: const CustomAppBar(
+        applyBackButton: true,
+        title: 'Complete Payment',
       ),
       body: SingleChildScrollView(
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        padding: EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.005),
+        padding:
+            EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.005),
         child: Column(
           children: [
+            SizedBox(height: 0.02 * h),
             Stack(
               clipBehavior: Clip.none,
               children: [
-                // Bill Details with proper border styling
-                Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12),
-                    ),
-                    border: Border.all(color: Colors.black, width: 1),
-                  ),
+                CustomCardWidget(
                   child: BillDetails(),
                 ),
-                // Total Amount overlapping correctly
                 Positioned(
-                  bottom: -40, // Overlap amount
+                  bottom: -40,
                   left: 0,
                   right: 0,
-                  child: Container(
-                    padding: EdgeInsets.all(12),
-                   height: 56,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.black, width: 1),
+                  child: CustomCardWidget(
+                    child: TotalAmount(
+                      amount: amount,
                     ),
-                    child: TotalAmount(),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 0.09 * h),
+            SizedBox(height: 0.06 * h),
             CouponSection(),
             SizedBox(height: 0.02 * h),
-            InfoTile(title: 'Location of Service', details: 'house no. 412, Type 4A, Colony, Hisar'),
+            InfoTile(
+                title: 'Location of Service',
+                details: widget.selectedAddress.address),
             SizedBox(height: 0.02 * h),
-            InfoTile(title: 'Name and Phone', details: 'Shubham Puhal, +91 123456789'),
+            InfoTile(
+                title: 'Name and Phone',
+                details:
+                    '${widget.selectedAddress.name}, ${widget.selectedAddress.phone}'),
             SizedBox(height: 0.11 * h),
-            CustomButton(text: "Complete payment", onPressed: () {}),
+            CustomButton(
+                text: "Complete payment",
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => PaymentPage(
+                            amountInRupees: amount,
+                          )));
+                }),
           ],
         ),
       ),

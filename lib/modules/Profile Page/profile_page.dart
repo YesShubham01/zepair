@@ -1,18 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-
 import 'package:zepair/backend/user_detail_backend_service.dart';
 import 'package:zepair/models/user_detail_model.dart';
+import 'package:provider/provider.dart';
+import 'package:zepair/backend/authentication_backend.dart';
 import 'package:zepair/modules/Manage%20Addresses%20Page/manage_addresses_page.dart';
 import 'package:zepair/modules/Profile%20Page/Support%20Widgets/profile_card.dart';
 import 'package:zepair/modules/Profile%20Page/Support%20Widgets/profile_menuItem.dart';
+import 'package:zepair/provider/user_datails_provider.dart';
 import 'package:zepair/utils/constants/colors.dart';
 import 'package:zepair/utils/custom%20widgets/custom_appbar.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
-
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -37,7 +37,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _loadUserData() async {
     var snapshot = await FirebaseFirestore.instance
         .collection('Users')
-        .where('uid', isEqualTo: uid)
+        .where('uid',
+            isEqualTo: context.read<UserDatailsProvider>().userDetail.uid)
         .get();
 
     if (mounted) {
@@ -78,12 +79,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            
-           getProfileHeader(
-  name: user!['name'] ?? "Unknown",
-  phone: user!['phone'] ?? "N/A",
-),
-
+            getProfileHeader(
+              name: user!['name'] ?? "Unknown",
+              phone: user!['phone'] ?? "N/A",
+            ),
             Gap(h * 0.02),
             getProfileActions(),
             Gap(h * 0.02),
@@ -111,14 +110,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           Gap(h * 0.02),
           CustomText(
-            text:"$name",
+            text: name,
             size: 24,
             weight: FontWeight.bold,
             fontFamily: FontType.balooBhai2,
           ),
           Gap(h * 0.001),
           CustomText(
-             text: "$phone",
+            text: phone,
             size: 16,
             fontFamily: FontType.balooBhai2,
           ),
@@ -192,8 +191,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           icon: Icons.location_on,
           text: "Manage Addresses",
           onTap: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const ManageAddressesPage()));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => const ManageAddressesPage(
+                      showConfirmButton: false,
+                    )));
           },
         ),
         ProfileMenuItem(
@@ -275,11 +276,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
             borderRadius: BorderRadius.circular(8),
           ),
         ),
-        child: const Center(
-          child: CustomText(
-            text: "Logout",
-            color: Colors.red,
-            size: 22,
+        child: Center(
+          child: InkWell(
+            onTap: () {
+              AuthenticationBackend.logOut();
+              context
+                  .read<UserDatailsProvider>()
+                  .checkAuthenticationAndNavigate(context);
+            },
+            child: const CustomText(
+              text: "Logout",
+              color: Colors.red,
+              size: 22,
+            ),
           ),
         ),
       ),

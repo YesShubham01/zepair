@@ -4,6 +4,7 @@ import 'package:zepair/models/service_detail_model.dart';
 import 'package:zepair/modules/AC%20repair/ac_repair.dart';
 import 'package:zepair/modules/AC%20repair/support%20widget/appointement.dart';
 import 'package:zepair/modules/Services/service_detail.dart';
+import 'package:zepair/utils/custom%20widgets/custom_loading_screen.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 
@@ -29,8 +30,7 @@ class _ServiceGridState extends State<ServiceGrid> {
           .getAvailableServices(), // 🔥 Firestore real-time stream
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-              child: CircularProgressIndicator()); // 🌀 Show loading
+          return const Center(child: CustomLoadingScreen()); // 🌀 Show loading
         }
 
         if (snapshot.hasError) {
@@ -56,7 +56,23 @@ class _ServiceGridState extends State<ServiceGrid> {
           ),
           itemCount: services.length,
           itemBuilder: (context, index) {
-            return serviceCard(services[index]);
+            return TweenAnimationBuilder(
+              duration: Duration(
+                  milliseconds:
+                      300 + (index * 100)), // Delayed animation per item
+              tween: Tween<double>(begin: 0, end: 1),
+              curve: Curves.easeOut, // Smooth animation
+              builder: (context, double value, child) {
+                return Opacity(
+                  opacity: value,
+                  child: Transform.scale(
+                    scale: value,
+                    child: child,
+                  ),
+                );
+              },
+              child: serviceCard(services[index]),
+            );
           },
         );
       },
@@ -68,11 +84,6 @@ class _ServiceGridState extends State<ServiceGrid> {
         "Service Data: ${serviceData.title}, ${serviceData.imagePath}"); // Debugging
     return InkWell(
       onTap: () {
-        if (serviceData == null) {
-          print("Error: serviceData is null");
-          return;
-        }
-
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) => ACServicePage(serviceModel: serviceData),
@@ -100,6 +111,23 @@ class _ServiceGridState extends State<ServiceGrid> {
             color: Colors.black,
           ),
         ],
+      ),
+    );
+  }
+
+  _getDeviceIconCard(ServiceModel serviceData) {
+    return CustomCardWidget(
+      child: Hero(
+        tag: serviceData.title,
+        child: SizedBox(
+          height: h * 0.09,
+          width: w * 0.25,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset(
+                serviceData.imagePath), // 🔥 Now loading images from Firestore
+          ),
+        ),
       ),
     );
   }

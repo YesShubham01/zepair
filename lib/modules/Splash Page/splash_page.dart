@@ -1,9 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:zepair/models/user_detail_model.dart';
 import 'package:zepair/modules/Home%20Pages/home_screen.dart';
+import 'package:zepair/modules/Login%20Pages/login_page.dart';
 import 'package:zepair/modules/Splash%20Page/Support%20Widgets/splash_logo.dart';
 import 'package:zepair/modules/Splash%20Page/Support%20Widgets/splash_tagline.dart';
+import 'package:zepair/provider/user_datails_provider.dart';
 import 'package:zepair/utils/constants/colors.dart';
 
 class SplashPage extends StatefulWidget {
@@ -26,13 +30,13 @@ class _SplashPageState extends State<SplashPage> {
   void _enterFullScreenMode() =>
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
-  void _startNavigationTimer() =>
-      _navigationTimer = Timer(const Duration(seconds: 5), _navigateToHome);
+  void _startNavigationTimer() => _navigationTimer =
+      Timer(const Duration(seconds: 5), _checkAuthenticationAndNavigate);
 
-  void _navigateToHome() {
+  _checkAuthenticationAndNavigate() {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (_) => const HomeScreen()));
+
+    context.read<UserDatailsProvider>().checkAuthenticationAndNavigate(context);
   }
 
   @override

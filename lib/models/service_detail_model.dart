@@ -7,6 +7,7 @@ class ServiceModel {
   final List<Map<String, dynamic>> mainServices;
   final Map<String, List<Map<String, dynamic>>>
       otherServices; // 🔥 Updated to store a map of service categories
+  final String deviceName;
 
   ServiceModel({
     required this.title,
@@ -16,6 +17,7 @@ class ServiceModel {
     required this.description,
     required this.mainServices,
     required this.otherServices,
+    required this.deviceName,
   });
 
   // Convert Firestore JSON to Model
@@ -37,6 +39,7 @@ class ServiceModel {
               ),
             )
           : {},
+      deviceName: data['deviceName'] ?? '', // Default if missing
     );
   }
 

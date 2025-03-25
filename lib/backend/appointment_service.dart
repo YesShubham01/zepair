@@ -32,4 +32,34 @@ class AppointmentService {
       print("Error adding appointment: $e");
     }
   }
+
+  Stream<List<Appointment>> getUserAppointments(String uid) {
+    return _firestore
+        .collection('Users')
+        .doc(uid)
+        .snapshots()
+        .asyncMap((userDoc) async {
+      if (!userDoc.exists || userDoc.data() == null) {
+        return [];
+      }
+
+      // Extract booking IDs from user document
+      List<String> bookingIds = List<String>.from(userDoc['bookings'] ?? []);
+
+      if (bookingIds.isEmpty) {
+        return [];
+      }
+
+      // Fetch appointments in real-time where appointmentId matches
+      QuerySnapshot appointmentDocs = await _firestore
+          .collection('Appointments')
+          .where(FieldPath.documentId, whereIn: bookingIds)
+          .get();
+
+      // Convert Firestore documents to Appointment model
+      return appointmentDocs.docs
+          .map((doc) => Appointment.fromFirestore(doc))
+          .toList();
+    });
+  }
 }

@@ -110,14 +110,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           Gap(h * 0.02),
           CustomText(
-            text: "name: $name",
+            text: "$name",
             size: 24,
             weight: FontWeight.bold,
             fontFamily: FontType.balooBhai2,
           ),
           Gap(h * 0.001),
           CustomText(
-            text: "phone: $phone",
+            text: "$phone",
             size: 16,
             fontFamily: FontType.balooBhai2,
           ),

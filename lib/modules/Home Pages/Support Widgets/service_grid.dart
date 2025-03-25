@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zepair/backend/service_detail_backend.dart';
 import 'package:zepair/models/service_detail_model.dart';
+import 'package:zepair/modules/Services%20Page/ac_repair.dart';
 import 'package:zepair/modules/Services/service_detail.dart';
 import 'package:zepair/utils/custom%20widgets/custom_loading_screen.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
@@ -81,9 +82,7 @@ class _ServiceGridState extends State<ServiceGrid> {
     return InkWell(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => ServiceDetailPage(
-            serviceModel: serviceData,
-          ),
+          builder: (_) => ACServicePage(serviceModel: serviceData),
         ));
       },
       child: Column(

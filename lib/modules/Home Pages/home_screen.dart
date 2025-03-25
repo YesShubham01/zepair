@@ -43,7 +43,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final List<Widget> pages = [
       const HomePage(),
-      const SchedulePage(),
+      const SchedulePage(
+        uid: "8HVmkaggbkgas60nUqGZXf2HjrC3",
+      ),
       const WarrantyPage(),
       const ContactUsPage(),
       if (includeDevsPage) const DeveloperToolsPage(),

@@ -5,6 +5,8 @@ class ServiceModel {
   final String imagePath;
   final String description;
   final String deviceName;
+  final List<Map<String, dynamic>> mainServices;
+  final Map<String, List<Map<String, dynamic>>> otherServices;
 
   ServiceModel({
     required this.title,
@@ -13,6 +15,8 @@ class ServiceModel {
     required this.imagePath,
     required this.description,
     required this.deviceName,
+    required this.mainServices,
+    required this.otherServices,
   });
 
   // Convert Firestore JSON to Model
@@ -24,6 +28,17 @@ class ServiceModel {
       imagePath: data['imagePath'] ?? '',
       description: data['description'] ?? '',
       deviceName: data['deviceName'] ?? '', // Default if missing
+      mainServices: data["Main_Services"] != null
+          ? List<Map<String, dynamic>>.from(data["Main_Services"])
+          : [],
+      otherServices: data["Other_Services"] != null
+          ? (data["Other_Services"] as Map<String, dynamic>).map(
+              (key, value) => MapEntry(
+                key,
+                List<Map<String, dynamic>>.from(value),
+              ),
+            )
+          : {},
     );
   }
 
@@ -34,6 +49,8 @@ class ServiceModel {
       'available': available,
       'price': price,
       'imagePath': imagePath,
+      'Main_Services': mainServices,
+      'Other_Services': otherServices.map((key, value) => MapEntry(key, value)),
     };
   }
 }

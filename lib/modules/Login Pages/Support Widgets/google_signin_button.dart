@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zepair/backend/authentication_backend.dart';
@@ -23,8 +24,10 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
     w = size.width;
     h = size.height;
     return _isSigningIn
-        ? const CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(CustomColors.primary),
+        ? const Center(
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(CustomColors.primary),
+            ),
           )
         : OutlinedButton(
             style: ButtonStyle(
@@ -43,6 +46,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
 
               bool isLogin = await AuthenticationBackend.continueWithGoogle();
               if (isLogin) {
+                context.read<UserDatailsProvider>().setUserDetails();
                 context
                     .read<UserDatailsProvider>()
                     .checkAuthenticationAndNavigate(context);

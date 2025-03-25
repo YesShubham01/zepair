@@ -29,7 +29,7 @@ class _ManageAddressesPageState extends State<ManageAddressesPage> {
     final size = MediaQuery.sizeOf(context);
     w = size.width;
     h = size.height;
-    final String testUid = "12345"; // ✅ Using Test UID
+    const String testUid = "12345"; // ✅ Using Test UID
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -48,7 +48,7 @@ class _ManageAddressesPageState extends State<ManageAddressesPage> {
 
             // ✅ Prevent Overflow: Wrap in Expanded
             Expanded(
-              child: StreamBuilder<UserModel?>(
+              child: StreamBuilder<UserDetailModel?>(
                 stream: UserService().streamUserData(testUid),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -59,7 +59,7 @@ class _ManageAddressesPageState extends State<ManageAddressesPage> {
                   }
                   final user = snapshot.data!;
                   final addresses = user.addresses;
-                  if (addresses.isEmpty) {
+                  if (addresses == null) {
                     return const Center(child: Text("No addresses found"));
                   }
                   return AddressList(

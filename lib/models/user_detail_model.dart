@@ -1,27 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class UserModel {
-  final String uid;
-  final String name;
-  final String phone;
-  final List<String> bookings;
-  final List<AddressModel> addresses;
-  final List<String> warranties;
+class UserDetailModel {
+  String? uid;
+  String? name;
+  String? phone;
+  List<String>? bookings;
+  List<AddressModel>? addresses;
+  List<String>? warranties;
 
-  UserModel({
-    required this.uid,
-    required this.name,
-    required this.phone,
-    required this.bookings,
-    required this.addresses,
-    required this.warranties,
+  UserDetailModel({
+    this.uid,
+    this.name,
+    this.phone,
+    this.bookings,
+    this.addresses,
+    this.warranties,
   });
 
-  factory UserModel.fromFirestore(DocumentSnapshot doc) {
+  factory UserDetailModel.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>? ?? {};
 
     try {
-      final user = UserModel(
+      final user = UserDetailModel(
         uid: data['uid'] ?? doc.id,
         name: data['name'] ?? 'Unknown',
         phone: data['phone'] ?? 'No phone',
@@ -37,8 +37,8 @@ class UserModel {
       );
       return user;
     } catch (e) {
-      print("❌ Error parsing UserModel: $e");
-      return UserModel(
+      print("❌ Error parsing UserDetailModel: $e");
+      return UserDetailModel(
         uid: doc.id,
         name: 'Error',
         phone: '',

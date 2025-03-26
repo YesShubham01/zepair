@@ -29,7 +29,7 @@ class ZepairApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: ((context) => UserDatailsProvider())),
+        ChangeNotifierProvider(create: ((context) => UserDetailsProvider())),
       ],
       child: MaterialApp(
         title: 'Zepair',

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
+import 'package:zepair/backend/authentication_backend.dart';
 import 'package:zepair/backend/user_detail_backend_service.dart';
 import 'package:zepair/models/user_detail_model.dart';
 import 'package:zepair/modules/Add%20New%20Address%20Page/support_widget/custom_loaction.dart';
+import 'package:zepair/provider/user_datails_provider.dart';
 import 'package:zepair/utils/custom%20widgets/custom_button.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
@@ -13,8 +16,9 @@ import 'support_widget/custom_text_field.dart';
 
 class AddNewAddressPage extends StatefulWidget {
   final AddressModel? address; // Nullable, used when editing
+  final bool addBackButton;
 
-  const AddNewAddressPage({super.key, this.address});
+  const AddNewAddressPage({super.key, this.address, this.addBackButton = true});
 
   @override
   _AddNewAddressPageState createState() => _AddNewAddressPageState();
@@ -39,8 +43,12 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
   void initState() {
     super.initState();
 
-    _userName = widget.address?.name ?? "Shinchan Nohara";
-    _userPhone = widget.address?.phone ?? "9876543210";
+    _userName = widget.address?.name ??
+        context.read<UserDetailsProvider>().userDetail.name ??
+        "nameNotFound";
+    _userPhone = widget.address?.phone ??
+        context.read<UserDetailsProvider>().userDetail.phone ??
+        "phoneNotFound";
 
     // Pre-fill data if editing an existing address
     _streetController = TextEditingController(
@@ -67,9 +75,9 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const CustomAppBar(
+      appBar: CustomAppBar(
         title: "Enter complete address",
-        applyBackButton: true,
+        applyBackButton: widget.addBackButton,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -101,7 +109,7 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
                             ),
                             Expanded(
                               child: CustomText(
-                                text: "$_userPhone",
+                                text: _userPhone,
                                 fontFamily: FontType.balooBhai2,
                                 size: 16,
                                 color: Colors.black,
@@ -227,27 +235,35 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
 
     bool success;
 
-    if (widget.address != null) {
-      // Update existing address
-      success = await UserService().updateUserAddress(
-        uid: "12345", // Replace with actual user ID
-        oldAddress: widget.address!.address, // Identify the old address
-        name: _userName,
-        phone: _userPhone,
-        newAddress: fullAddress,
-        coordinates: {"latitude": _latitude!, "longitude": _longitude!},
-        type: _selectedType,
-      );
+    String? userUid = context.read<UserDetailsProvider>().userDetail.uid;
+
+    if (userUid == null) {
+      success = false;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("❌ User not logged In")));
     } else {
-      // Add new address
-      success = await UserService().addUserAddress(
-        uid: "12345",
-        name: _userName,
-        phone: _userPhone,
-        address: fullAddress,
-        coordinates: {"latitude": _latitude!, "longitude": _longitude!},
-        type: _selectedType,
-      );
+      if (widget.address != null) {
+        // Update existing address
+        success = await UserService().updateUserAddress(
+          uid: userUid, // Replace with actual user ID
+          oldAddress: widget.address!.address, // Identify the old address
+          name: _userName,
+          phone: _userPhone,
+          newAddress: fullAddress,
+          coordinates: {"latitude": _latitude!, "longitude": _longitude!},
+          type: _selectedType,
+        );
+      } else {
+        // Add new address
+        success = await UserService().addUserAddress(
+          uid: userUid,
+          name: _userName,
+          phone: _userPhone,
+          address: fullAddress,
+          coordinates: {"latitude": _latitude!, "longitude": _longitude!},
+          type: _selectedType,
+        );
+      }
     }
 
     setState(() {
@@ -255,6 +271,7 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
     });
 
     if (success) {
+      await context.read<UserDetailsProvider>().setUserDetails();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text(widget.address != null
@@ -280,23 +297,24 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Edit Details"),
+          title: const Text("Edit Details"),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                   controller: nameController,
-                  decoration: InputDecoration(labelText: "Name")),
-              Gap(10),
+                  decoration: const InputDecoration(labelText: "Name")),
+              const Gap(10),
               TextField(
                   controller: phoneController,
-                  decoration: InputDecoration(labelText: "Phone"),
+                  decoration: const InputDecoration(labelText: "Phone"),
                   keyboardType: TextInputType.phone),
             ],
           ),
           actions: [
             TextButton(
-                onPressed: () => Navigator.pop(context), child: Text("Cancel")),
+                onPressed: () => Navigator.pop(context),
+                child: const Text("Cancel")),
             TextButton(
                 onPressed: () {
                   setState(() {
@@ -305,7 +323,7 @@ class _AddNewAddressPageState extends State<AddNewAddressPage> {
                   });
                   Navigator.pop(context);
                 },
-                child: Text("Save")),
+                child: const Text("Save")),
           ],
         );
       },

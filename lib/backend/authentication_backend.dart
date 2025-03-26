@@ -39,8 +39,7 @@ class AuthenticationBackend {
   // fetch uid
   static String getUserUid() {
     FirebaseAuth auth = FirebaseAuth.instance;
-
-    return auth.currentUser?.uid ?? "Error";
+    return auth.currentUser?.uid ?? "error";
   }
 
   //fetch username
@@ -177,9 +176,9 @@ class AuthenticationBackend {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Phone number linked successfully!'")),
         );
-        Provider.of<UserDatailsProvider>(context, listen: false)
+        Provider.of<UserDetailsProvider>(context, listen: false)
             .setUserPhone(phone);
-        Provider.of<UserDatailsProvider>(context, listen: false)
+        Provider.of<UserDetailsProvider>(context, listen: false)
             .checkAuthenticationAndNavigate(context);
       } else {
         print('No user signed in');

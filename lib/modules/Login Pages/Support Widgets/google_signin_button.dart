@@ -46,9 +46,9 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
 
               bool isLogin = await AuthenticationBackend.continueWithGoogle();
               if (isLogin) {
-                context.read<UserDatailsProvider>().setUserDetails();
+                context.read<UserDetailsProvider>().setUserDetails();
                 context
-                    .read<UserDatailsProvider>()
+                    .read<UserDetailsProvider>()
                     .checkAuthenticationAndNavigate(context);
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(

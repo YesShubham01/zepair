@@ -26,7 +26,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool isLoading = true;
   late double w;
   late double h;
-  final String uid = "12345"; // Use a test UID directly
 
   @override
   void initState() {
@@ -38,7 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     var snapshot = await FirebaseFirestore.instance
         .collection('Users')
         .where('uid',
-            isEqualTo: context.read<UserDatailsProvider>().userDetail.uid)
+            isEqualTo: context.read<UserDetailsProvider>().userDetail.uid)
         .get();
 
     if (mounted) {
@@ -281,7 +280,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onTap: () {
               AuthenticationBackend.logOut();
               context
-                  .read<UserDatailsProvider>()
+                  .read<UserDetailsProvider>()
                   .checkAuthenticationAndNavigate(context);
             },
             child: const CustomText(

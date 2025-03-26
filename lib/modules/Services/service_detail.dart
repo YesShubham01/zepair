@@ -12,9 +12,18 @@ import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 import 'package:zepair/utils/custom%20widgets/custom_title.dart';
 
 class ServiceDetailPage extends StatefulWidget {
-  final ServiceModel serviceModel;
+  final String service;
+  final String description;
+  final double price;
+  final String image;
 
-  const ServiceDetailPage({super.key, required this.serviceModel});
+  const ServiceDetailPage({
+    super.key,
+    required this.service,
+    required this.description,
+    required this.price,
+    required this.image,
+  });
 
   @override
   _ServiceDetailPageState createState() => _ServiceDetailPageState();
@@ -47,7 +56,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
               height: h * 0.12,
               color: Colors.grey.shade300,
               child: Center(
-                child: _getDeviceIcon(widget.serviceModel),
+                child: _getDeviceIcon(widget.image),
               ),
             ),
             _serviceDetails(),
@@ -70,10 +79,10 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomTitle(text: widget.serviceModel.title),
+          CustomTitle(text: widget.service),
           Gap(h * 0.006),
           CustomText(
-            text: widget.serviceModel.description,
+            text: widget.description,
             size: 18,
             fontFamily: FontType.balooBhai2,
           ),
@@ -94,7 +103,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
           Row(
             children: [
               CustomText(
-                text: "₹${widget.serviceModel.price}",
+                text: "₹${widget.price}",
                 size: 24,
                 fontFamily: FontType.sfPro,
                 weight: FontWeight.bold,
@@ -152,9 +161,9 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
           _buildListItem(
               "We will assign a qualified engineer who will reach your doorstep within 24 hours."),
           _buildListItem(
-              "The engineer will thoroughly inspect your ${widget.serviceModel.deviceName} for any issues."),
+              "The engineer will thoroughly inspect your ${widget.service} for any issues."),
           _buildListItem(
-              "Your ${widget.serviceModel.deviceName} will be professionally cleaned and serviced for optimal performance."),
+              "Your ${widget.service} will be professionally cleaned and serviced for optimal performance."),
         ],
       ),
     );
@@ -323,15 +332,14 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
     );
   }
 
-  _getDeviceIcon(ServiceModel serviceData) {
+  _getDeviceIcon(String image) {
     return Hero(
-      tag: widget.serviceModel.title,
+      tag: widget.service,
       child: SizedBox(
         height: h * 0.2,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Image.asset(
-              serviceData.imagePath), // 🔥 Now loading images from Firestore
+          child: Image.asset(image), // 🔥 Now loading images from Firestore
         ),
       ),
     );

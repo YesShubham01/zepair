@@ -3,17 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:zepair/backend/appointment_service.dart';
 import 'package:zepair/models/appointment_model.dart';
-
 import 'package:zepair/modules/Booking%20Page/Support%20Widget/booking_card.dart';
 import 'package:zepair/utils/custom%20widgets/custom_appbar.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_button.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 import 'package:zepair/utils/custom%20widgets/serviceEnum.dart';
-
 import '../../utils/custom widgets/custom_title.dart';
 
 class SchedulePage extends StatefulWidget {
-  final String? uid; // Make it nullable
+  final String? uid;
 
   const SchedulePage({super.key, this.uid});
 
@@ -24,6 +22,14 @@ class SchedulePage extends StatefulWidget {
 class _SchedulePageState extends State<SchedulePage> {
   late double h;
   late double w;
+  late Stream<List<Appointment>> _appointmentStream;
+
+  @override
+  void initState() {
+    super.initState();
+    _appointmentStream =
+        AppointmentService().getUserAppointments(widget.uid ?? "12345");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,69 +42,40 @@ class _SchedulePageState extends State<SchedulePage> {
       appBar: const CustomAppBar(title: "Bookings"),
       body: Padding(
         padding: EdgeInsets.fromLTRB(w * 0.05, h * 0.01, w * 0.05, h * 0.04),
-        child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance
-              .collection('Appointments')
-              .where('uid',
-                  isEqualTo: widget.uid ?? "12345") // Use test UID if needed
-              // .orderBy('timestamp', descending: true) // Order by latest appointments
-              .snapshots(), // Real-time stream
+        child: StreamBuilder<List<Appointment>>(
+          stream: _appointmentStream,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(child: Text("Error: ${snapshot.error}"));
             }
 
-            print("Raw Data: ${snapshot.data?.docs}"); // Debug print
-
-            if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            if (!snapshot.hasData || snapshot.data!.isEmpty) {
               return const Center(child: Text("No bookings available."));
             }
 
-            // Convert Firestore documents to List<Appointment>
-            List<Appointment> serviceList = snapshot.data!.docs
-                .map((doc) => Appointment.fromFirestore(doc))
-                .toList();
+            List<Appointment> serviceList = snapshot.data!;
 
             return ListView(
-              padding: EdgeInsets.symmetric(
-                  horizontal: w * 0.05, vertical: h * 0.01),
               children: [
-                CustomTitle(text: "Available Warranty"),
+                CustomTitle(text: "Active Bookings"),
                 Gap(h * 0.006),
-                Expanded(
-                  child: ListView.separated(
-                    itemCount: serviceList.length,
-                    separatorBuilder: (context, index) => const Gap(0),
-                    itemBuilder: (context, index) {
-                      var service = serviceList[index];
-                      return TweenAnimationBuilder(
-                        duration: Duration(
-                            milliseconds: 300 +
-                                (index * 100)), // Delayed animation per item
-                        tween: Tween<double>(begin: 0, end: 1),
-                        curve: Curves.easeOut, // Smooth animation
-                        builder: (context, double value, child) {
-                          return Opacity(
-                            opacity: value,
-                            child: Transform.scale(
-                              scale: value,
-                              child: child,
-                            ),
-                          );
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.only(bottom: h * 0.006),
-                          child: BookingCard(
-                            imagePath: service.imagePath,
-                            title: service.title,
-                            amountPaid: service.amountPaid,
-                            description: service.description,
-                            status: service.status,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                ListView.separated(
+                  shrinkWrap: true,
+                  itemCount: serviceList.length,
+                  separatorBuilder: (context, index) => const Gap(0),
+                  itemBuilder: (context, index) {
+                    var service = serviceList[index];
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: h * 0.006),
+                      child: BookingCard(
+                        imagePath: service.imagePath,
+                        title: service.title,
+                        amountPaid: service.amountPaid,
+                        description: service.description,
+                        status: service.status,
+                      ),
+                    );
+                  },
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: h * 0.006),

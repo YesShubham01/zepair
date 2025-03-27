@@ -85,31 +85,78 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget addressBar() {
+    UserDetailModel userDetails =
+        context.watch<UserDetailsProvider>().userDetail;
+
+    if (userDetails.addresses == null || userDetails.addresses!.isEmpty) {
+      return const CustomText(
+        text: "No Address Available",
+        size: 18,
+        weight: FontWeight.bold,
+      );
+    }
+
+    // ✅ Get the selected address using selectedAddressIndex
+    int selectedIndex = userDetails.selectedAddressIndex ?? 0;
+    AddressModel selectedAddress = userDetails.addresses![selectedIndex];
+
     return Row(
       children: [
         InkWell(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
+            Navigator.of(context).push(
+              MaterialPageRoute(
                 builder: (_) => const ManageAddressesPage(
-                      showConfirmButton: false,
-                    )));
+                  showConfirmButton: false,
+                ),
+              ),
+            );
           },
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Icon(Icons.location_on, color: Colors.orange),
+              const Icon(Icons.location_on,
+                  color: Colors.orange), // 📍 Location Icon
               Gap(w * 0.0125),
-              const CustomText(
-                  text: "Home",
-                  size: 20,
-                  weight: FontWeight.bold,
-                  color: Colors.black,
-                  fontFamily: FontType.sfPro),
-              const Icon(Icons.keyboard_arrow_down, color: Colors.black54),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      CustomText(
+                        text: selectedAddress
+                            .type, // 🏠 Address Type (e.g., Home, Work)
+                        size: 18,
+                        weight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                      const Icon(Icons.keyboard_arrow_down,
+                          color: Colors.black54, size: 18),
+                    ],
+                  ),
+                  Gap(h * 0.001),
+                  CustomText(
+                    text: _shortenAddress(selectedAddress.address),
+                    size: 16,
+                    color: Colors.grey,
+                    weight: FontWeight.w500,
+                  ),
+                ],
+              ),
             ],
           ),
         )
       ],
     );
+  }
+
+  String _shortenAddress(String address) {
+    List<String> words = address.split(' '); // Split address into words
+    if (words.length > 5) {
+      return words.sublist(0, 5).join(' ') +
+          '...'; // Show first 5 words + "..."
+    }
+    return address;
   }
 
   _getProfileAvatar() {

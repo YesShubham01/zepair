@@ -55,12 +55,15 @@ class _SchedulePageState extends State<SchedulePage> {
 
             List<Appointment> serviceList = snapshot.data!;
 
-            return ListView(
+            return SingleChildScrollView(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomTitle(text: "Active Bookings"),
                 Gap(h * 0.006),
                 ListView.separated(
                   shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
                   itemCount: serviceList.length,
                   separatorBuilder: (context, index) => const Gap(0),
                   itemBuilder: (context, index) {
@@ -89,7 +92,7 @@ class _SchedulePageState extends State<SchedulePage> {
                   ),
                 ),
               ],
-            );
+            ));
           },
         ),
       ),

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
+import 'package:zepair/backend/authentication_backend.dart';
 import 'package:zepair/backend/user_detail_backend_service.dart';
 import 'package:zepair/models/user_detail_model.dart';
 import 'package:zepair/modules/Add%20New%20Address%20Page/add_new_address.dart';
 import 'package:zepair/modules/Manage%20Addresses%20Page/Support%20Widgets/address_list.dart';
 import 'package:zepair/modules/bill%20page/bill_page.dart';
+import 'package:zepair/provider/user_datails_provider.dart';
 import 'package:zepair/utils/constants/colors.dart';
 import 'package:zepair/utils/custom%20widgets/custom_button.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
@@ -61,15 +64,26 @@ class _ManageAddressesPageState extends State<ManageAddressesPage> {
                   if (addresses == null) {
                     return const Center(child: Text("No addresses found"));
                   }
+
                   return AddressList(
                     addresses: addresses,
                     selectedAddress: selectedAddress,
-                    onAddressSelected: (AddressModel address) {
+                    onAddressSelected: (AddressModel address) async {
+                      final selectedIndex = addresses.indexOf(address);
+                      if (selectedIndex == -1) return;
+
                       print("Before Update: ${selectedAddress?.address}");
+
                       setState(() {
                         selectedAddress = address;
-                        print("After Update: ${selectedAddress?.address}");
                       });
+
+                      print("After Update: ${selectedAddress?.address}");
+
+                      // ✅ Update selected index in provider
+                      context
+                          .read<UserDetailsProvider>()
+                          .updateSelectedAddressIndex(selectedIndex);
                     },
                     width: w,
                     height: h,

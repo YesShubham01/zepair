@@ -7,6 +7,7 @@ class UserDetailModel {
   List<String>? bookings;
   List<AddressModel>? addresses;
   List<String>? warranties;
+  int? selectedAddressIndex; // ✅ Added field to store selected address index
 
   UserDetailModel({
     this.uid,
@@ -15,6 +16,7 @@ class UserDetailModel {
     this.bookings,
     this.addresses,
     this.warranties,
+    this.selectedAddressIndex, // ✅ Include in constructor
   });
 
   factory UserDetailModel.fromFirestore(DocumentSnapshot doc) {
@@ -34,6 +36,8 @@ class UserDetailModel {
         warranties: (data['warranties'] as List<dynamic>? ?? [])
             .map((e) => e.toString())
             .toList(),
+        selectedAddressIndex:
+            data['selectedAddressIndex'] ?? 0, // ✅ Default to 0 if missing
       );
       return user;
     } catch (e) {
@@ -42,9 +46,10 @@ class UserDetailModel {
         uid: doc.id,
         name: 'Error',
         phone: '',
-        bookings: [], // Return empty list instead of error
+        bookings: [],
         addresses: [],
         warranties: [],
+        selectedAddressIndex: 0, // ✅ Safe fallback
       );
     }
   }
@@ -72,8 +77,7 @@ class AddressModel {
       phone: map['phone'] ?? '',
       address: map['address'] ?? '',
       coordinates: {
-        "latitude": (map['coordinates']['latitude'] as num)
-            .toDouble(), // ✅ Explicit conversion
+        "latitude": (map['coordinates']['latitude'] as num).toDouble(),
         "longitude": (map['coordinates']['longitude'] as num).toDouble()
       },
       type: map['type'] ?? '',

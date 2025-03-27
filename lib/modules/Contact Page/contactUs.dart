@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:zepair/modules/Contact%20Page/Support%20Widgets/custom_popUp.dart';
 import 'package:zepair/modules/Contact%20Page/Support%20Widgets/faq.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_button.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
@@ -17,6 +18,7 @@ class ContactUsPage extends StatefulWidget {
 }
 
 class _HelpSupportPageState extends State<ContactUsPage> {
+  bool _isCallBooked = false;
   late double w;
   late double h;
   final TextEditingController _messageController = TextEditingController();
@@ -127,16 +129,12 @@ class _HelpSupportPageState extends State<ContactUsPage> {
 
     await MessageService().sendMessage(
       message: _messageController.text,
-      messageType: "USER", // ✅ "User" or "Technician"
+      messageType: "USER",
       userId: "USER_123",
       phone: "+91XXXXXXXXXX",
     );
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          content: Text(
-              "Message sent successfully at ${timestamp.toDate()}!")), // ✅ Show timestamp
-    );
+    showCustomPopup(context, "Message sent successfully!");
 
     _messageController.clear();
   }
@@ -148,19 +146,30 @@ class _HelpSupportPageState extends State<ContactUsPage> {
         CustomTitle(text: "Request a call"),
         Gap(h * 0.011),
         CustomOutlineButton(
-          buttonText: "Book Call",
-          onPressed: () async {
-            await CallService().bookCall(
-              userId: "USER_123", // Replace with actual user ID
-              phone: "+91XXXXXXXXXX", // Replace with actual phone number
-            );
-
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("Call booked successfully!")),
-            );
-          },
+          buttonText: _isCallBooked ? "Call Booked" : "Book Call",
+          onPressed:
+              _isCallBooked ? () {} : _getBookCallCallback(), // ✅ Never null
         ),
       ],
     );
+  }
+
+  // ✅ Returns VoidCallback
+  VoidCallback _getBookCallCallback() {
+    return () async {
+      await CallService().bookCall(
+        userId: "USER_123",
+        phone: "+91XXXXXXXXXX",
+      );
+
+      setState(() {
+        _isCallBooked = true; // Disable button after booking
+      });
+
+      showCustomPopup(
+        context,
+        "Call booked successfully! Our team will reach out to you shortly.",
+      );
+    };
   }
 }

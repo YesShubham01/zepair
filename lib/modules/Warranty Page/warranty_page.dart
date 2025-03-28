@@ -35,7 +35,7 @@ class _WarrantyPageState extends State<WarrantyPage> {
           CustomTitle(text: "Available Warranty"),
           Gap(h * 0.006),
           WarrantyList(
-              warrantyStream: WarrantyService().getUserWarrantiesStream(userId))
+              warrantyStream: WarrantyService().getUserWarrantiesStream())
         ],
       ),
     );

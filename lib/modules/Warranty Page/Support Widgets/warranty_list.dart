@@ -24,53 +24,42 @@ class WarrantyList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-        // ListView.separated(
-        //   shrinkWrap: true,
-        //   physics: const NeverScrollableScrollPhysics(),
-        //   itemCount: warranties.length,
-        //   separatorBuilder: (context, index) => Gap(height * 0.006),
-        //   itemBuilder: (context, index) => WarrantyCard(
-        //     device: warranties[index].device,
-        //     onDate: warranties[index].onDate,
-        //     validTill: warranties[index].validTill,
-        //   ),
-        // );
-        StreamBuilder<List<WarrantyModel>>(
-      stream: warrantyStream,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CustomLoadingScreen());
-        }
-        if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(child: CustomText(text: "No warranties found"));
-        }
+    return Expanded(
+      child: StreamBuilder<List<WarrantyModel>>(
+        stream: warrantyStream,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CustomLoadingScreen());
+          }
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: CustomText(text: "No warranties found"));
+          }
 
-        List<WarrantyModel> warranties = snapshot.data!;
-        return ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: warranties.length,
-          separatorBuilder: (context, index) => const Gap(10),
-          itemBuilder: (context, index) => TweenAnimationBuilder(
-            duration: Duration(
-                milliseconds:
-                    300 + (index * 100)), // Delayed animation per item
-            tween: Tween<double>(begin: 0, end: 1),
-            curve: Curves.easeOut, // Smooth animation
-            builder: (context, double value, child) {
-              return Opacity(
-                opacity: value,
-                child: Transform.scale(
-                  scale: value,
-                  child: child,
-                ),
-              );
-            },
-            child: WarrantyCard(warranty: warranties[index]),
-          ),
-        );
-      },
+          List<WarrantyModel> warranties = snapshot.data!;
+          return ListView.separated(
+            shrinkWrap: true,
+            itemCount: warranties.length,
+            separatorBuilder: (context, index) => const Gap(10),
+            itemBuilder: (context, index) => TweenAnimationBuilder(
+              duration: Duration(
+                  milliseconds:
+                      300 + (index * 100)), // Delayed animation per item
+              tween: Tween<double>(begin: 0, end: 1),
+              curve: Curves.easeOut, // Smooth animation
+              builder: (context, double value, child) {
+                return Opacity(
+                  opacity: value,
+                  child: Transform.scale(
+                    scale: value,
+                    child: child,
+                  ),
+                );
+              },
+              child: WarrantyCard(warranty: warranties[index]),
+            ),
+          );
+        },
+      ),
     );
   }
 }

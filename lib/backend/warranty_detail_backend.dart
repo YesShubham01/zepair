@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:zepair/backend/authentication_backend.dart';
 import 'package:zepair/models/warranty_model.dart';
 
 class WarrantyService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Stream<List<WarrantyModel>> getUserWarrantiesStream(String uid) {
+  Stream<List<WarrantyModel>> getUserWarrantiesStream() {
+    String uid = AuthenticationBackend.getUserUid();
     return _firestore
         .collection('Users')
         .where('uid', isEqualTo: uid) // Find document where 'uid' matches

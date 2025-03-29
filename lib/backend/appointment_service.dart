@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:zepair/backend/authentication_backend.dart';
 import '../models/appointment_model.dart';
 
 class AppointmentService {
@@ -33,7 +34,8 @@ class AppointmentService {
     }
   }
 
-  Stream<List<Appointment>> getUserAppointments(String uid) {
+  Stream<List<Appointment>> getUserAppointments() {
+    String uid = AuthenticationBackend.getUserUid();
     return _firestore
         .collection('Users')
         .doc(uid)

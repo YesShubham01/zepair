@@ -25,27 +25,17 @@ class _WarrantyPageState extends State<WarrantyPage> {
     w = size.width;
     h = size.height;
 
-    String userId = "12345";
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const CustomAppBar(title: "Warranty"),
-
-      body: SingleChildScrollView(
-        // Ensures full scrollability
-        child: Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.01),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomTitle(text: "Available Warranty"),
-              Gap(h * 0.006),
-              WarrantyList(
-              warrantyStream: WarrantyService().getUserWarrantiesStream()),
-            ],
-          ),
-        ),
-
+      body: ListView(
+        padding: EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.01),
+        children: [
+          CustomTitle(text: "Available Warranty"),
+          Gap(h * 0.006),
+          WarrantyList(
+              warrantyStream: WarrantyService().getUserWarrantiesStream())
+        ],
       ),
     );
   }

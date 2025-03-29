@@ -100,6 +100,12 @@ class UserDetailsProvider extends ChangeNotifier {
   //   return userDetail.notification?.length.toString();
   // }
 
+  void updateSelectedAddressIndex(int index) async {
+    userDetail.selectedAddressIndex = index; // ✅ Update local state
+    notifyListeners();
+    _updateUserInFirestore(); // ✅ Notify UI to rebuild
+  }
+
   /// **🔥 Updates Firestore whenever user details are changed**
   Future<void> _updateUserInFirestore() async {
     try {
@@ -121,6 +127,7 @@ class UserDetailsProvider extends ChangeNotifier {
                 })
             .toList(),
         "warranties": userDetail.warranties ?? [],
+        "selectedAddressIndex": userDetail.selectedAddressIndex ?? 0,
       }, SetOptions(merge: true)); // ✅ Merges with existing data
 
       print("✅ Firestore updated successfully!");

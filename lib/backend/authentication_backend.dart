@@ -99,7 +99,8 @@ class AuthenticationBackend {
 
   static int? _resendToken; // Store the resend token for re-sending OTP
 
-  static void signInWithPhone(String phoneNumber, BuildContext context) async {
+  static Future<void> signInWithPhone(
+      String phoneNumber, BuildContext context) async {
     try {
       await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: phoneNumber,
@@ -133,7 +134,7 @@ class AuthenticationBackend {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Error: ${e.toString()}")));
     }
-    return null;
+    return;
   }
 
   static Future<void> resendCode(String phoneNumber) async {

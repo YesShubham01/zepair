@@ -17,6 +17,8 @@ class _LoginPageState extends State<LoginPage> {
   late double w;
   late double h;
 
+  bool isLoading = false;
+
   final TextEditingController phoneNumberController = TextEditingController();
   @override
   void initState() {
@@ -149,14 +151,21 @@ class _LoginPageState extends State<LoginPage> {
       width: w * 0.88,
       height: h * 0.06,
       child: ElevatedButton(
-        onPressed: () {
+        onPressed: () async {
+          setState(() {
+            isLoading = true;
+          });
           // Add login logic here
           String phoneNumberWithCountryCode =
               "+91${phoneNumberController.text}";
 
           // print(phoneNumberWithCountryCode);
-          AuthenticationBackend.signInWithPhone(
+          await AuthenticationBackend.signInWithPhone(
               phoneNumberWithCountryCode, context);
+
+          setState(() {
+            isLoading = false;
+          });
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: CustomColors.buttonBg,
@@ -164,12 +173,14 @@ class _LoginPageState extends State<LoginPage> {
             borderRadius: BorderRadius.circular(w * 0.024),
           ),
         ),
-        child: CustomText(
-          text: 'Continue',
-          size: w * 0.045,
-          weight: FontWeight.w500,
-          color: Colors.black,
-        ),
+        child: isLoading
+            ? const CircularProgressIndicator()
+            : CustomText(
+                text: 'Continue',
+                size: w * 0.045,
+                weight: FontWeight.w500,
+                color: Colors.black,
+              ),
       ),
     );
   }

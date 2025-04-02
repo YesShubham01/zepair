@@ -134,6 +134,6 @@ class _PaymentResponseSuccessPageState
           widget.response.signature ?? "Payment Signature is empty",
     );
 
-    AppointmentService.addAppointment(appointment);
+    AppointmentService.addAppointment(appointment, context);
   }
 }

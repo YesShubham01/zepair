@@ -29,17 +29,21 @@ class WarrantyList extends StatelessWidget {
         stream: warrantyStream,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CustomLoadingScreen());
-          }
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: CustomText(text: "No warranties found"));
+            return const CustomLoadingScreen(); // Show loader while waiting
           }
 
+          if (snapshot.hasError) {
+            return Center(child: Text("Error: ${snapshot.error}"));
+          }
+
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text("No bookings available."));
+          }
           List<WarrantyModel> warranties = snapshot.data!;
           return ListView.separated(
             shrinkWrap: true,
             itemCount: warranties.length,
-            separatorBuilder: (context, index) => const Gap(10),
+            separatorBuilder: (context, index) => const Gap(0),
             itemBuilder: (context, index) => TweenAnimationBuilder(
               duration: Duration(
                   milliseconds:

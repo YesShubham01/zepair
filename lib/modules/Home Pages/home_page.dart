@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
+import 'package:zepair/backend/authentication_backend.dart';
 import 'package:zepair/backend/appointment_service.dart';
 import 'package:zepair/models/appointment_model.dart';
 import 'package:zepair/models/user_detail_model.dart';
@@ -178,8 +179,7 @@ class _HomePageState extends State<HomePage> {
   String _shortenAddress(String address) {
     List<String> words = address.split(' '); // Split address into words
     if (words.length > 5) {
-      return words.sublist(0, 5).join(' ') +
-          '...'; // Show first 5 words + "..."
+      return '${words.sublist(0, 5).join(' ')}...'; // Show first 5 words + "..."
     }
     return address;
   }
@@ -190,7 +190,9 @@ class _HomePageState extends State<HomePage> {
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (_) => const ProfileScreen()));
       },
-      child: const CircleAvatar(
+      child: CircleAvatar(
+        foregroundImage:
+            NetworkImage(AuthenticationBackend.getProfileImageURL()),
         foregroundColor: CustomColors.lightBlue,
       ),
     );

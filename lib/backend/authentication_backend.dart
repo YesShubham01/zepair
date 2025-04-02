@@ -49,6 +49,13 @@ class AuthenticationBackend {
     return auth.currentUser?.displayName ?? "Error";
   }
 
+  //fetch profileURL
+  static String getProfileImageURL() {
+    FirebaseAuth auth = FirebaseAuth.instance;
+
+    return auth.currentUser?.photoURL ?? "Error";
+  }
+
   // sign out
   static void logOut() async {
     await FirebaseAuth.instance.signOut();
@@ -179,8 +186,6 @@ class AuthenticationBackend {
         );
         Provider.of<UserDetailsProvider>(context, listen: false)
             .setUserPhone(phone);
-        Provider.of<UserDetailsProvider>(context, listen: false)
-            .checkAuthenticationAndNavigate(context);
       } else {
         print('No user signed in');
       }

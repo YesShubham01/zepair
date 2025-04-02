@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pinput/pinput.dart';
+import 'package:provider/provider.dart';
 import 'package:zepair/backend/authentication_backend.dart';
-import 'package:zepair/modules/Home%20Pages/home_screen.dart';
+import 'package:zepair/provider/user_datails_provider.dart';
 import 'package:zepair/utils/constants/colors.dart';
 import 'package:zepair/utils/custom%20widgets/custom_appbar.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
@@ -158,6 +159,11 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
         _showErrorSnackbar("Incorrect OTP. Please try again.");
       } else {
         // Show success animation and navigate
+
+        setState(() {
+          isLoading = false;
+        });
+
         showDialog(
           context: context,
           barrierDismissible: false, // Prevent user from dismissing the dialog
@@ -170,7 +176,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
                     repeat: true), // Your Lottie animation file
                 const Gap(20),
                 const CustomText(
-                  text: "Verification Successful!",
+                  text: "Phone Verification Successful!",
                   size: 18,
                   weight: FontWeight.bold,
                 ),
@@ -180,17 +186,14 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
         );
 
         // // Wait for animation to play before navigating
-        // await Future.delayed(const Duration(seconds: 2));
+        await Future.delayed(const Duration(seconds: 2));
 
         // // Close the dialog
-        // if (mounted) {
-        //   Navigator.pop(context);
-        // }
-
-        // // Navigate to the homepage (replace with your actual homepage route)
-        // if (mounted) {
-        //   Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-        // }
+        if (mounted) {
+          Navigator.pop(context);
+        }
+        Provider.of<UserDetailsProvider>(context, listen: false)
+            .checkAuthenticationAndNavigate(context);
       }
     } catch (e) {
       _showErrorSnackbar("Something went wrong. Please try again.");

@@ -1,17 +1,16 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:zepair/backend/user_detail_backend_service.dart';
-import 'package:zepair/models/user_detail_model.dart';
+import 'package:velocity_x/velocity_x.dart';
 import 'package:provider/provider.dart';
 import 'package:zepair/backend/authentication_backend.dart';
 import 'package:zepair/modules/Manage%20Addresses%20Page/manage_addresses_page.dart';
 import 'package:zepair/modules/Profile%20Page/Support%20Widgets/profile_card.dart';
 import 'package:zepair/modules/Profile%20Page/Support%20Widgets/profile_menuItem.dart';
+import 'package:zepair/modules/Profile%20Page/Support%20Widgets/profile_page_header.dart';
 import 'package:zepair/provider/user_datails_provider.dart';
-import 'package:zepair/utils/constants/colors.dart';
 import 'package:zepair/utils/custom%20widgets/custom_appbar.dart';
+import 'package:zepair/utils/custom%20widgets/custom_outline_button.dart';
+import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -22,32 +21,13 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  Map<String, dynamic>? user; // Store user data
-  bool isLoading = true;
   late double w;
   late double h;
+  late double space;
 
   @override
   void initState() {
     super.initState();
-    _loadUserData();
-  }
-
-  void _loadUserData() async {
-    var snapshot = await FirebaseFirestore.instance
-        .collection('Users')
-        .where('uid',
-            isEqualTo: context.read<UserDetailsProvider>().userDetail.uid)
-        .get();
-
-    if (mounted) {
-      setState(() {
-        if (snapshot.docs.isNotEmpty) {
-          user = snapshot.docs.first.data();
-        }
-        isLoading = false;
-      });
-    }
   }
 
   @override
@@ -55,103 +35,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
     var dimensions = MediaQuery.sizeOf(context);
     w = dimensions.width;
     h = dimensions.height;
-
-    if (isLoading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
-
-    if (user == null) {
-      return const Scaffold(
-        body: Center(child: Text("User data not found")),
-      );
-    }
+    space = h * 0.015; // adjust space between button tiles from here.
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: const CustomAppBar(
-        title: "Profile Page",
-        applyBackButton: true,
-      ),
+      backgroundColor: const Color.fromARGB(255, 252, 248, 229),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getProfileHeader(
-              name: user!['name'] ?? "Unknown",
-              phone: user!['phone'] ?? "N/A",
-            ),
-            Gap(h * 0.02),
-            getProfileActions(),
-            Gap(h * 0.02),
-            getProfileMenu(),
-            Gap(h * 0.02),
-            getReferEarnSection(),
-            Gap(h * 0.02),
-            getLogoutButton(),
-            Gap(h * 0.1),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget getProfileHeader({
-    required String name,
-    required String phone,
-  }) {
-    return Container(
-      padding: EdgeInsets.fromLTRB(w * 0.05, h * 0.01, 0, h * 0.02),
-      color: CustomColors.containerBg,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Gap(h * 0.02),
-          CustomText(
-            text: "$name",
-            size: 24,
-            weight: FontWeight.bold,
-            fontFamily: FontType.balooBhai2,
-          ),
-          Gap(h * 0.001),
-          CustomText(
-            text: "$phone",
-            size: 16,
-            fontFamily: FontType.balooBhai2,
-          ),
-          Gap(h * 0.01),
-          _buildTapEffectRow(
-            text: "Edit Profile",
-            icon: Icons.arrow_forward_ios,
-            onTap: () {},
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTapEffectRow({
-    required String text,
-    required IconData icon,
-    required VoidCallback onTap,
-  }) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        splashColor: Colors.grey.withOpacity(0.3),
-        highlightColor: Colors.grey.withOpacity(0.2),
-        child: Row(
-          children: [
-            CustomText(
-              text: text,
-              size: 18,
-              fontFamily: FontType.balooBhai2,
-              weight: FontWeight.w500,
-            ),
-            Gap(w * 0.012),
-            Icon(icon, size: 16),
+            const ProfilePageHeader(),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: w * 0.05),
+              child: Column(
+                children: [
+                  Gap(space),
+                  getProfileActions(),
+                  Gap(space),
+                  getProfileMenu(),
+                  Gap(space),
+                  getReferEarnSection(),
+                  Gap(space),
+                  getLogoutButton(),
+                  Gap(h * 0.1),
+                ],
+              ),
+            )
           ],
         ),
       ),
@@ -159,32 +67,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget getProfileActions() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: w * 0.05),
-      child: Row(
-        children: [
-          Expanded(
-            child: ProfileCard(
-              icon: Icons.book,
-              text: "My Bookings",
-              onTap: () {},
-            ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: ProfileCard(
+            icon: Icons.book,
+            text: "My Bookings",
+            onTap: () {},
           ),
-          Gap(w * 0.04),
-          Expanded(
-            child: ProfileCard(
-              icon: Icons.headset_mic,
-              text: "Help & Support",
-              onTap: () {},
-            ),
+        ),
+        Gap(w * 0.04),
+        Expanded(
+          child: ProfileCard(
+            icon: Icons.headset_mic,
+            text: "Help & Support",
+            onTap: () {},
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget getProfileMenu() {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         ProfileMenuItem(
           icon: Icons.location_on,
@@ -196,16 +103,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     )));
           },
         ),
+        Gap(space),
         ProfileMenuItem(
           icon: Icons.payment,
           text: "Manage payment methods",
           onTap: () {},
         ),
+        Gap(space),
         ProfileMenuItem(
           icon: Icons.settings,
           text: "Settings",
           onTap: () {},
         ),
+        Gap(space),
         ProfileMenuItem(
           icon: Icons.info,
           text: "About",
@@ -216,81 +126,54 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget getReferEarnSection() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: w * 0.04),
-      child: Container(
-        padding: EdgeInsets.fromLTRB(w * 0.05, h * 0.017, w * 0.05, h * 0.017),
-        decoration: BoxDecoration(
-          color: Colors.grey[300],
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const CustomText(
-              text: "Refer & earn ₹100",
-              size: 18,
-              weight: FontWeight.bold,
+    return CustomCardWidget(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const CustomText(
+            text: "Refer & earn ₹100",
+            size: 18,
+            weight: FontWeight.bold,
+            fontFamily: FontType.sfPro,
+          ),
+          const SizedBox(height: 3),
+          const CustomText(
+            text: "Get ₹100 when your friend completes their first booking",
+            size: 16,
+            weight: FontWeight.normal,
+          ),
+          const SizedBox(height: 5),
+          ElevatedButton(
+            onPressed: () {},
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.grey[500],
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            child: const CustomText(
+              text: "Refer Now!",
+              color: Colors.white,
+              size: 16,
               fontFamily: FontType.sfPro,
             ),
-            const SizedBox(height: 3),
-            const CustomText(
-              text: "Get ₹100 when your friend completes their first booking",
-              size: 16,
-              weight: FontWeight.normal,
-            ),
-            const SizedBox(height: 5),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey[500],
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: const CustomText(
-                text: "Refer Now!",
-                color: Colors.white,
-                size: 16,
-                fontFamily: FontType.sfPro,
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        ],
+      ).pSymmetric(v: h * 0.01, h: w * 0.03),
     );
   }
 
   Widget getLogoutButton() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: w * 0.04),
-      child: TextButton(
-        onPressed: () {},
-        style: TextButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          side: const BorderSide(color: Colors.red),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-        ),
-        child: Center(
-          child: InkWell(
-            onTap: () {
-              AuthenticationBackend.logOut();
-              context
-                  .read<UserDetailsProvider>()
-                  .checkAuthenticationAndNavigate(context);
-            },
-            child: const CustomText(
-              text: "Logout",
-              color: Colors.red,
-              size: 22,
-            ),
-          ),
-        ),
-      ),
+    return CustomOutlineButton(
+      onPressed: () {
+        AuthenticationBackend.logOut();
+        context
+            .read<UserDetailsProvider>()
+            .checkAuthenticationAndNavigate(context);
+      },
+      buttonText: "Logout",
+      color: Colors.red,
     );
   }
 }

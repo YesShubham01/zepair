@@ -80,4 +80,17 @@ class AppointmentService {
       return null; // No active appointment for this user
     });
   }
+
+  Stream<bool> isAppointmentCompleted(String appointmentId) {
+    return _firestore
+        .collection('Appointments')
+        .doc(appointmentId)
+        .snapshots()
+        .map((snapshot) {
+      if (snapshot.exists && snapshot.data() != null) {
+        return snapshot.data()!['isCompleted'] ?? false;
+      }
+      return false;
+    });
+  }
 }

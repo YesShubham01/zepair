@@ -84,8 +84,10 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          ServiceProgressPage(otp: snapshot.data!.otp)),
+                      builder: (context) => ServiceProgressPage(
+                            otp: snapshot.data!.otp,
+                            appointmentId: snapshot.data!.appointmentId,
+                          )),
                 );
               },
               child: ServiceInProgressBottomBar(otp: snapshot.data!.otp),

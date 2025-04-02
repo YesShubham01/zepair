@@ -106,6 +106,14 @@ class UserDetailsProvider extends ChangeNotifier {
     _updateUserInFirestore(); // ✅ Notify UI to rebuild
   }
 
+  void addAppointmentId(String appointmentId) async {
+    userDetail.bookings ??= [];
+    userDetail.bookings!.add(appointmentId);
+
+    _updateUserInFirestore(); // ✅ Notify UI to rebuild
+    notifyListeners();
+  }
+
   /// **🔥 Updates Firestore whenever user details are changed**
   Future<void> _updateUserInFirestore() async {
     try {

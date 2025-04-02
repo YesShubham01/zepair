@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:zepair/backend/authentication_backend.dart';
+import 'package:zepair/provider/user_datails_provider.dart';
 import '../models/appointment_model.dart';
 
 class AppointmentService {
@@ -18,17 +21,22 @@ class AppointmentService {
   }
 
   // Add New Appointment
-  static Future<void> addAppointment(Appointment appointment) async {
+  static Future<void> addAppointment(
+      Appointment appointment, BuildContext context) async {
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
     try {
+      String appointmentUid = appointment.razorpayOrderId;
       await firestore
           .collection('Appointments')
-          .doc(appointment.razorpayOrderId) // Use orderId as the document ID
+          .doc(appointmentUid) // Use orderId as the document ID
           .set(appointment.toFirestore());
 
       print(
           "Appointment added successfully with ID: ${appointment.razorpayOrderId}");
+
+      // also add appointment Id to user's detail.
+      context.read<UserDetailsProvider>().addAppointmentId(appointmentUid);
     } catch (e) {
       print("Error adding appointment: $e");
     }

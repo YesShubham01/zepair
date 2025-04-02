@@ -28,14 +28,18 @@ class _WarrantyPageState extends State<WarrantyPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const CustomAppBar(title: "Warranty"),
-      body: ListView(
+      body: Padding(
         padding: EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.01),
-        children: [
-          CustomTitle(text: "Available Warranty"),
-          Gap(h * 0.006),
-          WarrantyList(
-              warrantyStream: WarrantyService().getUserWarrantiesStream())
-        ],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            CustomTitle(text: "Available Warranty"),
+            Gap(h * 0.006),
+            WarrantyList(
+                warrantyStream: WarrantyService().getUserWarrantiesStream()),
+          ],
+        ),
       ),
     );
   }

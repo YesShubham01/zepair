@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:zepair/backend/appointment_service.dart';
@@ -6,9 +5,6 @@ import 'package:zepair/models/appointment_model.dart';
 import 'package:zepair/modules/Booking%20Page/Support%20Widget/booking_card.dart';
 import 'package:zepair/utils/custom%20widgets/custom_appbar.dart';
 import 'package:zepair/utils/custom%20widgets/custom_loading_screen.dart';
-import 'package:zepair/utils/custom%20widgets/custom_outline_button.dart';
-import 'package:zepair/utils/custom%20widgets/custom_text.dart';
-import 'package:zepair/utils/custom%20widgets/serviceEnum.dart';
 import '../../utils/custom widgets/custom_title.dart';
 
 class SchedulePage extends StatefulWidget {
@@ -86,17 +82,19 @@ class _SchedulePageState extends State<SchedulePage> {
                 },
               ),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: h * 0.006),
-              child: CustomOutlineButton(
-                height: h * 0.06,
-                width: w * 0.9,
-                buttonText: "Need Help?",
-                onPressed: () {
-                  print("Need Help button clicked");
-                },
-              ),
-            ),
+
+            //! currently not using need Help? button
+            // Padding(
+            //   padding: EdgeInsets.symmetric(vertical: h * 0.006),
+            //   child: CustomOutlineButton(
+            //     height: h * 0.06,
+            //     width: w * 0.9,
+            //     buttonText: "Need Help?",
+            //     onPressed: () {
+            //       print("Need Help button clicked");
+            //     },
+            //   ),
+            // ),
           ],
         ),
       ),

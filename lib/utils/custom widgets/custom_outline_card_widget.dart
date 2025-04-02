@@ -13,6 +13,7 @@ class _CustomCardWidgetState extends State<CustomCardWidget> {
   @override
   Widget build(BuildContext context) {
     return Card.outlined(
+      margin: EdgeInsets.zero,
       color: widget.color ?? const Color.fromARGB(100, 241, 237, 237),
       clipBehavior: Clip.antiAlias,
       shape: const RoundedRectangleBorder(

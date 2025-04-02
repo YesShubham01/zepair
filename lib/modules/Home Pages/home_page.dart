@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
+import 'package:zepair/backend/appointment_service.dart';
+import 'package:zepair/models/appointment_model.dart';
 import 'package:zepair/models/user_detail_model.dart';
 import 'package:zepair/modules/Home%20Pages/Support%20Widgets/custom_searchbar.dart';
 import 'package:zepair/modules/Home%20Pages/Support%20Widgets/service_grid.dart';
@@ -9,6 +11,7 @@ import 'package:zepair/modules/Notification%20Page/notification_page.dart';
 import 'package:zepair/modules/Profile%20Page/Support%20Widgets/profile_card.dart';
 import 'package:zepair/modules/Profile%20Page/profile_page.dart';
 import 'package:zepair/modules/Service%20Progress/service_progress.dart';
+import 'package:zepair/modules/sharing_otp/sharing_otp.dart';
 import 'package:zepair/provider/user_datails_provider.dart';
 import 'package:zepair/utils/constants/colors.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
@@ -71,7 +74,27 @@ class _HomePageState extends State<HomePage> {
           const ServiceGrid(),
         ],
       ),
-      // bottomNavigationBar: const ServiceInProgressBottomBar(),
+      bottomNavigationBar: StreamBuilder<Appointment?>(
+        stream: AppointmentService().getAssignedAppointment(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData && snapshot.data != null) {
+            return GestureDetector(
+              onTap: () {
+                // Navigate to ServiceDetailsPage when tapped
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          ServiceProgressPage(otp: snapshot.data!.otp)),
+                );
+              },
+              child: ServiceInProgressBottomBar(otp: snapshot.data!.otp),
+            );
+          }
+          return const SizedBox
+              .shrink(); // Hide Bottom Bar if no assigned appointment
+        },
+      ),
     );
   }
 

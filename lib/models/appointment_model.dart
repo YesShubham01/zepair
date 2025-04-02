@@ -12,6 +12,11 @@ class Appointment {
   final String razorpayOrderId;
   final String razorpayPaymentId;
   final String razorpayPaymentSignature;
+  final String? assignedDate;
+  final String? assignedTime;
+  final String? technicianId;
+  final String? otp;
+  final bool? isAssigned;
 
   Appointment({
     required this.appointmentId,
@@ -25,6 +30,11 @@ class Appointment {
     required this.razorpayOrderId,
     required this.razorpayPaymentId,
     required this.razorpayPaymentSignature,
+    this.assignedDate,
+    this.assignedTime,
+    this.technicianId,
+    this.otp,
+    this.isAssigned,
   });
 
   // Convert Firestore DocumentSnapshot to Appointment Model
@@ -43,6 +53,11 @@ class Appointment {
       razorpayOrderId: data["razorpayOrderId"] ?? '',
       razorpayPaymentId: data["razorpayPaymentId"] ?? '',
       razorpayPaymentSignature: data["razorpayPaymentSignature"] ?? '',
+      assignedDate: data['assignedDate'] ?? '',
+      assignedTime: data['assignedTime'] ?? '',
+      technicianId: data['technicianId'] ?? '',
+      otp: data['otp'] ?? '',
+      isAssigned: data['isAssigned'] ?? false,
     );
   }
 
@@ -58,7 +73,7 @@ class Appointment {
       'imagePath': imagePath,
       'razorpayOrderId': razorpayOrderId,
       'razorpayPaymentId': razorpayPaymentId,
-      'razorpayPaymentSignature': razorpayPaymentSignature,
+      'razorpayPaymentSignature': razorpayPaymentSignature
     };
   }
 }

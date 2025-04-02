@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
         color: Colors.black,
         height: 50,
         elevation: 5,
-        curveSize: 75,
+        curveSize: 80,
         style: TabStyle.react,
         items: [
           const TabItem(

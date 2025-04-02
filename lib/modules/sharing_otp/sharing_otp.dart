@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gap/gap.dart';
+import 'package:lottie/lottie.dart';
+import 'package:zepair/modules/Feedback%20Page/feedback_page.dart';
 import 'package:zepair/utils/constants/colors.dart';
+import 'package:zepair/utils/constants/image_paths.dart';
 import '../../utils/custom widgets/custom_button.dart';
 import '../../utils/custom widgets/custom_text.dart';
 
@@ -8,9 +12,9 @@ import 'Support widget/image/image.dart';
 import 'Support widget/otp bar/otp.dart';
 
 class ServiceProgressPage extends StatelessWidget {
-  final String otp;
+  final String? otp;
 
-  const ServiceProgressPage({super.key, required this.otp});
+  const ServiceProgressPage({super.key, this.otp});
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +42,12 @@ class ServiceProgressPage extends StatelessWidget {
             Center(
               child: Column(
                 children: [
-                  ImageWidget(height: h * 0.2, width: 1.5 * w),
-                  SizedBox(height: h * 0.02),
+                  SizedBox(
+                    width: w * 0.6,
+                    child: Lottie.asset(
+                      ImagePaths.serviceProgressAnimation,
+                    ),
+                  ),
                   const CustomText(
                     text: "Your Service in Progress",
                     size: 26,
@@ -73,7 +81,7 @@ class ServiceProgressPage extends StatelessWidget {
                 SizedBox(width: w * 0.02),
                 GestureDetector(
                   onTap: () {
-                    Clipboard.setData(ClipboardData(text: otp));
+                    Clipboard.setData(ClipboardData(text: otp!));
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text("OTP Copied!")),
                     );
@@ -112,7 +120,12 @@ class ServiceProgressPage extends StatelessWidget {
 
             CustomButton(
               text: "Done",
-              onPressed: () {}, // Action here
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const FeedbackPage()),
+                );
+              }, // Action here
             ),
 
             SizedBox(height: h * 0.05),

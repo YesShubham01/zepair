@@ -4,6 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:zepair/backend/appointment_service.dart';
+import 'package:zepair/backend/authentication_backend.dart';
 import 'package:zepair/backend/payment_backend.dart';
 import 'package:zepair/models/appointment_model.dart';
 import 'package:zepair/modules/Home%20Pages/home_screen.dart';
@@ -119,7 +120,7 @@ class _PaymentResponseSuccessPageState
     Appointment appointment = Appointment(
       appointmentId:
           widget.backendOrderId, // Use backendOrderId as appointment ID
-      uid: "12345", // Replace with actual user ID
+      uid: AuthenticationBackend.getUserUid(), // Replace with actual user ID
       title: "Service Appointment", // Replace with actual title
       amountPaid: 100, // Replace with actual amount
       description: "Service description", // Replace with actual description

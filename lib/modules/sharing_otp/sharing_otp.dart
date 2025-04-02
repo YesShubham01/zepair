@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gap/gap.dart';
+import 'package:lottie/lottie.dart';
+import 'package:zepair/backend/appointment_service.dart';
+import 'package:zepair/modules/Feedback%20Page/feedback_page.dart';
 import 'package:zepair/utils/constants/colors.dart';
+import 'package:zepair/utils/constants/image_paths.dart';
+import 'package:zepair/utils/custom%20widgets/custom_appbar.dart';
 import '../../utils/custom widgets/custom_button.dart';
 import '../../utils/custom widgets/custom_text.dart';
 
@@ -8,9 +14,10 @@ import 'Support widget/image/image.dart';
 import 'Support widget/otp bar/otp.dart';
 
 class ServiceProgressPage extends StatelessWidget {
-  final String otp;
+  final String? otp;
+  final String appointmentId;
 
-  const ServiceProgressPage({super.key, required this.otp});
+  const ServiceProgressPage({super.key, this.otp, required this.appointmentId});
 
   @override
   Widget build(BuildContext context) {
@@ -20,26 +27,30 @@ class ServiceProgressPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-        elevation: 0,
+      appBar: const CustomAppBar(
+        title: " ",
+        applyBackButton: true,
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: w * 0.05),
+        padding: EdgeInsets.symmetric(
+          horizontal: w * 0.05,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: h * 0.02),
-
             // Centered Image & Title
             Center(
               child: Column(
                 children: [
-                  ImageWidget(height: h * 0.2, width: 1.5 * w),
-                  SizedBox(height: h * 0.02),
+                  SizedBox(
+                    width:
+                        w * 0.55, // Reduce width to adjust its height as well
+                    height: h * 0.25, // Explicitly set height to reduce space
+                    child: Lottie.asset(
+                      ImagePaths.serviceProgressAnimation,
+                      // Ensure it fits within the given size
+                    ),
+                  ),
                   const CustomText(
                     text: "Your Service in Progress",
                     size: 26,
@@ -73,7 +84,7 @@ class ServiceProgressPage extends StatelessWidget {
                 SizedBox(width: w * 0.02),
                 GestureDetector(
                   onTap: () {
-                    Clipboard.setData(ClipboardData(text: otp));
+                    Clipboard.setData(ClipboardData(text: otp!));
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text("OTP Copied!")),
                     );
@@ -110,9 +121,29 @@ class ServiceProgressPage extends StatelessWidget {
 
             const Spacer(),
 
-            CustomButton(
-              text: "Done",
-              onPressed: () {}, // Action here
+            StreamBuilder<bool>(
+              stream:
+                  AppointmentService().isAppointmentCompleted(appointmentId),
+              builder: (context, snapshot) {
+                bool isCompleted = snapshot.data ?? false;
+
+                return CustomButton(
+                  isActive: isCompleted,
+                  text: "Done",
+                  onPressed: isCompleted
+                      ? () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => FeedbackPage(
+                                      appointmentId: appointmentId,
+                                    )),
+                          );
+                        }
+                      : () {}, // Disables button when service is not completed
+                  // Set button state based on completion status
+                );
+              },
             ),
 
             SizedBox(height: h * 0.05),

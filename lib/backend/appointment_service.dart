@@ -72,4 +72,33 @@ class AppointmentService {
           .toList();
     });
   }
+
+  Stream<Appointment?> getAssignedAppointment() {
+    String uid = AuthenticationBackend.getUserUid(); // Get logged-in user ID
+
+    return _firestore
+        .collection('Appointments')
+        .where('uid', isEqualTo: uid) // Filter by user ID
+        .where('isAssigned', isEqualTo: true) // Only assigned appointments
+        .snapshots()
+        .map((snapshot) {
+      if (snapshot.docs.isNotEmpty) {
+        return Appointment.fromFirestore(snapshot.docs.first);
+      }
+      return null; // No active appointment for this user
+    });
+  }
+
+  Stream<bool> isAppointmentCompleted(String appointmentId) {
+    return _firestore
+        .collection('Appointments')
+        .doc(appointmentId)
+        .snapshots()
+        .map((snapshot) {
+      if (snapshot.exists && snapshot.data() != null) {
+        return snapshot.data()!['isCompleted'] ?? false;
+      }
+      return false;
+    });
+  }
 }

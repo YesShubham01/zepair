@@ -6,6 +6,11 @@ class ImagePaths {
       "assets/lotties/search_animation.json";
   static const String loadingLottieAnimation =
       "assets/lotties/tool_loading_animation.json";
+  static const String serviceProgressAnimation =
+      "assets/lotties/service_in_progress_animation.json";
+
+  static const String feedbackLottieAnimation =
+      "assets/lotties/feedback_animation.json";
 
   // Device Icons
   static const String acIcon = "assets/images/Devices_Icons/custom_ac.png";

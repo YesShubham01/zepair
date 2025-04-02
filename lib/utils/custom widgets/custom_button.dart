@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:zepair/utils/constants/colors.dart';
 import 'custom_text.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
+  final bool isActive;
 
-  const CustomButton({super.key, required this.text, required this.onPressed});
+  const CustomButton({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    this.isActive = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,12 +20,15 @@ class CustomButton extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color.fromARGB(255, 234, 190, 17),
+          backgroundColor: isActive
+              ? const Color.fromARGB(255, 234, 190, 17)
+              : CustomColors.customGrey,
 //           shape:
 //               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
-            side: const BorderSide(color: Colors.black, width: 1), // **Black Outline**
+            side: const BorderSide(
+                color: Colors.black, width: 1), // **Black Outline**
           ),
           padding: const EdgeInsets.symmetric(vertical: 12),
         ),
@@ -34,4 +44,3 @@ class CustomButton extends StatelessWidget {
     );
   }
 }
-

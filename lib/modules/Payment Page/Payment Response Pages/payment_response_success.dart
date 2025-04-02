@@ -117,7 +117,7 @@ class _PaymentResponseSuccessPageState
   }
 
   void _createAppointmentInFireStore() {
-    Appointment appointment = Appointment(
+    AppointmentDetailModel appointment = AppointmentDetailModel(
       appointmentId:
           widget.backendOrderId, // Use backendOrderId as appointment ID
       uid: AuthenticationBackend.getUserUid(), // Replace with actual user ID

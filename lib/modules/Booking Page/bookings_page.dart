@@ -17,7 +17,7 @@ class SchedulePage extends StatefulWidget {
 class _SchedulePageState extends State<SchedulePage> {
   late double h;
   late double w;
-  late Stream<List<Appointment>> _appointmentStream;
+  late Stream<List<AppointmentDetailModel>> _appointmentStream;
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _SchedulePageState extends State<SchedulePage> {
             CustomTitle(text: "Active Bookings"),
             Gap(h * 0.006),
             Expanded(
-              child: StreamBuilder<List<Appointment>>(
+              child: StreamBuilder<List<AppointmentDetailModel>>(
                 stream: _appointmentStream,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -58,7 +58,7 @@ class _SchedulePageState extends State<SchedulePage> {
                     return const Center(child: Text("No bookings available."));
                   }
 
-                  List<Appointment> serviceList = snapshot.data!;
+                  List<AppointmentDetailModel> serviceList = snapshot.data!;
                   print("Booking fetched.");
                   print(serviceList.length);
                   return ListView.separated(

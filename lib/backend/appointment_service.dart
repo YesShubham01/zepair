@@ -9,20 +9,20 @@ class AppointmentService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // Fetch Appointments Based on User ID
-  Stream<List<Appointment>> fetchAppointments(String uid) {
+  Stream<List<AppointmentDetailModel>> fetchAppointments(String uid) {
     return FirebaseFirestore.instance
         .collection('Appointments')
         .where('uid', isEqualTo: uid)
         //.orderBy('timestamp', descending: true) // Make sure index is created
         .snapshots()
         .map((snapshot) => snapshot.docs
-            .map((doc) => Appointment.fromFirestore(doc))
+            .map((doc) => AppointmentDetailModel.fromFirestore(doc))
             .toList());
   }
 
-  // Add New Appointment
+  // Add New AppointmentDetailModel
   static Future<void> addAppointment(
-      Appointment appointment, BuildContext context) async {
+      AppointmentDetailModel appointment, BuildContext context) async {
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
     try {
@@ -33,7 +33,7 @@ class AppointmentService {
           .set(appointment.toFirestore());
 
       print(
-          "Appointment added successfully with ID: ${appointment.razorpayOrderId}");
+          "AppointmentDetailModel added successfully with ID: ${appointment.razorpayOrderId}");
 
       // also add appointment Id to user's detail.
       context.read<UserDetailsProvider>().addAppointmentId(appointmentUid);
@@ -42,7 +42,7 @@ class AppointmentService {
     }
   }
 
-  Stream<List<Appointment>> getUserAppointments() {
+  Stream<List<AppointmentDetailModel>> getUserAppointments() {
     String uid = AuthenticationBackend.getUserUid();
     return _firestore
         .collection('Users')
@@ -66,14 +66,14 @@ class AppointmentService {
           .where(FieldPath.documentId, whereIn: bookingIds)
           .get();
 
-      // Convert Firestore documents to Appointment model
+      // Convert Firestore documents to AppointmentDetailModel model
       return appointmentDocs.docs
-          .map((doc) => Appointment.fromFirestore(doc))
+          .map((doc) => AppointmentDetailModel.fromFirestore(doc))
           .toList();
     });
   }
 
-  Stream<Appointment?> getAssignedAppointment() {
+  Stream<AppointmentDetailModel?> getAssignedAppointment() {
     String uid = AuthenticationBackend.getUserUid(); // Get logged-in user ID
 
     return _firestore
@@ -83,7 +83,7 @@ class AppointmentService {
         .snapshots()
         .map((snapshot) {
       if (snapshot.docs.isNotEmpty) {
-        return Appointment.fromFirestore(snapshot.docs.first);
+        return AppointmentDetailModel.fromFirestore(snapshot.docs.first);
       }
       return null; // No active appointment for this user
     });

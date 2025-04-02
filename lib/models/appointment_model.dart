@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Appointment {
+class AppointmentDetailModel {
   final String appointmentId;
   final String uid;
   final String title;
@@ -21,7 +21,7 @@ class Appointment {
   final double? customerRating;
   final String? customerFeebackText;
 
-  Appointment({
+  AppointmentDetailModel({
     required this.appointmentId,
     required this.uid,
     required this.title,
@@ -43,11 +43,11 @@ class Appointment {
     this.customerFeebackText,
   });
 
-  // Convert Firestore DocumentSnapshot to Appointment Model
-  factory Appointment.fromFirestore(DocumentSnapshot doc) {
+  // Convert Firestore DocumentSnapshot to AppointmentDetailModel Model
+  factory AppointmentDetailModel.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
 
-    return Appointment(
+    return AppointmentDetailModel(
         appointmentId: doc.id,
         uid: data['uid'] ?? '',
         title: data['title'] ?? '',
@@ -69,7 +69,7 @@ class Appointment {
         customerFeebackText: data['customerFeebackText']);
   }
 
-  // Convert Appointment Model to Firestore Document
+  // Convert AppointmentDetailModel Model to Firestore Document
   Map<String, dynamic> toFirestore() {
     return {
       'uid': uid,

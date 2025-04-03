@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AppointmentDetailModel {
+  final String deviceType; // Added deviceType
   final String appointmentId;
   final String uid;
   final String title;
@@ -22,6 +23,7 @@ class AppointmentDetailModel {
   final String? customerFeebackText;
 
   AppointmentDetailModel({
+    required this.deviceType, // Added deviceType
     required this.appointmentId,
     required this.uid,
     required this.title,
@@ -43,35 +45,38 @@ class AppointmentDetailModel {
     this.customerFeebackText,
   });
 
-  // Convert Firestore DocumentSnapshot to AppointmentDetailModel Model
+  // Convert Firestore DocumentSnapshot to AppointmentDetailModel
   factory AppointmentDetailModel.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
 
     return AppointmentDetailModel(
-        appointmentId: doc.id,
-        uid: data['uid'] ?? '',
-        title: data['title'] ?? '',
-        amountPaid: (data['amountPaid'] ?? 0).toDouble(),
-        description: data['description'] ?? '',
-        status: data['status'] ?? '',
-        timestamp: data['timestamp'] ?? Timestamp.now(),
-        imagePath: data['imagePath'] ?? '',
-        razorpayOrderId: data["razorpayOrderId"] ?? '',
-        razorpayPaymentId: data["razorpayPaymentId"] ?? '',
-        razorpayPaymentSignature: data["razorpayPaymentSignature"] ?? '',
-        assignedDate: data['assignedDate'] ?? '',
-        assignedTime: data['assignedTime'] ?? '',
-        technicianId: data['technicianId'] ?? '',
-        otp: data['otp'] ?? '',
-        isAssigned: data['isAssigned'] ?? false,
-        isCompleted: data['isCompleted'] ?? false,
-        customerRating: (data['customerRating'] ?? 0).toDouble(),
-        customerFeebackText: data['customerFeebackText']);
+      deviceType: data['deviceType'] ?? '', // Added deviceType
+      appointmentId: doc.id,
+      uid: data['uid'] ?? '',
+      title: data['title'] ?? '',
+      amountPaid: (data['amountPaid'] ?? 0).toDouble(),
+      description: data['description'] ?? '',
+      status: data['status'] ?? '',
+      timestamp: data['timestamp'] ?? Timestamp.now(),
+      imagePath: data['imagePath'] ?? '',
+      razorpayOrderId: data['razorpayOrderId'] ?? '',
+      razorpayPaymentId: data['razorpayPaymentId'] ?? '',
+      razorpayPaymentSignature: data['razorpayPaymentSignature'] ?? '',
+      assignedDate: data['assignedDate'] ?? '',
+      assignedTime: data['assignedTime'] ?? '',
+      technicianId: data['technicianId'] ?? '',
+      otp: data['otp'] ?? '',
+      isAssigned: data['isAssigned'] ?? false,
+      isCompleted: data['isCompleted'] ?? false,
+      customerRating: (data['customerRating'] ?? 0).toDouble(),
+      customerFeebackText: data['customerFeebackText'],
+    );
   }
 
-  // Convert AppointmentDetailModel Model to Firestore Document
+  // Convert AppointmentDetailModel to Firestore Document
   Map<String, dynamic> toFirestore() {
     return {
+      'deviceType': deviceType, // Added deviceType
       'uid': uid,
       'title': title,
       'amountPaid': amountPaid,
@@ -81,7 +86,15 @@ class AppointmentDetailModel {
       'imagePath': imagePath,
       'razorpayOrderId': razorpayOrderId,
       'razorpayPaymentId': razorpayPaymentId,
-      'razorpayPaymentSignature': razorpayPaymentSignature
+      'razorpayPaymentSignature': razorpayPaymentSignature,
+      'assignedDate': assignedDate,
+      'assignedTime': assignedTime,
+      'technicianId': technicianId,
+      'otp': otp,
+      'isAssigned': isAssigned,
+      'isCompleted': isCompleted,
+      'customerRating': customerRating,
+      'customerFeebackText': customerFeebackText,
     };
   }
 }

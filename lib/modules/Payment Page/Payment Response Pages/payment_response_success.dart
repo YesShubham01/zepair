@@ -118,6 +118,7 @@ class _PaymentResponseSuccessPageState
 
   void _createAppointmentInFireStore() {
     AppointmentDetailModel appointment = AppointmentDetailModel(
+      deviceType: "AC", //! this is dummy placeholder
       appointmentId:
           widget.backendOrderId, // Use backendOrderId as appointment ID
       uid: AuthenticationBackend.getUserUid(), // Replace with actual user ID

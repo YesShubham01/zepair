@@ -136,7 +136,7 @@ class _ManageAddressesPageState extends State<ManageAddressesPage> {
             if (selectedAddress != null) {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => BillScreen(selectedAddress: selectedAddress!),
+                  builder: (_) => const BillScreen(),
                 ),
               );
             }

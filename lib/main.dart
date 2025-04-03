@@ -8,6 +8,7 @@ import 'package:zepair/modules/Login%20Pages/login_page.dart';
 import 'package:zepair/modules/Profile%20Page/profile_page.dart';
 import 'package:zepair/modules/Splash%20Page/splash_page.dart';
 import 'package:provider/provider.dart';
+import 'package:zepair/provider/order_cart_provider.dart';
 import 'package:zepair/provider/user_datails_provider.dart';
 import 'package:zepair/utils/constants/colors.dart';
 
@@ -30,6 +31,7 @@ class ZepairApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: ((context) => UserDetailsProvider())),
+        ChangeNotifierProvider(create: ((context) => OrderCartProvider())),
       ],
       child: MaterialApp(
         title: 'Zepair',

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:zepair/models/service_detail_model.dart';
-
-import 'package:zepair/modules/Manage%20Addresses%20Page/Support%20Widgets/address_data.dart';
+import 'package:provider/provider.dart';
 import 'package:zepair/modules/Manage%20Addresses%20Page/manage_addresses_page.dart';
-import 'package:zepair/modules/Add%20New%20Address%20Page/add_new_address.dart';
+import 'package:zepair/provider/order_cart_provider.dart';
 import 'package:zepair/utils/custom%20widgets/custom_appbar.dart';
 import 'package:zepair/utils/custom%20widgets/custom_button.dart';
 import 'package:zepair/utils/custom%20widgets/custom_outline_card_widget.dart';
@@ -30,7 +28,6 @@ class ServiceDetailPage extends StatefulWidget {
 }
 
 class _ServiceDetailPageState extends State<ServiceDetailPage> {
-  double price = 450.0;
   late double w;
   late double h;
   static const IconData localOffer =
@@ -290,6 +287,16 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
       padding: EdgeInsets.fromLTRB(w * 0.01, h * 0.018, 0, 0),
       child: CustomButton(
         onPressed: () {
+          final String service;
+          final String description;
+          final double price;
+          final String image;
+
+          context.read<OrderCartProvider>().setDetails(
+              amount: widget.price,
+              title: widget.service,
+              description: widget.description);
+          print(widget.service);
           Navigator.of(context).push(MaterialPageRoute(
               builder: (_) => const ManageAddressesPage(
                     showConfirmButton: true,

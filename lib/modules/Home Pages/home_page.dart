@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
           const ServiceGrid(),
         ],
       ),
-      bottomNavigationBar: StreamBuilder<Appointment?>(
+      bottomNavigationBar: StreamBuilder<AppointmentDetailModel?>(
         stream: AppointmentService().getAssignedAppointment(),
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data != null) {

@@ -1,32 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
+import 'package:velocity_x/velocity_x.dart';
+import 'package:zepair/provider/order_cart_provider.dart';
+import 'package:zepair/utils/custom%20widgets/custom_loading_screen.dart';
 import 'package:zepair/utils/custom%20widgets/custom_text.dart';
 
 class BillDetails extends StatelessWidget {
   late double h;
   late double w;
 
+  BillDetails({super.key});
+
   @override
   Widget build(BuildContext context) {
     var dimensions = MediaQuery.of(context).size;
     w = dimensions.width;
     h = dimensions.height;
-    return Container(
-     
-      padding: EdgeInsets.symmetric(horizontal: w * 0.05, vertical: h * 0.005),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        //border: Border.all(color: Colors.black12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildRow('AC Service', '₹450', subtitle: 'AC cleaning and service'),
-          SizedBox(height: 5),
-          _buildRow('Coupon code applied', '-₹45', subtitle: 'ZepairRepair: Get 10% off on first Booking'),
-        ],
-      ),
-    );
+    String amount = context.read<OrderCartProvider>().amount!.toString();
+    String title = context.read<OrderCartProvider>().title!;
+    String description = context.read<OrderCartProvider>().description!;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildRow(title, amount, subtitle: description),
+        const Gap(5),
+        _buildRow('Coupon code applied', '-₹0',
+            subtitle: 'ZepairRepair: Get 10% off on first Booking'),
+      ],
+    ).pSymmetric(h: w * 0.05, v: h * 0.005);
   }
 
   Widget _buildRow(String title, String price, {String? subtitle}) {
@@ -43,7 +46,6 @@ class BillDetails extends StatelessWidget {
                   text: title,
                   size: 17,
                   fontFamily: FontType.sfPro,
-                 // weight: FontWeight.bold,
                 ),
                 if (subtitle != null)
                   CustomText(

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:zepair/firebase_options.dart';
 import 'package:zepair/modules/Home%20Pages/home_screen.dart';
 import 'package:zepair/modules/Login%20Pages/google_login_page.dart';
@@ -13,6 +14,7 @@ import 'package:zepair/provider/user_datails_provider.dart';
 import 'package:zepair/utils/constants/colors.dart';
 
 void main() async {
+  await dotenv.load();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

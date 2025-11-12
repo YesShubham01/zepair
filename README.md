@@ -15,6 +15,12 @@ It’s a **two-sided platform** that empowers both **customers** and **technicia
 
 ---
 
+## Resources
+Link to drive with resources : https://drive.google.com/drive/folders/1kB0u0a_hrPkzgeauslwvw9ZdCprzxIEr?usp=drive_link
+Link to download apk : https://drive.google.com/file/d/1w0MLLmKprCn7gq9tHBlNV3cadJW2dptK/view?usp=sharing
+Link to screen recording : https://drive.google.com/file/d/1C8qgEXZ-P1YpgESe5seehvA8FR_BaZLw/view?usp=sharing
+
+
 ## 📱 App Modules
 
 ### 🔹 UI Modules

@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAcZ5MkEqvikKpxb_b2H3aNjklsETGMaVY"
+          "current_key": "Dummy Key : Real key should be in .env"
         }
       ],
       "services": {
